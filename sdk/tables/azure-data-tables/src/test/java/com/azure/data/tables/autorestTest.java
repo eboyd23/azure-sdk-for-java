@@ -89,6 +89,7 @@ public class autorestTest {
         //storagesharedkey object and the storage auth object
         policies.add(new AddDatePolicy());
         policies.add(new TablesSharedKeyCredentialPolicy(sharedKeyCredential));
+        policies.add(new HttpLoggingPolicy(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS)));
         //HttpLoggingPolicy()
 
         final HttpPipeline pipeline = new HttpPipelineBuilder()

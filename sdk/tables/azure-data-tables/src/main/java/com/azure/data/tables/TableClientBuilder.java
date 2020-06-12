@@ -40,7 +40,7 @@ public class TableClientBuilder {
      * @return a sync tableClient
      */
     public TableClient buildClient() {
-        return new TableClient(tableName);
+        return new TableClient();
     }
 
     /**
@@ -49,7 +49,7 @@ public class TableClientBuilder {
      * @return an aysnc tableClient
      */
     public TableAsyncClient buildAsyncClient() {
-        return new TableAsyncClient(tableName);
+        return new TableAsyncClient();
     }
 
     TableClientBuilder() {

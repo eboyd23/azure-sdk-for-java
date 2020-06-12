@@ -106,6 +106,18 @@ Licensed under the MIT License.
       <version>3.0.0</version> <!-- {x-version-update;org.mockito:mockito-core;external_dependency} -->
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.azure</groupId>
+      <artifactId>azure-storage-common</artifactId>
+      <version>12.7.0-beta.1</version>  <!-- {x-version-update;com.azure:azure-storage-common;dependency} -->
+      <scope>test</scope>
+    </dependency>
+      <dependency>
+          <groupId>com.azure</groupId>
+          <artifactId>azure-storage-common</artifactId>
+          <version>12.6.1</version>
+          <scope>compile</scope>
+      </dependency>
   </dependencies>
 
   <build>

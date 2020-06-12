@@ -13,31 +13,18 @@ import java.util.Map;
 @ServiceClient(
     builder = TableClientBuilder.class)
 public class TableClient {
+    String tableName;
 
-    public TableClient(){ }
-
-    public void createTable(String name){ }
-
-    public void createTableIfNotExist(String name) { }
-
-    public void deleteTable(String name) { }
-
-    public List<String> queryTables(String selectString, String filterString){
-        return null;
-    }
+    public TableClient(String tableName){ this.tableName = tableName; }
 
     public List<TableEntity> queryEntity(String az, String selectString, String filterString){
         return null;
     }
 
-    public TableEntity insertEntity(String tableName, String row, String partition, Map<String, Object> tableEntityProperties){
-        return new TableEntity(null, null);
-    }
-    public TableEntity insertEntity(TableEntity te){
-        return te;
-    }
     public void deleteEntity(TableEntity tableEntity){ }
 
     public void updateEntity(TableEntity te){ }
+
     public TableEntity upsertEntity(TableEntity te){ return new TableEntity(null, null); }
+
 }

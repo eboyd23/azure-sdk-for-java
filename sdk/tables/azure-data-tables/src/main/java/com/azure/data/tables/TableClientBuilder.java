@@ -12,6 +12,7 @@ public class TableClientBuilder {
     private String connectionString;
     private String tableName;
 
+
     /**
      * Sets the connection string to help build the client
      *
@@ -40,7 +41,7 @@ public class TableClientBuilder {
      * @return a sync tableClient
      */
     public TableClient buildClient() {
-        return new TableClient();
+        return new TableClient(null);
     }
 
     /**
@@ -49,7 +50,7 @@ public class TableClientBuilder {
      * @return an aysnc tableClient
      */
     public TableAsyncClient buildAsyncClient() {
-        return new TableAsyncClient();
+        return new TableAsyncClient(null);
     }
 
     TableClientBuilder() {

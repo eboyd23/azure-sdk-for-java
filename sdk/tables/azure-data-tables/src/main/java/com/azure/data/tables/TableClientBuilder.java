@@ -12,13 +12,13 @@ public class TableClientBuilder {
     private String connectionString;
     private String tableName;
 
-
     /**
      * Sets the connection string to help build the client
      *
      * @param connectionString the connection string to the storage account
      * @return the TableClientBuilder
      */
+
     public TableClientBuilder connectionString(String connectionString) {
         this.connectionString = connectionString;
         return this;

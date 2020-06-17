@@ -15,16 +15,40 @@ import java.util.Map;
 public class TableClient {
     String tableName;
 
-    public TableClient(String tableName){ this.tableName = tableName; }
+    public TableClient(String tableName) {
+        this.tableName = tableName;
+    }
 
-    public List<TableEntity> queryEntity(String az, String selectString, String filterString){
+    public List<TableEntity> queryEntity(String az, String selectString, String filterString) {
         return null;
     }
 
+<<<<<<< HEAD
     public void deleteEntity(TableEntity tableEntity){ }
 
     public void updateEntity(TableEntity te){ }
 
     public TableEntity upsertEntity(TableEntity te){ return new TableEntity(null, null); }
 
+=======
+    public TableEntity insertEntity(String row, String partition, Map<String, Object> tableEntityProperties) {
+        return new TableEntity();
+    }
+
+    public TableEntity insertEntity(TableEntity tableEntity) {
+        return tableEntity;
+    }
+
+    public void deleteEntity(TableEntity tableEntity) {
+    }
+
+    public void updateEntity(TableEntity te) {
+    }
+
+    public void updateAndReplaceEntity(TableEntity tableEntity) {
+    }
+
+    public void updateAndMergeEntity(TableEntity tableEntity) {
+    }
+>>>>>>> 7245126b7a... reformatting
 }

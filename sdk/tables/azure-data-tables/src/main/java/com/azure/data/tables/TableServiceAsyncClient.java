@@ -67,7 +67,6 @@ public class TableServiceAsyncClient {
         return null;
     }
 
-
     /**
      * gets the client for this table
      *

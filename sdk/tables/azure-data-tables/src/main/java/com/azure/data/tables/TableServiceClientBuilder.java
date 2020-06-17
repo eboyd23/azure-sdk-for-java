@@ -11,7 +11,7 @@ import com.azure.core.annotation.ServiceClientBuilder;
 public class TableServiceClientBuilder {
 
     private String connectionString;
-
+    
     /**
      * Sets the connection string to help build the client
      *

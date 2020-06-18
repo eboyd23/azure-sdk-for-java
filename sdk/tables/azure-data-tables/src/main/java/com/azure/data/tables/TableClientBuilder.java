@@ -22,6 +22,12 @@ public class TableClientBuilder {
      * @return the TableClientBuilder
      */
 
+    /**
+     * Sets the connection string to help build the client
+     *
+     * @param connectionString the connection string to the storage account
+     * @return the TableClientBuilder
+     */
     public TableClientBuilder connectionString(String connectionString) {
         this.connectionString = connectionString;
         return this;
@@ -39,11 +45,15 @@ public class TableClientBuilder {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a9a61c1401... writing in docs
     /**
      * builds a sync tableClient
      *
      * @return a sync tableClient
      */
+<<<<<<< HEAD
     public TableClient buildClient() {
         return new TableClient(null);
     }
@@ -60,10 +70,17 @@ public class TableClientBuilder {
     TableClientBuilder() {
     }
 =======
+=======
+>>>>>>> a9a61c1401... writing in docs
     public TableClient buildClient() {
         return new TableClient(tableName);
     }
 
+    /**
+     * builds an async tableClient
+     *
+     * @return an aysnc tableClient
+     */
     public TableAsyncClient buildAsyncClient() {
         return new TableAsyncClient(tableName);
     }

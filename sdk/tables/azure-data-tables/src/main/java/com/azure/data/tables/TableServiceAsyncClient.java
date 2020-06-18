@@ -4,6 +4,7 @@ package com.azure.data.tables;
 
 import com.azure.core.annotation.ServiceClient;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import com.azure.core.http.rest.PagedFlux;
 import reactor.core.publisher.Mono;
 
@@ -12,6 +13,9 @@ import reactor.core.publisher.Mono;
  */
 =======
 import reactor.core.publisher.Flux;
+=======
+import com.azure.core.http.rest.PagedFlux;
+>>>>>>> a9a61c1401... writing in docs
 import reactor.core.publisher.Mono;
 
 >>>>>>> 044356b812... fixing conflictfile name changes
@@ -29,13 +33,18 @@ public class TableServiceAsyncClient {
      * @param name the name of the table to create
      * @return a table client connected to the given table
      */
+<<<<<<< HEAD
     public Mono<AzureTable> createTable(String name) {
+=======
+    public Mono<TableAsyncClient> createTable(String name) {
+>>>>>>> a9a61c1401... writing in docs
         return null;
     }
 
     /**
      * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
      *
+<<<<<<< HEAD
      * @param name the name of the table to delete
      * @return mono void
      */
@@ -50,10 +59,17 @@ public class TableServiceAsyncClient {
      * @return mono void
      */
     public Mono<Void> deleteTable(AzureTable azureTable) {
+=======
+     * @param name the name of the table to create
+     * @return mono void
+     */
+    public Mono<Void> deleteTable(String name) {
+>>>>>>> a9a61c1401... writing in docs
         return Mono.empty();
     }
 
     /**
+<<<<<<< HEAD
      * retrieves the table client for the provided table or creates one if it doesn't exist
      *
      * @param name the name of the table
@@ -72,6 +88,17 @@ public class TableServiceAsyncClient {
     public PagedFlux<AzureTable> queryTables(QueryOptions queryOptions) {
         return null;
     }
+=======
+     * query all the tables under the storage account and return them
+     *
+     * @param filterString the odata filter string
+     * @return a flux of the tables that met this criteria
+     */
+    public PagedFlux<AzureTable> queryTables(String filterString) {
+        return null;
+    }
+
+>>>>>>> a9a61c1401... writing in docs
 
     /**
      * gets the client for this table

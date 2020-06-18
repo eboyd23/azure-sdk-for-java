@@ -74,7 +74,7 @@
     <!--    <dependency>-->
     <!--      <groupId>com.azure</groupId>-->
     <!--      <artifactId>azure-core-management</artifactId>-->
-    <!--      <version>1.0.0-beta.8</version> &lt;!&ndash; {x-version-update;com.azure:azure-core-management;current} &ndash;&gt;-->
+    <!--      <version>1.0.0-beta.1</version> &lt;!&ndash; {x-version-update;com.azure:azure-core-management;current} &ndash;&gt;-->
     <!--    </dependency>-->
     <dependency>
       <groupId>com.azure</groupId>

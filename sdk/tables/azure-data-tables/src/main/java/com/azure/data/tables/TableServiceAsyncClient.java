@@ -3,12 +3,18 @@
 package com.azure.data.tables;
 
 import com.azure.core.annotation.ServiceClient;
+<<<<<<< HEAD
 import com.azure.core.http.rest.PagedFlux;
 import reactor.core.publisher.Mono;
 
 /**
  * async client for account operations
  */
+=======
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+>>>>>>> 044356b812... fixing conflictfile name changes
 @ServiceClient(
     builder = TableServiceClientBuilder.class,
     isAsync = true)

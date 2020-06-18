@@ -4,9 +4,12 @@ package com.azure.data.tables;
 
 import com.azure.core.annotation.ServiceClientBuilder;
 
+<<<<<<< HEAD
 /**
  * builds table client
  */
+=======
+>>>>>>> 044356b812... fixing conflictfile name changes
 @ServiceClientBuilder(serviceClients = {TableClient.class, TableAsyncClient.class})
 public class TableClientBuilder {
     private String connectionString;
@@ -35,6 +38,7 @@ public class TableClientBuilder {
         return this;
     }
 
+<<<<<<< HEAD
     /**
      * builds a sync tableClient
      *
@@ -55,6 +59,17 @@ public class TableClientBuilder {
 
     TableClientBuilder() {
     }
+=======
+    public TableClient buildClient() {
+        return new TableClient(tableName);
+    }
+
+    public TableAsyncClient buildAsyncClient() {
+        return new TableAsyncClient(tableName);
+    }
+
+    TableClientBuilder() {
+>>>>>>> 044356b812... fixing conflictfile name changes
 
     /**
      * gets the connection string

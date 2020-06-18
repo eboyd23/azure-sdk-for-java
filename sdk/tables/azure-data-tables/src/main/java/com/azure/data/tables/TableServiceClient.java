@@ -6,9 +6,12 @@ import com.azure.core.annotation.ServiceClient;
 
 import java.util.List;
 
+<<<<<<< HEAD
 /**
  * client for table service
  */
+=======
+>>>>>>> 044356b812... fixing conflictfile name changes
 @ServiceClient(
     builder = TableServiceClientBuilder.class)
 public class TableServiceClient {
@@ -26,6 +29,7 @@ public class TableServiceClient {
         return null;
     }
 
+<<<<<<< HEAD
     /**
      * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
      *
@@ -50,6 +54,9 @@ public class TableServiceClient {
      */
     public AzureTable getTable(String name) {
         return null;
+=======
+    public void deleteTable(String name) {
+>>>>>>> 044356b812... fixing conflictfile name changes
     }
 
     /**

@@ -23,27 +23,36 @@ public class TableServiceClientBuilder {
         return this;
     }
 
+<<<<<<< HEAD
     /**
      * builds a sync TableServiceClient
      *
      * @return a sync TableServiceClient
      */
+=======
+>>>>>>> 044356b812... fixing conflictfile name changes
     public TableServiceClient buildClient() {
         return new TableServiceClient();
     }
 
+<<<<<<< HEAD
     /**
      * builds an async TableServiceAsyncClient
      *
      * @return TableServiceAsyncClient an aysnc TableServiceAsyncClient
      */
+=======
+>>>>>>> 044356b812... fixing conflictfile name changes
     public TableServiceAsyncClient buildAsyncClient() {
         return new TableServiceAsyncClient();
     }
 
+<<<<<<< HEAD
     /**
      * constructor
      */
+=======
+>>>>>>> 044356b812... fixing conflictfile name changes
     public TableServiceClientBuilder() {
 
     }

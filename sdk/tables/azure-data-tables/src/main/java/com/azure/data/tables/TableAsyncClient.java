@@ -8,15 +8,20 @@ import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
+<<<<<<< HEAD
 /**
  * class for the table async client
  */
+=======
+>>>>>>> 044356b812... fixing conflictfile name changes
 @ServiceClient(
     builder = TableClientBuilder.class,
     isAsync = true)
 public class TableAsyncClient {
+    String tableName;
 
-    public TableAsyncClient(String tableName) {
+    TableAsyncClient(String tableName) {
+        this.tableName = tableName;
     }
 
     public Flux<TableEntity> queryEntity(String az, String selectString, String filterString) {

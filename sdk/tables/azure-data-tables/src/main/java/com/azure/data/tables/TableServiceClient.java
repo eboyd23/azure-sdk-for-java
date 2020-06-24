@@ -36,6 +36,7 @@ public class TableServiceClient {
     }
 
     /**
+<<<<<<< HEAD
      * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
      *
      * @param azureTable the table to be deleted

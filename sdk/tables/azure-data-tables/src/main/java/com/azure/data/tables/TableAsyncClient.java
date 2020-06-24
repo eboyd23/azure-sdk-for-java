@@ -8,12 +8,9 @@ import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
-<<<<<<< HEAD
 /**
  * class for the table async client
  */
-=======
->>>>>>> 044356b812... fixing conflictfile name changes
 @ServiceClient(
     builder = TableClientBuilder.class,
     isAsync = true)
@@ -32,7 +29,7 @@ public class TableAsyncClient {
      * @param filterString odata filter string
      * @return a paged flux of all the entity which fit this criteria
      */
-    public PagedFlux<TableEntity> queryEntity(String selectString, String filterString) {
+    public PagedFlux<TableEntity> queryEntity(Integer top, String selectString, String filterString) {
         return null;
     }
 
@@ -59,41 +56,8 @@ public class TableAsyncClient {
         return null;
     }
 
-<<<<<<< HEAD
     public Mono<Void> updateEntity(TableEntity te){ return  Mono.empty(); }
     public Mono<TableEntity> upsertEntity(TableEntity te){ return null; }
-=======
-    /**
-     * deletes the given entity
-     *
-     * @param tableEntity entity to delete
-     * @return a mono void
-     */
-    public Mono<Void> deleteEntity(TableEntity tableEntity) {
-        return Mono.empty();
-    }
-
-    /**
-     * updates the provided TableEntity
-     *
-     * @param tableEntity the TableEntity to update
-     * @return a mono void
-     */
-    public Mono<Void> updateEntity(TableEntity tableEntity) {
-        return Mono.empty();
-    }
-
-
-    /**
-     * merges the given entity with the entity which exists on the storage account
-     *
-     * @param tableEntity the entity with which to merge
-     * @return a mono void
-     */
-    public Mono<Void> mergeEntity(TableEntity tableEntity) {
-        return Mono.empty();
-    }
->>>>>>> a9a61c1401... writing in docs
 
     /**
      * inserts the TableEntity if it doesn't exist or replace it if it does

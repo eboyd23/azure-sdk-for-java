@@ -11,15 +11,9 @@ import java.util.Map;
  * table entity class
  */
 public class TableEntity {
-<<<<<<< HEAD
     private String rowKey;
     private String partitionKey;
     private Map<String, Object> properties;
-=======
-    Map<String, Object> properties;
-
-    TableEntity() {
->>>>>>> a9a61c1401... writing in docs
 
     /**
      * creates a new TableEntity
@@ -37,22 +31,12 @@ public class TableEntity {
     /**
      * creates a new TableEntity
      *
-<<<<<<< HEAD
      * @param rowKey rowKey
      * @param partitionKey partitionKey
      */
     TableEntity(String rowKey, String partitionKey) {
         this.rowKey = rowKey;
         this.partitionKey = partitionKey;
-=======
-     * @param table      table which the TableEntity exists in
-     * @param row        rowKey
-     * @param partition  partitionKey
-     * @param properties map of properties of the entity
-     */
-    TableEntity(String table, String row, String partition, Map<String, Object> properties) {
-        this.properties = properties;
->>>>>>> a9a61c1401... writing in docs
     }
 
     /**
@@ -65,7 +49,6 @@ public class TableEntity {
     }
 
     /**
-<<<<<<< HEAD
      * gets the row key
      * @return the row key for the given entity
      */
@@ -86,11 +69,6 @@ public class TableEntity {
      * adds a new property to this entity's property map
      *
      * @param key the key of the property
-=======
-     * adds a new property to this entity's property map
-     *
-     * @param key   the key of the property
->>>>>>> a9a61c1401... writing in docs
      * @param value the value of the property
      */
     public void addProperty(String key, Object value) {

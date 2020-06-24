@@ -12,7 +12,7 @@ import com.azure.core.annotation.ServiceClientBuilder;
 public class TableServiceClientBuilder {
 
     private String connectionString;
-    
+
 =======
 >>>>>>> a9a61c1401... writing in docs
     /**

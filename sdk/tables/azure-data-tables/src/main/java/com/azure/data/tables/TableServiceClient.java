@@ -37,6 +37,7 @@ public class TableServiceClient {
 
     /**
 <<<<<<< HEAD
+<<<<<<< HEAD
      * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
      *
      * @param azureTable the table to be deleted
@@ -46,6 +47,9 @@ public class TableServiceClient {
 
     /**
      * gets a given table by name
+=======
+     * retrieves the table client for the provided table or creates one if it doesn't exist
+>>>>>>> c6b283ae42... Brandon's suggestions
      *
      * @param name the name of the table
      * @return associated azure table object
@@ -57,10 +61,19 @@ public class TableServiceClient {
     /**
      * query all the tables under the storage account and return them
      *
+<<<<<<< HEAD
      * @param queryOptions the odata query object
      * @return a list of tables that meet the query
      */
     public List<AzureTable> queryTables(QueryOptions queryOptions) {
+=======
+     * @param top          odata top integer
+     * @param selectString odata select string
+     * @param filterString odata filter string
+     * @return a list of tables that meet the query
+     */
+    public List<AzureTable> queryTables(Integer top, String selectString, String filterString) {
+>>>>>>> c6b283ae42... Brandon's suggestions
         return null;
     }
 

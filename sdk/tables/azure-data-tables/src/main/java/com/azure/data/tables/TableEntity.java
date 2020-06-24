@@ -18,6 +18,7 @@ public class TableEntity {
     /**
      * creates a new TableEntity
      *
+<<<<<<< HEAD
      * @param rowKey rowKey
      * @param partitionKey partitionKey
      * @param properties map of properties of the entity
@@ -25,6 +26,13 @@ public class TableEntity {
     TableEntity(String rowKey, String partitionKey, Map<String, Object> properties) {
         this.rowKey = rowKey;
         this.partitionKey = partitionKey;
+=======
+     * @param rowKey       rowKey
+     * @param partitionKey partitionKey
+     * @param properties   map of properties of the entity
+     */
+    TableEntity(String rowKey, String partitionKey, Map<String, Object> properties) {
+>>>>>>> c6b283ae42... Brandon's suggestions
         this.properties = properties;
     }
 

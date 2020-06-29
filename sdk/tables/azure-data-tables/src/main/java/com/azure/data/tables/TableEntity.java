@@ -11,13 +11,21 @@ import java.util.Map;
  * table entity class
  */
 public class TableEntity {
+<<<<<<< HEAD
     private String rowKey;
     private String partitionKey;
     private Map<String, Object> properties;
+=======
+    Map<String, Object> properties;
+
+    TableEntity() {
+    }
+>>>>>>> 42b1fba620... stashing changes
 
     /**
      * creates a new TableEntity
      *
+<<<<<<< HEAD
 <<<<<<< HEAD
      * @param rowKey rowKey
      * @param partitionKey partitionKey
@@ -28,8 +36,11 @@ public class TableEntity {
         this.partitionKey = partitionKey;
 =======
      * @param rowKey       rowKey
+=======
+     * @param rowKey rowKey
+>>>>>>> 42b1fba620... stashing changes
      * @param partitionKey partitionKey
-     * @param properties   map of properties of the entity
+     * @param properties map of properties of the entity
      */
     TableEntity(String rowKey, String partitionKey, Map<String, Object> properties) {
 >>>>>>> c6b283ae42... Brandon's suggestions

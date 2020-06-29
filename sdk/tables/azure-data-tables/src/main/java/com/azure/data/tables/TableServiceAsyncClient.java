@@ -61,12 +61,16 @@ public class TableServiceAsyncClient {
      * query all the tables under the storage account and return them
      *
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @param queryOptions the odata query object
      * @return a flux of the tables that met this criteria
      */
     public PagedFlux<AzureTable> queryTables(QueryOptions queryOptions) {
 =======
      * @param top          odata top integer
+=======
+     * @param top odata top integer
+>>>>>>> 42b1fba620... stashing changes
      * @param selectString odata select string
      * @param filterString odata filter string
      * @return a flux of the tables that met this criteria

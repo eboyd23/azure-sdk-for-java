@@ -15,6 +15,7 @@ public class TableClientBuilder {
     private String connectionString;
     private String tableName;
 
+<<<<<<< HEAD
     /**
      * Sets the connection string to help build the client
      *
@@ -22,6 +23,8 @@ public class TableClientBuilder {
      * @return the TableClientBuilder
      */
 
+=======
+>>>>>>> 42b1fba620... stashing changes
     /**
      * Sets the connection string to help build the client
      *
@@ -86,6 +89,7 @@ public class TableClientBuilder {
     }
 
     TableClientBuilder() {
+<<<<<<< HEAD
 >>>>>>> 044356b812... fixing conflictfile name changes
 
     /**
@@ -94,6 +98,8 @@ public class TableClientBuilder {
      */
     public String getConnectionString(){
         return this.connectionString;
+=======
+>>>>>>> 42b1fba620... stashing changes
     }
 
 }

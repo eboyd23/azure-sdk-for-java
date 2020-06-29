@@ -62,12 +62,16 @@ public class TableServiceClient {
      * query all the tables under the storage account and return them
      *
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @param queryOptions the odata query object
      * @return a list of tables that meet the query
      */
     public List<AzureTable> queryTables(QueryOptions queryOptions) {
 =======
      * @param top          odata top integer
+=======
+     * @param top odata top integer
+>>>>>>> 42b1fba620... stashing changes
      * @param selectString odata select string
      * @param filterString odata filter string
      * @return a list of tables that meet the query

@@ -22,16 +22,6 @@ public class TableClient {
     }
 
     /**
-     * returns the table associated with this TableClient
-     *
-     * @param tableName name of the table
-     * @return the AzureTable
-     */
-    public AzureTable getTable(String tableName) {
-        return null;
-    }
-
-    /**
      * Queries and returns entities in the given table using the select and filter strings
      *
      * @param queryOptions the odata query object
@@ -54,17 +44,6 @@ public class TableClient {
      */
     public TableEntity insertEntity(String row, String partition, Map<String, Object> tableEntityProperties) {
         return null;
-    }
-
-    /**
-     * insert a TableEntity with the given row and partition key and return that TableEntity
-     *
-     * @param row row key
-     * @param partition partition key
-     * @return the created TableEntity
-     */
-    public TableEntity insertEntity(String row, String partition) {
-        return new TableEntity();
     }
 
     /**

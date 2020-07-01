@@ -7,6 +7,7 @@ package com.azure.data.tables;
  */
 public class AzureTable {
     private final String name;
+    private TableClient tableClient;
 
     AzureTable(String name) {
         this.name = name;
@@ -26,6 +27,6 @@ public class AzureTable {
      * @return the associated table client
      */
     public TableClient getClient() {
-        return null;
+        return tableClient;
     }
 }

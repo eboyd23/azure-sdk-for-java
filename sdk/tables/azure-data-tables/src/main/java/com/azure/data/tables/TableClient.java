@@ -7,6 +7,7 @@ import com.azure.core.annotation.ServiceClient;
 
 import java.util.List;
 import java.util.Map;
+import reactor.core.publisher.Mono;
 
 /**
  * sync client for table operations
@@ -64,6 +65,16 @@ public class TableClient {
     }
 
     /**
+     * deletes the given entity
+     *
+     * @param partitionKey the partition key
+     * @param rowKey the row key
+     */
+    public void deleteEntity(String partitionKey, String rowKey) {
+    }
+
+
+    /**
      * merges the given entity with the entity which exists on the storage account
      *
      * @param tableEntity the entity with which to merge
@@ -93,5 +104,13 @@ public class TableClient {
      * @param tableEntity the TableEntity to insert or merge
      */
     public void insertOrMergeEntity(TableEntity tableEntity) {
+    }
+
+    /**
+     * returns the table name associated with the client
+     * @return table name
+     */
+    public String getTableName(){
+        return this.tableName;
     }
 }

@@ -4,18 +4,14 @@ package com.azure.data.tables;
 
 import com.azure.core.annotation.ServiceClientBuilder;
 
-<<<<<<< HEAD
 /**
  * builds table client
  */
-=======
->>>>>>> 044356b812... fixing conflictfile name changes
 @ServiceClientBuilder(serviceClients = {TableClient.class, TableAsyncClient.class})
 public class TableClientBuilder {
     private String connectionString;
     private String tableName;
 
-<<<<<<< HEAD
     /**
      * Sets the connection string to help build the client
      *
@@ -23,8 +19,6 @@ public class TableClientBuilder {
      * @return the TableClientBuilder
      */
 
-=======
->>>>>>> 42b1fba620... stashing changes
     /**
      * Sets the connection string to help build the client
      *
@@ -47,16 +41,12 @@ public class TableClientBuilder {
         return this;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> a9a61c1401... writing in docs
+
     /**
      * builds a sync tableClient
      *
      * @return a sync tableClient
      */
-<<<<<<< HEAD
     public TableClient buildClient() {
         return new TableClient(null);
     }
@@ -72,9 +62,6 @@ public class TableClientBuilder {
 
     TableClientBuilder() {
     }
-=======
-=======
->>>>>>> a9a61c1401... writing in docs
     public TableClient buildClient() {
         return new TableClient(tableName);
     }
@@ -89,8 +76,7 @@ public class TableClientBuilder {
     }
 
     TableClientBuilder() {
-<<<<<<< HEAD
->>>>>>> 044356b812... fixing conflictfile name changes
+    }
 
     /**
      * gets the connection string
@@ -98,8 +84,6 @@ public class TableClientBuilder {
      */
     public String getConnectionString(){
         return this.connectionString;
-=======
->>>>>>> 42b1fba620... stashing changes
     }
 
 }

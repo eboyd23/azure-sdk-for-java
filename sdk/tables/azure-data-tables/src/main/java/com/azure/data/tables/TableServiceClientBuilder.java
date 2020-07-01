@@ -4,7 +4,7 @@ package com.azure.data.tables;
 
 import com.azure.core.annotation.ServiceClientBuilder;
 
-<<<<<<< HEAD
+
 /**
  * builds the table service clients
  */
@@ -13,8 +13,7 @@ public class TableServiceClientBuilder {
 
     private String connectionString;
 
-=======
->>>>>>> a9a61c1401... writing in docs
+
     /**
      * Sets the connection string to help build the client
      *
@@ -26,50 +25,31 @@ public class TableServiceClientBuilder {
         return this;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> a9a61c1401... writing in docs
+
     /**
      * builds a sync TableServiceClient
      *
      * @return a sync TableServiceClient
      */
-<<<<<<< HEAD
-=======
->>>>>>> 044356b812... fixing conflictfile name changes
-=======
->>>>>>> a9a61c1401... writing in docs
     public TableServiceClient buildClient() {
         return new TableServiceClient();
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
+    
     /**
      * builds an async TableServiceAsyncClient
      *
      * @return TableServiceAsyncClient an aysnc TableServiceAsyncClient
      */
-=======
->>>>>>> 044356b812... fixing conflictfile name changes
-=======
-    /**
-     * builds an async TableServiceAsyncClient
-     *
-     * @return an aysnc TableServiceAsyncClient
-     */
->>>>>>> a9a61c1401... writing in docs
     public TableServiceAsyncClient buildAsyncClient() {
         return new TableServiceAsyncClient();
     }
 
-<<<<<<< HEAD
+
     /**
      * constructor
      */
-=======
->>>>>>> 044356b812... fixing conflictfile name changes
     public TableServiceClientBuilder() {
 
     }

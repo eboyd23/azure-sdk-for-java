@@ -3,7 +3,6 @@
 package com.azure.data.tables;
 
 import com.azure.core.annotation.ServiceClient;
-import com.azure.data.tables.implementation.models.QueryOptions;
 
 import java.util.List;
 

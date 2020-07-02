@@ -15,7 +15,7 @@ import java.util.Map;
     builder = TableClientBuilder.class,
     isAsync = true)
 public class TableAsyncClient {
-    final String tableName;
+    private final String tableName;
 
     TableAsyncClient(String tableName) {
         this.tableName = tableName;
@@ -100,6 +100,14 @@ public class TableAsyncClient {
      * @return a mono void
      */
     public Mono<Void> insertOrMergeEntity(TableEntity tableEntity) {
+        return Mono.empty();
+    }
+
+    /**
+     * returns the table name associated with the client
+     * @return table name
+     */
+    public Mono<String> getTableName(){
         return Mono.empty();
     }
 }

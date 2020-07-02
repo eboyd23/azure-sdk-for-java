@@ -18,8 +18,6 @@ public class TableEntity {
     /**
      * creates a new TableEntity
      *
-     * @param rowKey rowKey
-     * @param partitionKey partitionKey
      * @param properties map of properties of the entity
      */
     TableEntity(String rowKey, String partitionKey, Map<String, Object> properties) {
@@ -77,6 +75,7 @@ public class TableEntity {
 
     /**
      * set the properties
+     *
      * @param properties properties to set to this entity
      */
     public void setProperties(Map<String, Object> properties) {

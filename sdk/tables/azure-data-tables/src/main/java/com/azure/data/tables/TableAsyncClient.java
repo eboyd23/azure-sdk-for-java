@@ -15,19 +15,31 @@ import java.util.Map;
     builder = TableClientBuilder.class,
     isAsync = true)
 public class TableAsyncClient {
-    private final String tableName;
+    String tableName;
 
     TableAsyncClient(String tableName) {
         this.tableName = tableName;
     }
 
     /**
+     * returns the table associated with this table client
+     *
+     * @param tableName the name of the table
+     * @return the table
+     */
+    public Mono<AzureTable> getTable(String tableName) {
+        return null;
+    }
+
+    /**
      * Queries and returns entities in the given table using the select and filter strings
      *
-     * @param queryOptions the odata query object
+     * @param top odata top parameter
+     * @param selectString odata select string
+     * @param filterString odata filter string
      * @return a paged flux of all the entity which fit this criteria
      */
-    public PagedFlux<TableEntity> queryEntity(QueryOptions queryOptions) {
+    public PagedFlux<TableEntity> queryEntity(Integer top, String selectString, String filterString) {
         return null;
     }
 
@@ -44,6 +56,16 @@ public class TableAsyncClient {
     }
 
     /**
+     * insert a TableEntity with the given row and partition key
+     * @param row row key
+     * @param partition partition key
+     * @return the table entity which is inserted
+     */
+    public Mono<TableEntity> insertEntity(String row, String partition ) {
+        return null;
+    }
+
+    /**
      * insert a new entity into the Table attached to this client
      *
      * @param tableEntity the entity in which to insert
@@ -53,40 +75,8 @@ public class TableAsyncClient {
         return null;
     }
 
-<<<<<<< HEAD
     public Mono<Void> updateEntity(TableEntity te){ return  Mono.empty(); }
     public Mono<TableEntity> upsertEntity(TableEntity te){ return null; }
-=======
-    /**
-     * deletes the given entity
-     *
-     * @param tableEntity entity to delete
-     * @return a mono void
-     */
-    public Mono<Void> deleteEntity(TableEntity tableEntity) {
-        return Mono.empty();
-    }
-
-    /**
-     * updates the provided TableEntity
-     *
-     * @param tableEntity the TableEntity to update
-     * @return a mono void
-     */
-    public Mono<Void> updateEntity(TableEntity tableEntity) {
-        return Mono.empty();
-    }
-
-    /**
-     * merges the given entity with the entity which exists on the storage account
-     *
-     * @param tableEntity the entity with which to merge
-     * @return a mono void
-     */
-    public Mono<Void> mergeEntity(TableEntity tableEntity) {
-        return Mono.empty();
-    }
->>>>>>> 42b1fba620... stashing changes
 
     /**
      * inserts the TableEntity if it doesn't exist or replace it if it does
@@ -105,14 +95,6 @@ public class TableAsyncClient {
      * @return a mono void
      */
     public Mono<Void> insertOrMergeEntity(TableEntity tableEntity) {
-        return Mono.empty();
-    }
-
-    /**
-     * returns the table name associated with the client
-     * @return table name
-     */
-    public Mono<String> getTableName(){
         return Mono.empty();
     }
 }

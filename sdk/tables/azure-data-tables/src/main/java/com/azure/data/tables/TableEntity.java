@@ -14,6 +14,8 @@ public class TableEntity {
     private String rowKey;
     private String partitionKey;
     private Map<String, Object> properties;
+    //tableName
+    //etag
 
     /**
      * creates a new TableEntity

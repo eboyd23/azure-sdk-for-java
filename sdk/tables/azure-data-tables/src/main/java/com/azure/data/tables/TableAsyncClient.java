@@ -5,8 +5,8 @@ package com.azure.data.tables;
 import com.azure.core.annotation.ServiceClient;
 import com.azure.core.http.rest.PagedFlux;
 import reactor.core.publisher.Mono;
-
 import java.util.Map;
+
 
 /**
  * class for the table async client
@@ -32,82 +32,77 @@ public class TableAsyncClient {
     }
 
     /**
-     * insert a TableEntity with the given properties and return that TableEntity
+     * Queries and returns entities in the given table with the given rowKey and ParitionKey
      *
-     * @param row the RowKey
-     * @param partition the PartitionKey
-     * @param tableEntityProperties a map of properties for the TableEntity
-     * @return the created TableEntity
+     * @param rowKey the given row key
+     * @param partitionKey the given partition key
+     * @return a list of the tables that fit the row and partition key
      */
-    public Mono<TableEntity> insertEntity(String row, String partition, Map<String, Object> tableEntityProperties) {
+    public PagedFlux<TableEntity> queryEntitiesWithPartitionAndRowKey(String rowKey, String partitionKey) {
         return null;
     }
 
     /**
-     * insert a new entity into the Table attached to this client
+     * insert a TableEntity with the given properties and return that TableEntity. Property map must include
+     * rowKey and partitionKey
      *
-     * @param tableEntity the entity in which to insert
-     * @return the inserted TableEntity
+     * @param tableEntityProperties a map of properties for the TableEntity
+     * @return the created TableEntity
      */
-    public Mono<TableEntity> insertEntity(TableEntity tableEntity) {
-        return null;
+    public Mono<TableEntity> createEntity(Map<String, Object> tableEntityProperties) {
+        return Mono.empty();
+    }
+
+    /**
+     * based on Mode it either inserts or merges if exists or inserts or merges if exists
+     *
+     * @param updateMode type of upsert
+     * @param tableEntity entity to upsert
+     * @return void
+     */
+    public Mono<Void> upsertEntity(UpdateMode updateMode, TableEntity tableEntity) {
+        return Mono.empty();
+    }
+
+    /**
+     * based on Mode it either updates or fails if it does exists or replaces or fails if it does exists
+     *
+     * @param updateMode type of update
+     * @param tableEntity entity to update
+     * @return void
+     */
+    public Mono<Void> updateEntity(UpdateMode updateMode, TableEntity tableEntity) {
+        return Mono.empty();
     }
 
     /**
      * deletes the given entity
      *
      * @param tableEntity entity to delete
-     * @return a mono void
+     * @return void
      */
     public Mono<Void> deleteEntity(TableEntity tableEntity) {
         return Mono.empty();
     }
 
     /**
-     * updates the provided TableEntity
+     * deletes the given entity
      *
-     * @param tableEntity the TableEntity to update
-     * @return a mono void
+     * @param partitionKey the partition key
+     * @param rowKey the row key
+     * @return void
      */
-    public Mono<Void> updateEntity(TableEntity tableEntity) {
-        return Mono.empty();
-    }
-
-    /**
-     * merges the given entity with the entity which exists on the storage account
-     *
-     * @param tableEntity the entity with which to merge
-     * @return a mono void
-     */
-    public Mono<Void> mergeEntity(TableEntity tableEntity) {
-        return Mono.empty();
-    }
-
-    /**
-     * inserts the TableEntity if it doesn't exist or replace it if it does
-     *
-     * @param tableEntity the TableEntity to insert or replace
-     * @return a mono void
-     */
-    public Mono<Void> insertOrReplaceEntity(TableEntity tableEntity) {
-        return Mono.empty();
-    }
-
-    /**
-     * inserts the TableEntity if it doesn't exist or merges it with the existing entity if it does
-     *
-     * @param tableEntity the TableEntity to insert or merge
-     * @return a mono void
-     */
-    public Mono<Void> insertOrMergeEntity(TableEntity tableEntity) {
+    public Mono<Void> deleteEntity(String partitionKey, String rowKey) {
         return Mono.empty();
     }
 
     /**
      * returns the table name associated with the client
+     *
      * @return table name
      */
-    public Mono<String> getTableName(){
+    public Mono<String> getTableName() {
         return Mono.empty();
     }
 }
+

@@ -11,29 +11,15 @@ public class TableEntity {
     private String rowKey;
     private String partitionKey;
     private Map<String, Object> properties;
+    //tableName
+    //etag
 
     /**
      * creates a new TableEntity
      *
-     * @param rowKey rowKey
-     * @param partitionKey partitionKey
      * @param properties map of properties of the entity
      */
-    TableEntity(String rowKey, String partitionKey, Map<String, Object> properties) {
-        this.rowKey = rowKey;
-        this.partitionKey = partitionKey;
-        this.properties = properties;
-    }
-
-    /**
-     * creates a new TableEntity
-     *
-     * @param rowKey rowKey
-     * @param partitionKey partitionKey
-     */
-    TableEntity(String rowKey, String partitionKey) {
-        this.rowKey = rowKey;
-        this.partitionKey = partitionKey;
+    public TableEntity(Map<String, Object> properties) {
     }
 
     /**
@@ -74,6 +60,7 @@ public class TableEntity {
 
     /**
      * set the properties
+     *
      * @param properties properties to set to this entity
      */
     public void setProperties(Map<String, Object> properties) {

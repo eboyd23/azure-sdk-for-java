@@ -39,7 +39,8 @@ public class TableClient {
      * @return the created TableEntity
      */
     public TableEntity insertEntity(String row, String partition, Map<String, Object> tableEntityProperties) {
-        return new TableEntity();
+        
+        TableEntity tableEntity = new TableEntity();
     }
 
     /**

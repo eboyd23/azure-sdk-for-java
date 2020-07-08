@@ -3,60 +3,32 @@
 package com.azure.data.tables;
 
 import com.azure.core.exception.HttpResponseException;
+import com.azure.core.http.rest.Page;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.data.tables.implementation.models.TableServiceErrorException;
-<<<<<<< HEAD
-import java.util.List;
-=======
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
->>>>>>> codeSnippetsTables
 
 /**
  * sync code snippets for the table service
  */
 public class TableServiceClientCodeSnippets {
-<<<<<<< HEAD
-
-    /**
-     * all the functionality of the Tables SDK written sync
-     */
-    public static void methods() {
-        ClientLogger logger = new ClientLogger("TableServiceClientCodeSnippets");
-
-        //create a tableServiceClient
-=======
     private final ClientLogger logger = new ClientLogger("TableServiceClientCodeSnippets");
 
     /**
      * create table code snippet
      */
     public void createTable() {
->>>>>>> codeSnippetsTables
         TableServiceClient tableServiceClient = new TableServiceClientBuilder()
             .connectionString("connectionString")
             .buildClient();
-
-<<<<<<< HEAD
-        //create TableClient
-        TableClient tableClient = new TableClientBuilder()
-            .connectionString("connectionString")
-            .tableName("OfficeSupplies")
-            .buildClient();
-
-        //create a table
-=======
->>>>>>> codeSnippetsTables
         try {
             AzureTable officeSuppliesTable = tableServiceClient.createTable("OfficeSupplies");
         } catch (TableServiceErrorException e) {
             logger.error("Create Table Unsuccessful. Error: " + e);
         }
-<<<<<<< HEAD
-
-        //delete  table
-=======
     }
 
     /**
@@ -67,16 +39,12 @@ public class TableServiceClientCodeSnippets {
             .connectionString("connectionString")
             .buildClient();
 
->>>>>>> codeSnippetsTables
+
         try {
             tableServiceClient.deleteTable("OfficeSupplies");
         } catch (TableServiceErrorException e) {
             logger.error("Delete Table Unsuccessful. Error: " + e);
         }
-<<<<<<< HEAD
-
-        //query tables
-=======
     }
 
     /**
@@ -87,7 +55,6 @@ public class TableServiceClientCodeSnippets {
             .connectionString("connectionString")
             .buildClient();
 
->>>>>>> codeSnippetsTables
         QueryOptions queryOptions = new QueryOptions();
         queryOptions.setFilter("TableName eq OfficeSupplies");
 
@@ -96,55 +63,6 @@ public class TableServiceClientCodeSnippets {
         } catch (HttpResponseException e) {
             logger.error("Table Query Unsuccessful. Error: " + e);
         }
-<<<<<<< HEAD
-
-        //insert entity
-        String row = "crayola markers";
-        String partitionKey = "markers";
-        TableEntity tableEntity = new TableEntity(row, partitionKey, null);
-        try {
-            tableEntity = tableClient.insertEntity(tableEntity);
-        } catch (HttpResponseException e) {
-            logger.error("Insert Entity Unsuccessful. Error: " + e);
-        }
-
-        //update entity
-        tableEntity.addProperty("Seller", "Crayola");
-        try {
-            tableClient.updateEntity(tableEntity);
-        } catch (HttpResponseException e) {
-            logger.error("Update Entity Unsuccessful. Error: " + e);
-        }
-
-        //upsert entity (where it is an insert or replace)
-        tableEntity.addProperty("Price", "5");
-        try {
-            tableClient.insertOrReplaceEntity(tableEntity);
-        } catch (HttpResponseException e) {
-            logger.error("Upsert Entity Unsuccessful. Error: " + e);
-        }
-
-        //upsert entity (where it is an insert or merge)
-        tableEntity.addProperty("Price", "5");
-        try {
-            tableClient.insertOrMergeEntity(tableEntity);
-        } catch (HttpResponseException e) {
-            logger.error("Upsert Entity Unsuccessful. Error: " + e);
-        }
-
-        //delete entity
-        try {
-            tableClient.deleteEntity(tableEntity);
-        } catch (HttpResponseException e) {
-            logger.error("Delete Entity Unsuccessful. Error: " + e);
-        }
-
-        //query a table
-        queryOptions.setFilter("Product eq markers");
-        queryOptions.setSelect("Seller, Price");
-        try {
-            List<TableEntity> list = tableClient.queryEntity(queryOptions);
-=======
     }
 
     /**
@@ -262,15 +180,12 @@ public class TableServiceClientCodeSnippets {
         queryOptions.setFilter("Product eq markers");
         queryOptions.setSelect("Seller, Price");
         try {
-            List<TableEntity> tableEntities = tableClient.queryEntity(queryOptions);
->>>>>>> codeSnippetsTables
+            PagedIterable<TableEntity> tableEntities = tableClient.queryEntity(queryOptions);
         } catch (HttpResponseException e) {
             logger.error("Query Table Entities Unsuccessful. Error: " + e);
         }
     }
 
-<<<<<<< HEAD
-=======
     /**
      * check to see if a table entity exists
      */
@@ -283,15 +198,14 @@ public class TableServiceClientCodeSnippets {
         QueryOptions queryOptions = new QueryOptions();
         queryOptions.setFilter("TableName eq OfficeSupplies");
         try {
-            List<TableEntity> responseTables =
+            PagedIterable<TableEntity> responseTables =
                 tableClient.queryEntitiesWithPartitionAndRowKey("crayolaMarkers", "markers");
-            if (responseTables != null && responseTables.get(0) != null) {
-                logger.info("Entity with the rowKey = crayolaMarkers and partitionKey = markers exists.");
-            }
+//            if (responseTables != null && responseTables.get(0) != null) {
+//                logger.info("Entity with the rowKey = crayolaMarkers and partitionKey = markers exists.");
+//            }
         } catch (HttpResponseException e) {
             logger.error("Table Query Unsuccessful. Error: " + e);
         }
 
     }
->>>>>>> codeSnippetsTables
 }

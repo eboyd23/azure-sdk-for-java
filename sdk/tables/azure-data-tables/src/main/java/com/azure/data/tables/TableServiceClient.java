@@ -4,6 +4,7 @@ package com.azure.data.tables;
 
 import com.azure.core.annotation.ServiceClient;
 
+import com.azure.core.http.rest.PagedIterable;
 import java.util.List;
 
 /**
@@ -12,8 +13,10 @@ import java.util.List;
 @ServiceClient(
     builder = TableServiceClientBuilder.class)
 public class TableServiceClient {
+    private final TableServiceAsyncClient client;
 
-    TableServiceClient() {
+    TableServiceClient(TableServiceAsyncClient client) {
+        this.client = client;
     }
 
     /**
@@ -23,7 +26,7 @@ public class TableServiceClient {
      * @return AzureTable of the created table
      */
     public AzureTable createTable(String name) {
-        return null;
+        return client.createTable(name).block();
     }
 
     /**
@@ -32,6 +35,7 @@ public class TableServiceClient {
      * @param name the name of the table to be deleted
      */
     public void deleteTable(String name) {
+        client.deleteTable(name).block();
     }
 
     /**
@@ -40,6 +44,7 @@ public class TableServiceClient {
      * @param azureTable the table to be deleted
      */
     public void deleteTable(AzureTable azureTable) {
+        client.deleteTable(azureTable.getName()).block();
     }
 
     /**
@@ -49,7 +54,7 @@ public class TableServiceClient {
      * @return associated azure table object
      */
     public AzureTable getTable(String name) {
-        return null;
+       // return client.
     }
 
     /**
@@ -67,8 +72,8 @@ public class TableServiceClient {
      * @param queryOptions the odata query object
      * @return a list of tables that meet the query
      */
-    public List<AzureTable> queryTables(QueryOptions queryOptions) {
-        return null;
+    public PagedIterable<AzureTable> queryTables(QueryOptions queryOptions) {
+        return client.queryTables(queryOptions);
     }
 
 }

@@ -14,6 +14,7 @@ public class TableEntity {
     private String rowKey;
     private String partitionKey;
     private Map<String, Object> properties;
+    private String etag;
     //tableName
     //etag
 
@@ -37,6 +38,15 @@ public class TableEntity {
     TableEntity(String rowKey, String partitionKey) {
         this.rowKey = rowKey;
         this.partitionKey = partitionKey;
+    }
+
+    /**
+     * creates a new TableEntity
+     *
+     * @param properties map of properties of the entity
+     * @param etag the etag of the entity
+     */
+    public TableEntity(Map<String, Object> properties, String etag) {
     }
 
     /**
@@ -82,5 +92,21 @@ public class TableEntity {
      */
     public void setProperties(Map<String, Object> properties) {
         this.properties = properties;
+    }
+
+    /**
+     * gets the etag
+     * @return the etag for the entity
+     */
+    public String getEtag() {
+        return etag;
+    }
+
+    /**
+     * sets the etag for the entity
+     * @param etag
+     */
+    public void setEtag(String etag) {
+        this.etag = etag;
     }
 }

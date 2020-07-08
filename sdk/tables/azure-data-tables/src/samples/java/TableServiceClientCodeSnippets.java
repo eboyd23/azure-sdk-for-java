@@ -3,6 +3,8 @@
 package com.azure.data.tables;
 
 import com.azure.core.exception.HttpResponseException;
+import com.azure.core.http.rest.Page;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.data.tables.implementation.models.TableServiceErrorException;
 import java.util.HashMap;
@@ -22,7 +24,6 @@ public class TableServiceClientCodeSnippets {
         TableServiceClient tableServiceClient = new TableServiceClientBuilder()
             .connectionString("connectionString")
             .buildClient();
-
         try {
             AzureTable officeSuppliesTable = tableServiceClient.createTable("OfficeSupplies");
         } catch (TableServiceErrorException e) {
@@ -178,7 +179,7 @@ public class TableServiceClientCodeSnippets {
         queryOptions.setFilter("Product eq markers");
         queryOptions.setSelect("Seller, Price");
         try {
-            List<TableEntity> tableEntities = tableClient.queryEntity(queryOptions);
+            PagedIterable<TableEntity> tableEntities = tableClient.queryEntity(queryOptions);
         } catch (HttpResponseException e) {
             logger.error("Query Table Entities Unsuccessful. Error: " + e);
         }
@@ -196,11 +197,11 @@ public class TableServiceClientCodeSnippets {
         QueryOptions queryOptions = new QueryOptions();
         queryOptions.setFilter("TableName eq OfficeSupplies");
         try {
-            List<TableEntity> responseTables =
+            PagedIterable<TableEntity> responseTables =
                 tableClient.queryEntitiesWithPartitionAndRowKey("crayolaMarkers", "markers");
-            if (responseTables != null && responseTables.get(0) != null) {
-                logger.info("Entity with the rowKey = crayolaMarkers and partitionKey = markers exists.");
-            }
+//            if (responseTables != null && responseTables.get(0) != null) {
+//                logger.info("Entity with the rowKey = crayolaMarkers and partitionKey = markers exists.");
+//            }
         } catch (HttpResponseException e) {
             logger.error("Table Query Unsuccessful. Error: " + e);
         }

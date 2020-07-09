@@ -502,7 +502,7 @@ public final class BlobServiceAsyncClient {
      * @param properties Configures the service.
      * @return A {@link Mono} containing the storage account properties.
      */
-    public Mono<Void> setProperties(BlobServiceProperties properties){
+    public Mono<Void> setProperties(BlobServiceProperties properties) {
         try {
             return setPropertiesWithResponse(properties).flatMap(FluxUtil::toMono);
         } catch (RuntimeException ex) {

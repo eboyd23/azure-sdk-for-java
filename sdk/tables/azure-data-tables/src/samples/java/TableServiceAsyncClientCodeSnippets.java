@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 package com.azure.data.tables;
 
-import com.azure.core.util.logging.ClientLogger;
 import java.util.HashMap;
 import java.util.Map;
 import reactor.core.publisher.Mono;
@@ -11,7 +10,7 @@ import reactor.core.publisher.Mono;
  * async code snippets for the table service
  */
 public class TableServiceAsyncClientCodeSnippets {
-    final ClientLogger logger = new ClientLogger("TableServiceAsyncClientCodeSnippets");
+
 
     /**
      * create table code snippet
@@ -21,11 +20,11 @@ public class TableServiceAsyncClientCodeSnippets {
             .connectionString("connectionString")
             .buildAsyncClient();
 
-        tableServiceAsyncClient.createTable("OfficeSupplies").subscribe(Void -> {
-            logger.info("Table creation successful.");
-        }, error -> {
-            logger.error("There was an error creating the table. Error: " + error);
-        });
+        tableServiceAsyncClient.createTable("OfficeSupplies").subscribe(
+            Void -> { },
+            error -> System.err.println("There was an error creating the table. Error: " + error),
+            () -> System.out.println("Table creation successful."));
+    }
 
     /**
      * delete table code snippet
@@ -35,11 +34,11 @@ public class TableServiceAsyncClientCodeSnippets {
             .connectionString("connectionString")
             .buildAsyncClient();
 
-        tableServiceAsyncClient.deleteTable("OfficeSupplies").subscribe(Void -> {
-            logger.info("Table deletion successful");
-        }, error -> {
-            logger.error("There was an error deleting the table. Error: " + error);
-        });
+        tableServiceAsyncClient.deleteTable("OfficeSupplies").subscribe(
+            Void -> { },
+            error -> System.err.println("There was an error deleting the table. Error: " + error),
+            () -> System.out.println("Table deletion successful."));
+    }
 
     /**
      * query tables code snippet
@@ -48,22 +47,19 @@ public class TableServiceAsyncClientCodeSnippets {
         TableServiceAsyncClient tableServiceAsyncClient = new TableServiceClientBuilder()
             .connectionString("connectionString")
             .buildAsyncClient();
-        QueryOptions queryOptions = new QueryOptions();
-        queryOptions.setFilter("TableName eq OfficeSupplies");
+        QueryOptions queryOptions = new QueryOptions().setFilter("TableName eq OfficeSupplies");
 
         tableServiceAsyncClient.queryTables(queryOptions).subscribe(azureTable -> {
-            logger.info(azureTable.getName());
+            System.out.println(azureTable.getName());
         }, error -> {
-            logger.error("There was an error querying the service. Error: " + error);
-        });
+                System.err.println("There was an error querying the service. Error: " + error);
+            });
     }
 
     /**
      * insert entity code snippet
      */
     private void insertEntity() {
-
-        // Build service client
         TableServiceAsyncClient tableServiceAsyncClient = new TableServiceClientBuilder()
             .connectionString("connectionString")
             .buildAsyncClient();
@@ -80,62 +76,54 @@ public class TableServiceAsyncClientCodeSnippets {
         properties.put("PartitionKey", "markers");
 
         tableAsyncClient.createEntity(properties).subscribe(tableEntity -> {
-            logger.info("Insert Entity Successful. Entity: " + tableEntity);
+            System.out.println("Insert Entity Successful. Entity: " + tableEntity);
         }, error -> {
-            logger.error("There was an error inserting the Entity. Error: " + error);
-        });
+                System.err.println("There was an error inserting the Entity. Error: " + error);
+            });
     }
 
     /**
      * delete entity code snippet
      */
     private void deleteEntity() {
-
-        // Build service client
         TableServiceAsyncClient tableServiceAsyncClient = new TableServiceClientBuilder()
             .connectionString("connectionString")
             .buildAsyncClient();
 
         TableAsyncClient tableAsyncClient = tableServiceAsyncClient.getTableAsyncClient("OfficeSupplies");
+        String rowKey = "crayolaMarkers";
+        String partitionKey = "markers";
 
-        QueryOptions queryOptions = new QueryOptions();
-        queryOptions.setFilter("RowKey eq crayolaMarkers");
-
-        tableAsyncClient.queryEntity(queryOptions).flatMap(tableEntity -> {
-            logger.info("Table Entity: " + tableEntity);
-            Mono<Void> deleteEntityMono = tableAsyncClient.deleteEntity(tableEntity);
-            return deleteEntityMono;
-        }).subscribe(Void -> {
-            logger.info("Delete Entity Successful.");
-        }, error -> {
-            logger.error("There was an error deleting the Entity. Error: " + error);
-        });
+        tableAsyncClient.get(rowKey, partitionKey).flatMap(tableEntity -> {
+            System.out.println("Table Entity: " + tableEntity);
+            return tableAsyncClient.deleteEntity(tableEntity);
+        }).subscribe(
+            Void -> { },
+            error -> System.err.println("There was an error deleting the Entity. Error: " + error),
+            () -> System.out.println("Delete Entity Successful."));
     }
 
     /**
      * upsert entity code snippet
      */
     private void upsert() {
-
-        // Build service client
         TableServiceAsyncClient tableServiceAsyncClient = new TableServiceClientBuilder()
             .connectionString("connectionString")
             .buildAsyncClient();
 
         TableAsyncClient tableAsyncClient = tableServiceAsyncClient.getTableAsyncClient("OfficeSupplies");
-        QueryOptions queryOptions = new QueryOptions();
-        queryOptions.setFilter("RowKey eq crayolaMarkers");
+        String rowKey = "crayolaMarkers";
+        String partitionKey = "markers";
 
-        tableAsyncClient.queryEntity(queryOptions).flatMap(tableEntity -> {
-            logger.info("Table Entity: " + tableEntity);
+        tableAsyncClient.get(rowKey, partitionKey).flatMap(tableEntity -> {
+            System.out.println("Table Entity: " + tableEntity);
             tableEntity.addProperty("Price", "5");
-            Mono<Void> updateEntityMono = tableAsyncClient.upsertEntity(UpdateMode.Merge, tableEntity);
+            Mono<Void> updateEntityMono = tableAsyncClient.upsertEntity(UpdateMode.MERGE, tableEntity);
             return updateEntityMono;
-        }).subscribe(Void -> {
-            logger.info("Update Entity Successful.");
-        }, error -> {
-            logger.error("There was an error updating the Entity. Error: " + error);
-        });
+        }).subscribe(
+            Void -> { },
+            error -> System.err.println("There was an error upserting the Entity. Error: " + error),
+            () -> System.out.println("Upsert Entity Successful."));
     }
 
     /**
@@ -147,63 +135,55 @@ public class TableServiceAsyncClientCodeSnippets {
             .buildAsyncClient();
 
         TableAsyncClient tableAsyncClient = tableServiceAsyncClient.getTableAsyncClient("OfficeSupplies");
-        QueryOptions queryOptions = new QueryOptions();
-        queryOptions.setFilter("RowKey eq crayolaMarkers");
+        String rowKey = "crayolaMarkers";
+        String partitionKey = "markers";
 
-        tableAsyncClient.queryEntity(queryOptions).flatMap(tableEntity -> {
-            logger.info("Table Entity: " + tableEntity);
+        tableAsyncClient.get(rowKey, partitionKey).flatMap(tableEntity -> {
+            System.out.println("Table Entity: " + tableEntity);
             tableEntity.addProperty("Price", "5");
-
-            Mono<Void> updateEntityMono = tableAsyncClient.updateEntity(UpdateMode.Replace, tableEntity);
+            Mono<Void> updateEntityMono = tableAsyncClient.updateEntity(UpdateMode.REPLACE, tableEntity);
             return updateEntityMono;
-        }).subscribe(Void -> {
-            logger.info("Update Entity Successful.");
-        }, error -> {
-            logger.error("There was an error updating the Entity. Error: " + error);
-        });
+        }).subscribe(
+            Void -> { },
+            error -> System.err.println("There was an error updating the Entity. Error: " + error),
+            () -> System.out.println("Update Entity Successful."));
     }
 
     /**
      * query entity code snippet
      */
     private void queryEntities() {
-
-        // Build service client
         TableServiceAsyncClient tableServiceAsyncClient = new TableServiceClientBuilder()
             .connectionString("connectionString")
             .buildAsyncClient();
 
         TableAsyncClient tableAsyncClient = tableServiceAsyncClient.getTableAsyncClient("OfficeSupplies");
+        QueryOptions queryOptions = new QueryOptions()
+            .setFilter("Product eq markers")
+            .setSelect("Seller, Price");
 
-        QueryOptions queryOptions = new QueryOptions();
-        queryOptions.setFilter("Product eq markers");
-        queryOptions.setSelect("Seller, Price");
-
-        tableAsyncClient.queryEntity(queryOptions).subscribe(tableEntity -> {
-            logger.info("Table Entity: " + tableEntity);
+        tableAsyncClient.queryEntities(queryOptions).subscribe(tableEntity -> {
+            System.out.println("Table Entity: " + tableEntity);
         }, error -> {
-            logger.error("There was an error querying the table. Error: " + error);
-        });
+                System.err.println("There was an error querying the table. Error: " + error);
+            });
     }
 
     /**
      * checks to see if an entity exists code snippet
      */
     private void existsEntity() {
-
-        // Build service client
         TableServiceAsyncClient tableServiceAsyncClient = new TableServiceClientBuilder()
             .connectionString("connectionString")
             .buildAsyncClient();
 
         TableAsyncClient tableAsyncClient = tableServiceAsyncClient.getTableAsyncClient("OfficeSupplies");
 
-        tableAsyncClient.queryEntitiesWithPartitionAndRowKey("crayolaMarkers", "markers")
+        tableAsyncClient.get("crayolaMarkers", "markers")
             .subscribe(tableEntity -> {
-            logger.info("Table Entity exists: " + tableEntity);
-        }, error -> {
-            logger.error("There was an error querying the table. Error: " + error);
-        });
+                System.out.println("Table Entity exists: " + tableEntity);
+            }, error -> {
+                    System.err.println("There was an error getting the entity. Error: " + error);
+                });
     }
-
 }

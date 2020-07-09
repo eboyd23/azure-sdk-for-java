@@ -107,16 +107,14 @@ public class TableAsyncClient {
     }
 
     /**
-     * Queries and returns entities in the given table with the given rowKey and ParitionKey
+     * returns the entity with the given rowKey and ParitionKey
      *
      * @param rowKey the given row key
      * @param partitionKey the given partition key
-     * @return a list of the tables that fit the row and partition key
+     * @return an entity that fits the criteria
      */
-    public Flux<TableEntity> queryEntities(String rowKey, String partitionKey) {
-        QueryOptions queryOptions = new QueryOptions()
-            .setFilter("RowKey eq " + rowKey + " and PartitionKey eq " + partitionKey);
-        return queryEntities(queryOptions);
+    public Mono<TableEntity> get(String rowKey, String partitionKey) {
+        return null;
     }
 
     //TODO: createEntities

@@ -3,6 +3,7 @@
 package com.azure.data.tables;
 
 import com.azure.core.annotation.ServiceClientBuilder;
+import com.azure.core.credential.TokenCredential;
 
 /**
  * builds table client
@@ -20,6 +21,16 @@ public class TableClientBuilder {
      */
     public TableClientBuilder connectionString(String connectionString) {
         this.connectionString = connectionString;
+        return this;
+    }
+
+    /**
+     * Sets the tokenCredential to help build the client
+     *
+     * @param tokenCredential the tokenCredential to the storage account
+     * @return the TableClientBuilder
+     */
+    public TableClientBuilder connectionString(TokenCredential tokenCredential) {
         return this;
     }
 

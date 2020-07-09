@@ -4,7 +4,6 @@ package com.azure.data.tables;
 
 import com.azure.core.annotation.ServiceClientBuilder;
 
-
 /**
  * builds the table service clients
  */
@@ -23,7 +22,6 @@ public class TableServiceClientBuilder {
         this.connectionString = connectionString;
         return this;
     }
-
 
     /**
      * builds a sync TableServiceClient
@@ -44,7 +42,6 @@ public class TableServiceClientBuilder {
     public TableServiceAsyncClient buildAsyncClient() {
         return new TableServiceAsyncClient();
     }
-
 
     /**
      * constructor

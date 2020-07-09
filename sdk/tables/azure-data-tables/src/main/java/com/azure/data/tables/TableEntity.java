@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 package com.azure.data.tables;
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
 
 import java.util.Map;
 
@@ -23,21 +20,7 @@ public class TableEntity {
      *
      * @param properties map of properties of the entity
      */
-    TableEntity(String rowKey, String partitionKey, Map<String, Object> properties) {
-        this.rowKey = rowKey;
-        this.partitionKey = partitionKey;
-        this.properties = properties;
-    }
-
-    /**
-     * creates a new TableEntity
-     *
-     * @param rowKey rowKey
-     * @param partitionKey partitionKey
-     */
-    TableEntity(String rowKey, String partitionKey) {
-        this.rowKey = rowKey;
-        this.partitionKey = partitionKey;
+    public TableEntity(Map<String, Object> properties) {
     }
 
     /**

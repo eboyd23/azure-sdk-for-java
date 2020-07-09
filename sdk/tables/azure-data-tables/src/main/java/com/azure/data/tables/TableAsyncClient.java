@@ -54,8 +54,8 @@ public class TableAsyncClient {
     /**
      * Queries and returns entities in the given table using the select and filter strings
      *
-     * @param tableName the name of the table
-     * @return the table
+     * @param queryOptions the odata query object
+     * @return a paged flux of all the entity which fit this criteria
      */
     public PagedFlux<TableEntity> queryEntities(QueryOptions queryOptions) {
 
@@ -107,12 +107,11 @@ public class TableAsyncClient {
     }
 
     /**
-     * Queries and returns entities in the given table using the select and filter strings
+     * Queries and returns entities in the given table with the given rowKey and ParitionKey
      *
-     * @param top odata top parameter
-     * @param selectString odata select string
-     * @param filterString odata filter string
-     * @return a paged flux of all the entity which fit this criteria
+     * @param rowKey the given row key
+     * @param partitionKey the given partition key
+     * @return a list of the tables that fit the row and partition key
      */
     public Flux<TableEntity> queryEntities(String rowKey, String partitionKey) {
         QueryOptions queryOptions = new QueryOptions()
@@ -122,10 +121,9 @@ public class TableAsyncClient {
 
     //TODO: createEntities
     /**
-     * insert a TableEntity with the given properties and return that TableEntity
+     * insert a TableEntity with the given properties and return that TableEntity. Property map must include
+     * rowKey and partitionKey
      *
-     * @param row the RowKey
-     * @param partition the PartitionKey
      * @param tableEntityProperties a map of properties for the TableEntity
      * @return the created TableEntity
      */
@@ -177,10 +175,11 @@ public class TableAsyncClient {
     }
 
     /**
-     * insert a TableEntity with the given row and partition key
-     * @param row row key
-     * @param partition partition key
-     * @return the table entity which is inserted
+     * based on Mode it either inserts or merges if exists or inserts or merges if exists
+     *
+     * @param updateMode type of upsert
+     * @param tableEntity entity to upsert
+     * @return void
      */
     public Mono<Void> upsertEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch) {
         return upsertEntity(updateMode,tableEntity,ifMatch,(Integer) null);
@@ -313,7 +312,7 @@ public class TableAsyncClient {
     }
 
     /**
-     * insert a new entity into the Table attached to this client
+     * based on Mode it either updates or fails if it does exists or replaces or fails if it does exists
      *
      * @param updateMode type of update
      * @param tableEntity entity to update

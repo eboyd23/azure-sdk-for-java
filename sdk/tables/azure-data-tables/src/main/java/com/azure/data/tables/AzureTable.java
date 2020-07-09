@@ -1,4 +1,3 @@
-
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 package com.azure.data.tables;
@@ -11,6 +10,10 @@ import com.azure.data.tables.TableClient;
 public class AzureTable {
     private final String name;
     private TableClient tableClient;
+
+    AzureTable(String name) {
+        this.name = name;
+    }
 
     /**
      * returns the name of this table
@@ -27,10 +30,5 @@ public class AzureTable {
      */
     public TableClient getClient() {
         return tableClient;
-
-    }
-
-    public AzureTable(String name) {
-        this.name = name;
     }
 }

@@ -45,7 +45,6 @@ Licensed under the MIT License.
     <dependency>
       <groupId>com.azure</groupId>
       <artifactId>azure-storage-common</artifactId>
-<<<<<<< HEAD
       <version>12.8.0-beta.1</version> <!-- {x-version-update;com.azure:azure-storage-common;dependency} -->
     </dependency>
     <dependency>
@@ -69,8 +68,6 @@ Licensed under the MIT License.
     <dependency>
       <groupId>com.azure</groupId>
       <artifactId>azure-storage-common</artifactId>
-=======
->>>>>>> 044356b812... fixing conflictfile name changes
       <version>12.7.0</version>  <!-- {x-version-update;com.azure:azure-storage-common;dependency} -->
     </dependency>
     <dependency>

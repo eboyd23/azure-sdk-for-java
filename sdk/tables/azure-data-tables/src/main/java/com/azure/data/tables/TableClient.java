@@ -1,4 +1,3 @@
-
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 package com.azure.data.tables;
@@ -100,13 +99,10 @@ public class TableClient {
     }
 
     /**
-     * returns the table name associated with the client
-     *
+     * returns the table name associated with the client*
      * @return table name
      */
     public String getTableName() {
         return this.tableName;
     }
-
-
 }

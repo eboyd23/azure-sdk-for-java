@@ -29,7 +29,6 @@ public class TableServiceClient {
         return client.createTable(name).block();
     }
 
-
     /**
      * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
      *

@@ -15,7 +15,7 @@ public class TableServiceAsyncClientCodeSnippets {
 
     /**
      * create table code snippet
-     */
+    **/
     public void createTable() {
         TableServiceAsyncClient tableServiceAsyncClient = new TableServiceClientBuilder()
             .connectionString("connectionString")
@@ -26,7 +26,6 @@ public class TableServiceAsyncClientCodeSnippets {
         }, error -> {
             logger.error("There was an error creating the table. Error: " + error);
         });
-    }
 
     /**
      * delete table code snippet
@@ -41,7 +40,6 @@ public class TableServiceAsyncClientCodeSnippets {
         }, error -> {
             logger.error("There was an error deleting the table. Error: " + error);
         });
-    }
 
     /**
      * query tables code snippet
@@ -70,6 +68,12 @@ public class TableServiceAsyncClientCodeSnippets {
             .connectionString("connectionString")
             .buildAsyncClient();
 
+        TableAsyncClient tableAsyncClient = tableServiceAsyncClient.getClient("OfficeSupplies");
+        String row = "crayolaMarkers";
+        String partitionKey = "markers";
+
+        tableAsyncClient.insertEntity(new TableEntity(row, partitionKey, null)).subscribe(tableEntity -> {
+
         TableAsyncClient tableAsyncClient = tableServiceAsyncClient.getTableAsyncClient("OfficeSupplies");
         Map<String, Object> properties = new HashMap<>();
         properties.put("RowKey", "crayolaMarkers");
@@ -93,6 +97,7 @@ public class TableServiceAsyncClientCodeSnippets {
             .buildAsyncClient();
 
         TableAsyncClient tableAsyncClient = tableServiceAsyncClient.getTableAsyncClient("OfficeSupplies");
+
         QueryOptions queryOptions = new QueryOptions();
         queryOptions.setFilter("RowKey eq crayolaMarkers");
 
@@ -137,8 +142,6 @@ public class TableServiceAsyncClientCodeSnippets {
      * update entity code snippet
      */
     private void update() {
-
-        // Build service client
         TableServiceAsyncClient tableServiceAsyncClient = new TableServiceClientBuilder()
             .connectionString("connectionString")
             .buildAsyncClient();
@@ -150,6 +153,7 @@ public class TableServiceAsyncClientCodeSnippets {
         tableAsyncClient.queryEntity(queryOptions).flatMap(tableEntity -> {
             logger.info("Table Entity: " + tableEntity);
             tableEntity.addProperty("Price", "5");
+
             Mono<Void> updateEntityMono = tableAsyncClient.updateEntity(UpdateMode.Replace, tableEntity);
             return updateEntityMono;
         }).subscribe(Void -> {
@@ -170,6 +174,7 @@ public class TableServiceAsyncClientCodeSnippets {
             .buildAsyncClient();
 
         TableAsyncClient tableAsyncClient = tableServiceAsyncClient.getTableAsyncClient("OfficeSupplies");
+
         QueryOptions queryOptions = new QueryOptions();
         queryOptions.setFilter("Product eq markers");
         queryOptions.setSelect("Seller, Price");

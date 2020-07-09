@@ -61,7 +61,7 @@ public class TableAsyncClient {
 
         //ContinuationToken continuationToken;
         return new PagedFlux<TableEntity>(
-            () -> withContext(context -> queryFistPageEntities(queryOptions, context)),
+            () -> withContext(context -> queryFirstPageEntities(queryOptions, context)),
             continuationToken -> withContext(context -> queryNextPageEntities(context, continuationToken.getNextPartitionKey(), nextRowKey))
         );
 
@@ -422,7 +422,7 @@ public class TableAsyncClient {
         if (tableEntity == null) {
             monoError(logger, new NullPointerException("TableEntity cannot be null"));
         }
-        return deleteEntitywithResponse(tableEntity.getPartitionKey(), tableEntity.getRowKey(), ifMatch, tableEntity.getEtag(), timeout, context);
+        return deleteEntityWithResponse(tableEntity.getPartitionKey(), tableEntity.getRowKey(), ifMatch, tableEntity.getEtag(), timeout, context);
     }
 
     /**

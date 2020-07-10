@@ -44,11 +44,11 @@ public class TableServiceClientBuilder {
      * @return a sync TableServiceClient
      */
     public TableServiceClient buildClient() {
-        return new TableServiceClient();
+        return new TableServiceClient(null);
     }
 
 
-    
+
     /**
      * builds an async TableServiceAsyncClient
      *

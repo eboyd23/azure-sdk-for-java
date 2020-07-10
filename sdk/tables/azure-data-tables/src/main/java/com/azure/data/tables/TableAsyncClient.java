@@ -14,6 +14,7 @@ import com.azure.data.tables.implementation.models.ResponseFormat;
 import java.time.Duration;
 import java.util.Map;
 import reactor.core.publisher.Mono;
+
 import static com.azure.core.util.FluxUtil.monoError;
 import static com.azure.core.util.FluxUtil.withContext;
 
@@ -87,6 +88,7 @@ public class TableAsyncClient {
 
     /**
      * gets the entity which fits the given criteria
+     *
      * @param rowKey the row key of the entity
      * @param partitionKey the partition key of the entity
      * @param ifMatch if the etag of the entity must match the found entity or not
@@ -99,6 +101,7 @@ public class TableAsyncClient {
 
     /**
      * gets the entity which fits the given criteria
+     *
      * @param rowKey the row key of the entity
      * @param partitionKey the partition key of the entity
      * @param ifMatch if the etag of the entity must match the found entity or not
@@ -112,6 +115,7 @@ public class TableAsyncClient {
 
     /**
      * gets the entity which fits the given criteria
+     *
      * @param rowKey the row key of the entity
      * @param partitionKey the partition key of the entity
      * @param ifMatch if the etag of the entity must match the found entity or not
@@ -123,7 +127,7 @@ public class TableAsyncClient {
         return null;
     }
 
-    private Mono<Response<TableEntity>> getEntityWithResponse(String rowKey, String partitionKey, Duration timeout, Context context) {
+    Mono<Response<TableEntity>> getEntityWithResponse(String rowKey, String partitionKey, Boolean ifMatch, String etag, Duration timeout, Context context) {
         return null;
     }
 
@@ -135,7 +139,7 @@ public class TableAsyncClient {
      * @return the created TableEntity
      */
     public Mono<TableEntity> createEntity(Map<String, Object> tableEntityProperties) {
-        return createEntity(tableEntityProperties, (Integer) null);
+        return createEntity(tableEntityProperties, (Duration) null);
     }
 
     /**
@@ -146,7 +150,7 @@ public class TableAsyncClient {
      * @param timeout max time for query to execute before erroring out
      * @return the created TableEntity
      */
-    public Mono<TableEntity> createEntity(Map<String, Object> tableEntityProperties, Integer timeout) {
+    public Mono<TableEntity> createEntity(Map<String, Object> tableEntityProperties, Duration timeout) {
         return null;
     }
 
@@ -158,14 +162,14 @@ public class TableAsyncClient {
      * @param timeout max time for query to execute before erroring out
      * @return a mono of the response with the TableEntity
      */
-    public Mono<Response<TableEntity>> createEntityWithResponse(Map<String, Object> tableEntityProperties, Integer timeout) {
+    public Mono<Response<TableEntity>> createEntityWithResponse(Map<String, Object> tableEntityProperties, Duration timeout) {
         return withContext(context -> createEntityWithResponse(tableEntityProperties, timeout, context));
     }
 
-    private Mono<Response<TableEntity>> createEntityWithResponse(Map<String, Object> tableEntityProperties, Integer timeout, Context context) {
+    Mono<Response<TableEntity>> createEntityWithResponse(Map<String, Object> tableEntityProperties, Duration timeout, Context context) {
         String requestID = "";
 
-        return impl.insertEntityWithResponseAsync(tableName, timeout, requestID, ResponseFormat.RETURN_CONTENT, tableEntityProperties,
+        return impl.insertEntityWithResponseAsync(tableName, timeout.toMillisPart(), requestID, ResponseFormat.RETURN_CONTENT, tableEntityProperties,
             null, context).map(response -> {
             Map<String, Object> properties = response.getValue();
             String etag = response.getHeaders().get("ETag").getValue();
@@ -183,7 +187,7 @@ public class TableAsyncClient {
      * @return void
      */
     public Mono<Void> upsertEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch) {
-        return upsertEntity(updateMode,tableEntity,ifMatch,(Integer) null);
+        return upsertEntity(updateMode, tableEntity, ifMatch, (Duration) null);
     }
 
     /**
@@ -195,7 +199,7 @@ public class TableAsyncClient {
      * @param timeout max time for query to execute before erroring out
      * @return void
      */
-    public Mono<Void> upsertEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Integer timeout) {
+    public Mono<Void> upsertEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout) {
         return null;
     }
 
@@ -208,11 +212,11 @@ public class TableAsyncClient {
      * @param timeout max time for query to execute before erroring out
      * @return a response
      */
-    public Mono<Response<Void>> upsertEntityWithResponse(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Integer timeout) {
+    public Mono<Response<Void>> upsertEntityWithResponse(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout) {
         return withContext(context -> upsertEntityWithResponse(updateMode, tableEntity, ifMatch, timeout, context));
     }
 
-    private Mono<Response<Void>> upsertEntityWithResponse(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Integer timeout, Context context) {
+    Mono<Response<Void>> upsertEntityWithResponse(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout, Context context) {
         if (tableEntity == null) {
             monoError(logger, new NullPointerException("TableEntity cannot be null"));
         }
@@ -244,42 +248,45 @@ public class TableAsyncClient {
     /**
      * if UpdateMode is MERGE, merges or fails if the entity doesn't exist. If UpdateMode is REPLACE replaces or
      * fails if the entity doesn't exist
+     *
      * @param updateMode which type of update to execute
      * @param tableEntity the entity to update
      * @param ifMatch if the etag of the entity must match the entity in the service or not
      * @return void
      */
     public Mono<Void> updateEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch) {
-        return updateEntity(updateMode,tableEntity,ifMatch,(Integer) null);
+        return updateEntity(updateMode, tableEntity, ifMatch, (Duration) null);
     }
 
     /**
      * if UpdateMode is MERGE, merges or fails if the entity doesn't exist. If UpdateMode is REPLACE replaces or
      * fails if the entity doesn't exist
+     *
      * @param updateMode which type of update to execute
      * @param tableEntity the entity to update
      * @param ifMatch if the etag of the entity must match the entity in the service or not
      * @param timeout max time for query to execute before erroring out
      * @return void
      */
-    public Mono<Void> updateEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Integer timeout) {
+    public Mono<Void> updateEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout) {
         return null;
     }
 
     /**
      * if UpdateMode is MERGE, merges or fails if the entity doesn't exist. If UpdateMode is REPLACE replaces or
      * fails if the entity doesn't exist
+     *
      * @param updateMode which type of update to execute
      * @param tableEntity the entity to update
      * @param ifMatch if the etag of the entity must match the entity in the service or not
      * @param timeout max time for query to execute before erroring out
      * @return a response
      */
-    public Mono<Response<Void>> updateEntityWithResponse(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Integer timeout) {
+    public Mono<Response<Void>> updateEntityWithResponse(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout) {
         return withContext(context -> updateEntityWithResponse(updateMode, tableEntity, ifMatch, timeout, context));
     }
 
-    private Mono<Response<Void>> updateEntityWithResponse(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Integer timeout, Context context) {
+    Mono<Response<Void>> updateEntityWithResponse(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout, Context context) {
         if (tableEntity == null) {
             monoError(logger, new NullPointerException("TableEntity cannot be null"));
         }
@@ -295,7 +302,7 @@ public class TableAsyncClient {
         throw new NullPointerException("UpdateMode cannot be null.");
     }
 
-    private Mono<Void> mergeEntity(TableEntity tableEntity, boolean ifMatch, int timeout, Context context) {
+    private Mono<Void> mergeEntity(TableEntity tableEntity, boolean ifMatch, Duration timeout, Context context) {
         if (tableEntity == null) {
             monoError(logger, new NullPointerException("TableEntity cannot be null"));
         }
@@ -306,10 +313,10 @@ public class TableAsyncClient {
         String matchParam = ifMatch ? tableEntity.getEtag() : "*";
 
         return impl.mergeEntityWithResponseAsync(tableName, tableEntity.getPartitionKey(), tableEntity.getRowKey(),
-            timeout, requestID, matchParam, tableEntity.getProperties(), null, context).then();
+            timeout.toMillisPart(), requestID, matchParam, tableEntity.getProperties(), null, context).then();
     }
 
-    private Mono<Response<Void>> mergeEntityWithResponse(TableEntity tableEntity, boolean ifMatch, int timeout, Context context) {
+    private Mono<Response<Void>> mergeEntityWithResponse(TableEntity tableEntity, boolean ifMatch, Duration timeout, Context context) {
         if (tableEntity == null) {
             monoError(logger, new NullPointerException("TableEntity cannot be null"));
         }
@@ -320,26 +327,26 @@ public class TableAsyncClient {
         String matchParam = ifMatch ? tableEntity.getEtag() : "*";
 
         return impl.mergeEntityWithResponseAsync(tableName, tableEntity.getPartitionKey(), tableEntity.getRowKey(),
-            timeout, requestID, matchParam, tableEntity.getProperties(), null, context).map(response -> {
-                return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
-                    null);
-            });
+            timeout.toMillisPart(), requestID, matchParam, tableEntity.getProperties(), null, context).map(response -> {
+            return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
+                null);
+        });
     }
 
-    private Mono<Boolean> existsEntity(TableEntity tableEntity, int timeout, Context context) {
+    private Mono<Boolean> existsEntity(TableEntity tableEntity, Duration timeout, Context context) {
         String requestID = "";
 
         return impl.queryEntitiesWithPartitionAndRowKeyWithResponseAsync(tableName, tableEntity.getPartitionKey(),
-            tableEntity.getRowKey(), timeout, requestID, null, context).map(response -> {
+            tableEntity.getRowKey(), timeout.toMillisPart(), requestID, null, context).map(response -> {
             return (response.getValue() != null);
         });
     }
 
-    private Mono<Response<Boolean>> existsEntityWithResponse(TableEntity tableEntity, int timeout, Context context) {
+    private Mono<Response<Boolean>> existsEntityWithResponse(TableEntity tableEntity, Duration timeout, Context context) {
         String requestID = "";
 
         return impl.queryEntitiesWithPartitionAndRowKeyWithResponseAsync(tableName, tableEntity.getPartitionKey(),
-            tableEntity.getRowKey(), timeout, requestID, null, context).map(response -> {
+            tableEntity.getRowKey(), timeout.toMillisPart(), requestID, null, context).map(response -> {
             return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
                 (response.getValue() != null));
 
@@ -365,7 +372,7 @@ public class TableAsyncClient {
      * @param timeout max time for query to execute before erroring out
      * @return void
      */
-    public Mono<Void> deleteEntity(TableEntity tableEntity, boolean ifMatch, Integer timeout) {
+    public Mono<Void> deleteEntity(TableEntity tableEntity, boolean ifMatch, Duration timeout) {
         if (tableEntity == null) {
             monoError(logger, new NullPointerException("TableEntity cannot be null"));
         }
@@ -380,14 +387,14 @@ public class TableAsyncClient {
      * @param timeout max time for query to execute before erroring out
      * @return a response
      */
-    public Mono<Response<Void>> deleteEntityWithResponse(TableEntity tableEntity, boolean ifMatch, int timeout) {
+    public Mono<Response<Void>> deleteEntityWithResponse(TableEntity tableEntity, boolean ifMatch, Duration timeout) {
         if (tableEntity == null) {
             monoError(logger, new NullPointerException("TableEntity cannot be null"));
         }
         return withContext(context -> deleteEntityWithResponse(tableEntity.getPartitionKey(), tableEntity.getRowKey(), ifMatch, tableEntity.getEtag(), timeout, context));
     }
 
-    private Mono<Response<Void>> deleteEntityWithResponse(TableEntity tableEntity, boolean ifMatch, int timeout, Context context) {
+    Mono<Response<Void>> deleteEntityWithResponse(TableEntity tableEntity, boolean ifMatch, Duration timeout, Context context) {
         if (tableEntity == null) {
             monoError(logger, new NullPointerException("TableEntity cannot be null"));
         }
@@ -417,7 +424,7 @@ public class TableAsyncClient {
      * @param timeout max time for query to execute before erroring out
      * @return void
      */
-    public Mono<Void> deleteEntity(String partitionKey, String rowKey, boolean ifMatch, String etag, Integer timeout) {
+    public Mono<Void> deleteEntity(String partitionKey, String rowKey, boolean ifMatch, String etag, Duration timeout) {
         return null;
     }
 
@@ -431,20 +438,20 @@ public class TableAsyncClient {
      * @param timeout max time for query to execute before erroring out
      * @return a response
      */
-    public Mono<Response<Void>> deleteEntityWithResponse(String partitionKey, String rowKey, boolean ifMatch, String etag, Integer timeout) {
+    public Mono<Response<Void>> deleteEntityWithResponse(String partitionKey, String rowKey, boolean ifMatch, String etag, Duration timeout) {
         String requestID = "";
         String matchParam = ifMatch ? etag : "*";
         return withContext(context -> impl.deleteEntityWithResponseAsync(tableName, partitionKey, rowKey,
-            matchParam, timeout, requestID, null, context)).map(response -> {
+            matchParam, timeout.toMillisPart(), requestID, null, context)).map(response -> {
             return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(), null);
         });
     }
 
-    private Mono<Response<Void>> deleteEntityWithResponse(String partitionKey, String rowKey, boolean ifMatch, String etag, Integer timeout, Context context) {
+    Mono<Response<Void>> deleteEntityWithResponse(String partitionKey, String rowKey, boolean ifMatch, String etag, Duration timeout, Context context) {
         String requestID = "";
         String matchParam = ifMatch ? etag : "*";
         return impl.deleteEntityWithResponseAsync(tableName, partitionKey, rowKey,
-            matchParam, timeout, requestID, null, context).map(response -> {
+            matchParam, timeout.toMillisPart(), requestID, null, context).map(response -> {
             return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(), null);
         });
     }

@@ -4,6 +4,9 @@ package com.azure.data.tables;
 
 import com.azure.core.annotation.ServiceClient;
 import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.Response;
+import com.azure.core.util.Context;
+import com.azure.data.tables.implementation.TablesImpl;
 import reactor.core.publisher.Mono;
 
 /**
@@ -13,17 +16,52 @@ import reactor.core.publisher.Mono;
     builder = TableServiceClientBuilder.class,
     isAsync = true)
 public class TableServiceAsyncClient {
+    private final TablesImpl impl = null;
 
     TableServiceAsyncClient() {
+    }
+
+    /**
+     * retrieves the async table client for the provided table or creates one if it doesn't exist
+     *
+     * @param name the name of the table
+     * @return associated TableAsyncClient
+     */
+    public TableAsyncClient getTableAsyncClient(String name) {
+        return null;
+    }
+
+    /**
+     * gets the client for this table
+     *
+     * @param tableName the table to get the client from
+     * @return the table client
+     */
+    public TableAsyncClient getTableClient(String tableName) {
+        return null;
     }
 
     /**
      * creates the table with the given name.  If a table with the same name already exists, the operation fails.
      *
      * @param name the name of the table to create
-     * @return a table client connected to the given table
+     * @return the azure table object for the created table
      */
     public Mono<AzureTable> createTable(String name) {
+        return null;
+    }
+
+    /**
+     * creates the table with the given name.  If a table with the same name already exists, the operation fails.
+     *
+     * @param name the name of the table to create
+     * @return a response wth the azure table object for the created table
+     */
+    public Mono<Response<AzureTable>> createTableWithResponse(String name) {
+        return null;
+    }
+
+    Mono<Response<AzureTable>> createTableWithResponse(String name, Context context) {
         return null;
     }
 
@@ -40,6 +78,20 @@ public class TableServiceAsyncClient {
     /**
      * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
      *
+     * @param name the name of the table to delete
+     * @return a response
+     */
+    public Mono<Response<Void>> deleteTableWithResponse(String name) {
+        return Mono.empty();
+    }
+
+    Mono<Response<Void>> deleteTableWithResponse(String name, Context context) {
+        return Mono.empty();
+    }
+
+    /**
+     * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
+     *
      * @param azureTable the table to delete
      * @return mono void
      */
@@ -48,17 +100,21 @@ public class TableServiceAsyncClient {
     }
 
     /**
-     * retrieves the async table client for the provided table or creates one if it doesn't exist
+     * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
      *
-     * @param name the name of the table
-     * @return associated TableAsyncClient
+     * @param azureTable the table to delete
+     * @return a response
      */
-    public TableAsyncClient getTableAsyncClient(String name) {
-        return null;
+    public Mono<Response<Void>> deleteTableWithResponse(AzureTable azureTable) {
+        return Mono.empty();
+    }
+
+    Mono<Response<Void>> deleteTableWithResponse(AzureTable azureTable, Context context) {
+        return Mono.empty();
     }
 
     /**
-     * query all the tables under the storage account and return them
+     * query all the tables under the storage account and returns the tables that fit the query params
      *
      * @param queryOptions the odata query object
      * @return a flux of the tables that met this criteria
@@ -68,12 +124,16 @@ public class TableServiceAsyncClient {
     }
 
     /**
-     * gets the client for this table
+     * query all the tables under the storage account and returns the tables that fit the query params
      *
-     * @param tableName the table to get the client from
-     * @return the table client
+     * @param queryOptions the odata query object
+     * @return a flux of the table responses that met this criteria
      */
-    public TableAsyncClient getClient(String tableName) {
+    public PagedFlux<Response<AzureTable>> queryTablesWithResponse(QueryOptions queryOptions) {
+        return null;
+    }
+
+    PagedFlux<Response<AzureTable>> queryTablesWithResponse(QueryOptions queryOptions, Context context) {
         return null;
     }
 }

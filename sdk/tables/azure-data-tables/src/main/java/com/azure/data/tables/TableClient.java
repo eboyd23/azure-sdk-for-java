@@ -3,9 +3,9 @@
 package com.azure.data.tables;
 
 import com.azure.core.annotation.ServiceClient;
-import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.http.rest.Response;
 import com.azure.core.util.Context;
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +24,16 @@ public class TableClient {
     }
 
     /**
-     * Queries and returns entities in the given table using the select and filter strings
+     * returns the table name associated with the client*
+     *
+     * @return table name
+     */
+    public String getTableName() {
+        return this.tableName;
+    }
+
+    /**
+     * Queries and returns entities in the given table using the odata QueryOptions
      *
      * @param queryOptions the odata query object
      * @return a list of the tables that fit the query
@@ -34,16 +43,96 @@ public class TableClient {
     }
 
     /**
-     * returns the entity with the given rowKey and ParitionKey
+     * Queries and returns entities in the given table using the odata QueryOptions
      *
-     * @param rowKey the given row key
-     * @param partitionKey the given partition key
-     * @return an entity that fits the criteria
+     * @param queryOptions the odata query object
+     * @param timeout max time for query to execute before erroring out
+     * @return a list of the tables that fit the query
      */
-    public TableEntity get(String rowKey, String partitionKey) {
+    public List<TableEntity> queryEntities(QueryOptions queryOptions, Duration timeout) {
         return null;
     }
 
+    /**
+     * Queries and returns entities in the given table using the odata QueryOptions
+     *
+     * @param queryOptions the odata query object
+     * @param timeout max time for query to execute before erroring out
+     * @param context the context of the query
+     * @return a list of the tables that fit the query
+     */
+    public List<TableEntity> queryEntities(QueryOptions queryOptions, Duration timeout, Context context) {
+        return null;
+    }
+
+    /**
+     * Queries and returns entities in the given table using the odata QueryOptions
+     *
+     * @param queryOptions the odata query object
+     * @param timeout max time for query to execute before erroring out
+     * @param context the context of the query
+     * @return a list responses with the tables that fit the query
+     */
+    public List<Response<TableEntity>> queryEntitiesWithResponse(QueryOptions queryOptions, Duration timeout, Context context) {
+        return null;
+    }
+
+    /**
+     * gets the entity which fits the given criteria
+     *
+     * @param rowKey the row key of the entity
+     * @param partitionKey the partition key of the entity
+     * @param ifMatch if the etag of the entity must match the found entity or not
+     * @param etag the etag, only required if the ifMatch param is true
+     * @return the table entity
+     */
+    public TableEntity getEntity(String rowKey, String partitionKey, Boolean ifMatch, String etag) {
+        return client.getEntity(rowKey, partitionKey, ifMatch, etag).block();
+    }
+
+    /**
+     * gets the entity which fits the given criteria
+     *
+     * @param rowKey the row key of the entity
+     * @param partitionKey the partition key of the entity
+     * @param ifMatch if the etag of the entity must match the found entity or not
+     * @param etag the etag, only required if the ifMatch param is true
+     * @param timeout max time for query to execute before erroring out
+     * @return a mono of the table entity
+     */
+    public TableEntity getEntity(String rowKey, String partitionKey, Boolean ifMatch, String etag, Duration timeout) {
+        return client.getEntity(rowKey, partitionKey, ifMatch, etag, timeout).block();
+    }
+
+    /**
+     * gets the entity which fits the given criteria
+     *
+     * @param rowKey the row key of the entity
+     * @param partitionKey the partition key of the entity
+     * @param ifMatch if the etag of the entity must match the found entity or not
+     * @param etag the etag, only required if the ifMatch param is true
+     * @param timeout max time for query to execute before erroring out
+     * @param context the context of the query
+     * @return a mono of the table entity
+     */
+    public TableEntity getEntity(String rowKey, String partitionKey, Boolean ifMatch, String etag, Duration timeout, Context context) {
+        return null;
+    }
+
+    /**
+     * gets the entity which fits the given criteria
+     *
+     * @param rowKey the row key of the entity
+     * @param partitionKey the partition key of the entity
+     * @param ifMatch if the etag of the entity must match the found entity or not
+     * @param etag the etag, only required if the ifMatch param is true
+     * @param timeout max time for query to execute before erroring out
+     * @param context the context of the query
+     * @return a mono of the response with the table entity
+     */
+    public Response<TableEntity> getEntityWithResponse(String rowKey, String partitionKey, Boolean ifMatch, String etag, Duration timeout, Context context) {
+        return getEntityWithResponse(rowKey, partitionKey, ifMatch, etag, timeout, context);
+    }
 
     /**
      * insert a TableEntity with the given properties and return that TableEntity. Property map must include
@@ -52,8 +141,46 @@ public class TableClient {
      * @param tableEntityProperties a map of properties for the TableEntity
      * @return the created TableEntity
      */
-    public  TableEntity createEntity(Map<String, Object> tableEntityProperties) {
-        return client.createEntity(tableEntityProperties).block();
+    public TableEntity createEntity(Map<String, Object> tableEntityProperties) {
+        return createEntity(tableEntityProperties, (Duration) null);
+    }
+
+    /**
+     * insert a TableEntity with the given properties and return that TableEntity. Property map must include
+     * rowKey and partitionKey
+     *
+     * @param tableEntityProperties a map of properties for the TableEntity
+     * @param timeout max time for query to execute before erroring out
+     * @return the created TableEntity
+     */
+    public TableEntity createEntity(Map<String, Object> tableEntityProperties, Duration timeout) {
+        return null;
+    }
+
+    /**
+     * insert a TableEntity with the given properties and return that TableEntity. Property map must include
+     * rowKey and partitionKey
+     *
+     * @param tableEntityProperties a map of properties for the TableEntity
+     * @param timeout max time for query to execute before erroring out
+     * @param context the context of the query
+     * @return the created TableEntity
+     */
+    public TableEntity createEntity(Map<String, Object> tableEntityProperties, Duration timeout, Context context) {
+        return null;
+    }
+
+    /**
+     * insert a TableEntity with the given properties and return that TableEntity. Property map must include
+     * rowKey and partitionKey
+     *
+     * @param tableEntityProperties a map of properties for the TableEntity
+     * @param timeout max time for query to execute before erroring out
+     * @param context the context of the query
+     * @return the created TableEntity in a response
+     */
+    public Response<TableEntity> createEntityWithResponse(Map<String, Object> tableEntityProperties, Duration timeout, Context context) {
+        return client.createEntityWithResponse(tableEntityProperties, timeout, context).block();
     }
 
     /**
@@ -61,25 +188,106 @@ public class TableClient {
      *
      * @param updateMode type of upsert
      * @param tableEntity entity to upsert
+     * @param ifMatch if the etag of the entity must match the entity in the service or not
      */
-    public Void upsertEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch) {
-        return client.upsertEntity(updateMode, tableEntity, ifMatch).block();
+    public void upsertEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch) {
     }
 
     /**
-     * based on Mode it either updates or fails if it does exists or replaces or fails if it does exists
+     * based on Mode it either inserts or merges if exists or inserts or merges if exists
      *
-     * @param updateMode type of update
-     * @param tableEntity entity to update
+     * @param updateMode type of upsert
+     * @param tableEntity entity to upsert
+     * @param ifMatch if the etag of the entity must match the entity in the service or not
+     * @param timeout max time for query to execute before erroring out
      */
-    public Void updateEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch) {
-        return client.updateEntity(updateMode, tableEntity, ifMatch).block();
+    public void upsertEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout) {
+    }
+
+    /**
+     * based on Mode it either inserts or merges if exists or inserts or merges if exists
+     *
+     * @param updateMode type of upsert
+     * @param tableEntity entity to upsert
+     * @param ifMatch if the etag of the entity must match the entity in the service or not
+     * @param timeout max time for query to execute before erroring out
+     * @param context the context of the query
+     */
+    public void upsertEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout, Context context) {
+    }
+
+    /**
+     * based on Mode it either inserts or merges if exists or inserts or merges if exists
+     *
+     * @param updateMode type of upsert
+     * @param tableEntity entity to upsert
+     * @param ifMatch if the etag of the entity must match the entity in the service or not
+     * @param timeout max time for query to execute before erroring out
+     * @param context the context of the query
+     * @return a response
+     */
+    public Response<Void> upsertEntityWithResponse(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout, Context context) {
+        return client.upsertEntityWithResponse(updateMode, tableEntity, ifMatch, timeout, context).block();
+    }
+
+    /**
+     * if UpdateMode is MERGE, merges or fails if the entity doesn't exist. If UpdateMode is REPLACE replaces or
+     * fails if the entity doesn't exist
+     *
+     * @param updateMode which type of update to execute
+     * @param tableEntity the entity to update
+     * @param ifMatch if the etag of the entity must match the entity in the service or not
+     */
+    public void updateEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch) {
+        client.updateEntity(updateMode, tableEntity, ifMatch).block();
+    }
+
+    /**
+     * if UpdateMode is MERGE, merges or fails if the entity doesn't exist. If UpdateMode is REPLACE replaces or
+     * fails if the entity doesn't exist
+     *
+     * @param updateMode which type of update to execute
+     * @param tableEntity the entity to update
+     * @param ifMatch if the etag of the entity must match the entity in the service or not
+     * @param timeout max time for query to execute before erroring out
+     */
+    public void updateEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout) {
+        client.updateEntity(updateMode, tableEntity, ifMatch, timeout).block();
+    }
+
+    /**
+     * if UpdateMode is MERGE, merges or fails if the entity doesn't exist. If UpdateMode is REPLACE replaces or
+     * fails if the entity doesn't exist
+     *
+     * @param updateMode which type of update to execute
+     * @param tableEntity the entity to update
+     * @param ifMatch if the etag of the entity must match the entity in the service or not
+     * @param timeout max time for query to execute before erroring out
+     * @param context the context of the query
+     */
+    public void updateEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout, Context context) {
+    }
+
+    /**
+     * if UpdateMode is MERGE, merges or fails if the entity doesn't exist. If UpdateMode is REPLACE replaces or
+     * fails if the entity doesn't exist
+     *
+     * @param updateMode which type of update to execute
+     * @param tableEntity the entity to update
+     * @param ifMatch if the etag of the entity must match the entity in the service or not
+     * @param timeout max time for query to execute before erroring out
+     * @param context the context of the query
+     * @return a response
+     */
+    public Response<Void> updateEntityWithResponse(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout, Context context) {
+        return updateEntityWithResponse(updateMode, tableEntity, ifMatch, timeout, context);
     }
 
     /**
      * deletes the given entity
      *
      * @param tableEntity entity to delete
+     * @param ifMatch if the etag of the entity must match the entity in the service or not
      */
     public void deleteEntity(TableEntity tableEntity, boolean ifMatch) {
         client.deleteEntity(tableEntity, ifMatch);
@@ -88,18 +296,86 @@ public class TableClient {
     /**
      * deletes the given entity
      *
-     * @param partitionKey the partition key
-     * @param rowKey the row key
+     * @param tableEntity entity to delete
+     * @param ifMatch if the etag of the entity must match the entity in the service or not
+     * @param timeout max time for query to execute before erroring out
      */
-    public void deleteEntity(String partitionKey, String rowKey, boolean ifMatch, String etag) {
-        client.deleteEntity(partitionKey, rowKey, ifMatch, etag).block();
+    public void deleteEntity(TableEntity tableEntity, boolean ifMatch, Duration timeout) {
     }
 
     /**
-     * returns the table name associated with the client*
-     * @return table name
+     * deletes the given entity
+     *
+     * @param tableEntity entity to delete
+     * @param ifMatch if the etag of the entity must match the entity in the service or not
+     * @param timeout max time for query to execute before erroring out
+     * @param context the context of the query
      */
-    public String getTableName() {
-        return this.tableName;
+    public void deleteEntity(TableEntity tableEntity, boolean ifMatch, Duration timeout, Context context) {
     }
+
+    /**
+     * deletes the given entity
+     *
+     * @param tableEntity entity to delete
+     * @param ifMatch if the etag of the entity must match the entity in the service or not
+     * @param timeout max time for query to execute before erroring out
+     * @param context the context of the query
+     * @return a response
+     */
+    public Response<Void> deleteEntityWithResponse(TableEntity tableEntity, boolean ifMatch, Duration timeout, Context context) {
+        return null;
+    }
+
+    /**
+     * inserts the TableEntity if it doesn't exist or replace it if it does
+     *
+     * @param partitionKey the partition key
+     * @param rowKey the row key
+     * @param ifMatch if the etag of the entity must match the entity in the service or not
+     * @param etag the etag for the entity, null if ifMatch is false
+     */
+    public void deleteEntity(String partitionKey, String rowKey, boolean ifMatch, String etag) {
+        client.deleteEntity(partitionKey, rowKey, ifMatch, etag);
+    }
+
+    /**
+     * inserts the TableEntity if it doesn't exist or replace it if it does
+     *
+     * @param partitionKey the partition key
+     * @param rowKey the row key
+     * @param ifMatch if the etag of the entity must match the entity in the service or not
+     * @param etag the etag for the entity, null if ifMatch is false
+     * @param timeout max time for query to execute before erroring out
+     */
+    public void deleteEntity(String partitionKey, String rowKey, boolean ifMatch, String etag, Duration timeout) {
+    }
+
+    /**
+     * inserts the TableEntity if it doesn't exist or replace it if it does
+     *
+     * @param partitionKey the partition key
+     * @param rowKey the row key
+     * @param ifMatch if the etag of the entity must match the entity in the service or not
+     * @param etag the etag for the entity, null if ifMatch is false
+     * @param timeout max time for query to execute before erroring out
+     * @param context the context of the query
+     */
+    public void deleteEntity(String partitionKey, String rowKey, boolean ifMatch, String etag, Duration timeout, Context context) {
+    }
+
+    /**
+     * inserts the TableEntity if it doesn't exist or replace it if it does
+     *
+     * @param partitionKey the partition key
+     * @param rowKey the row key
+     * @param ifMatch if the etag of the entity must match the entity in the service or not
+     * @param etag the etag for the entity, null if ifMatch is false
+     * @param timeout max time for query to execute before erroring out
+     * @return a response
+     */
+    public Response<Void> deleteEntityWithResponse(String partitionKey, String rowKey, boolean ifMatch, String etag, Duration timeout, Context context) {
+        return null;
+    }
+
 }

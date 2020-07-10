@@ -51,7 +51,7 @@ public class TableClientBuilder {
      * @return a sync tableClient
      */
     public TableClient buildClient() {
-        return new TableClient(tableName);
+        return new TableClient(tableName, null);
     }
 
     /**

@@ -29,6 +29,13 @@ public class TableEntity {
     /**
      * creates a new TableEntity
      *
+     */
+    public TableEntity() {
+    }
+
+    /**
+     * creates a new TableEntity
+     *
      * @param properties map of properties of the entity
      * @param etag the etag of the entity
      */

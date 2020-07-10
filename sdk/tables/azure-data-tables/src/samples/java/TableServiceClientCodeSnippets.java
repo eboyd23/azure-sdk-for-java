@@ -3,7 +3,6 @@
 package com.azure.data.tables;
 
 import com.azure.core.exception.HttpResponseException;
-import com.azure.core.http.rest.Page;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.util.logging.ClientLogger;
 import java.util.HashMap;
@@ -56,7 +55,7 @@ public class TableServiceClientCodeSnippets {
         QueryOptions queryOptions = new QueryOptions().setFilter("TableName eq OfficeSupplies");
 
         try {
-            List<AzureTable> responseTables = tableServiceClient.queryTables(queryOptions);
+            PagedIterable<AzureTable> responseTables = tableServiceClient.queryTables(queryOptions);
         } catch (HttpResponseException e) {
             System.err.println("Table Query Unsuccessful. Error: " + e);
         }
@@ -94,12 +93,12 @@ public class TableServiceClientCodeSnippets {
         String partitionKey = "markers";
         TableEntity tableEntity = null;
         try {
-            tableEntity = tableClient.get(rowKey, partitionKey);
+            tableEntity = tableClient.getEntity(rowKey, partitionKey, false, null);
         } catch (HttpResponseException e) {
             System.err.println("Get Entity Unsuccessful: " + e);
         }
         try {
-            tableClient.updateEntity(UpdateMode.REPLACE, tableEntity);
+            tableClient.updateEntity(UpdateMode.REPLACE, tableEntity,true);
         } catch (HttpResponseException e) {
             System.err.println("Update Entity Unsuccessful. Error: " + e);
         }
@@ -118,12 +117,12 @@ public class TableServiceClientCodeSnippets {
         String partitionKey = "markers";
         TableEntity tableEntity = null;
         try {
-            tableEntity = tableClient.get(rowKey, partitionKey);
+            tableEntity = tableClient.getEntity(rowKey, partitionKey, false, null);
         } catch (HttpResponseException e) {
             System.err.println("Get Entity Unsuccessful: " + e);
         }
         try {
-            tableClient.upsertEntity(UpdateMode.REPLACE, tableEntity);
+            tableClient.upsertEntity(UpdateMode.REPLACE, tableEntity, true);
         } catch (HttpResponseException e) {
             System.err.println("Upsert Entity Unsuccessful. Error: " + e);
         }
@@ -142,12 +141,12 @@ public class TableServiceClientCodeSnippets {
         String partitionKey = "markers";
         TableEntity tableEntity = null;
         try {
-            tableEntity = tableClient.get(rowKey, partitionKey);
+            tableEntity = tableClient.getEntity(rowKey, partitionKey, false, null);
         } catch (HttpResponseException e) {
             System.err.println("Get Entity Unsuccessful: " + e);
         }
         try {
-            tableClient.deleteEntity(tableEntity);
+            tableClient.deleteEntity(tableEntity, true);
         } catch (HttpResponseException e) {
             System.err.println("Delete Entity Unsuccessful. Error: " + e);
         }
@@ -184,7 +183,7 @@ public class TableServiceClientCodeSnippets {
         String rowKey = "crayolaMarkers";
         String partitionKey = "markers";
         try {
-            TableEntity tableEntity = tableClient.get(rowKey, partitionKey);
+            TableEntity tableEntity = tableClient.getEntity(rowKey, partitionKey, false, null);
         } catch (HttpResponseException e) {
             System.err.println("Get Entity Unsuccessful. Entity may not exist: " + e);
         }

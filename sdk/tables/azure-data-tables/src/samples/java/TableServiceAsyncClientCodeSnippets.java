@@ -59,16 +59,10 @@ public class TableServiceAsyncClientCodeSnippets {
     /**
      * insert entity code snippet
      */
-    private void insertEntity() {
+    private void createEntity() {
         TableServiceAsyncClient tableServiceAsyncClient = new TableServiceClientBuilder()
             .connectionString("connectionString")
             .buildAsyncClient();
-
-        TableAsyncClient tableAsyncClient = tableServiceAsyncClient.getClient("OfficeSupplies");
-        String row = "crayolaMarkers";
-        String partitionKey = "markers";
-
-        tableAsyncClient.insertEntity(new TableEntity(row, partitionKey, null)).subscribe(tableEntity -> {
 
         TableAsyncClient tableAsyncClient = tableServiceAsyncClient.getTableAsyncClient("OfficeSupplies");
         Map<String, Object> properties = new HashMap<>();
@@ -94,9 +88,9 @@ public class TableServiceAsyncClientCodeSnippets {
         String rowKey = "crayolaMarkers";
         String partitionKey = "markers";
 
-        tableAsyncClient.get(rowKey, partitionKey).flatMap(tableEntity -> {
+        tableAsyncClient.getEntity(rowKey, partitionKey, false, null).flatMap(tableEntity -> {
             System.out.println("Table Entity: " + tableEntity);
-            return tableAsyncClient.deleteEntity(tableEntity);
+            return tableAsyncClient.deleteEntity(tableEntity, false);
         }).subscribe(
             Void -> { },
             error -> System.err.println("There was an error deleting the Entity. Error: " + error),
@@ -115,10 +109,10 @@ public class TableServiceAsyncClientCodeSnippets {
         String rowKey = "crayolaMarkers";
         String partitionKey = "markers";
 
-        tableAsyncClient.get(rowKey, partitionKey).flatMap(tableEntity -> {
+        tableAsyncClient.getEntity(rowKey, partitionKey, false, null).flatMap(tableEntity -> {
             System.out.println("Table Entity: " + tableEntity);
             tableEntity.addProperty("Price", "5");
-            Mono<Void> updateEntityMono = tableAsyncClient.upsertEntity(UpdateMode.MERGE, tableEntity);
+            Mono<Void> updateEntityMono = tableAsyncClient.upsertEntity(UpdateMode.MERGE, tableEntity, false);
             return updateEntityMono;
         }).subscribe(
             Void -> { },
@@ -138,10 +132,10 @@ public class TableServiceAsyncClientCodeSnippets {
         String rowKey = "crayolaMarkers";
         String partitionKey = "markers";
 
-        tableAsyncClient.get(rowKey, partitionKey).flatMap(tableEntity -> {
+        tableAsyncClient.getEntity(rowKey, partitionKey, false, null).flatMap(tableEntity -> {
             System.out.println("Table Entity: " + tableEntity);
             tableEntity.addProperty("Price", "5");
-            Mono<Void> updateEntityMono = tableAsyncClient.updateEntity(UpdateMode.REPLACE, tableEntity);
+            Mono<Void> updateEntityMono = tableAsyncClient.updateEntity(UpdateMode.REPLACE, tableEntity, false);
             return updateEntityMono;
         }).subscribe(
             Void -> { },
@@ -179,7 +173,7 @@ public class TableServiceAsyncClientCodeSnippets {
 
         TableAsyncClient tableAsyncClient = tableServiceAsyncClient.getTableAsyncClient("OfficeSupplies");
 
-        tableAsyncClient.get("crayolaMarkers", "markers")
+        tableAsyncClient.getEntity("crayolaMarkers", "markers", false, null)
             .subscribe(tableEntity -> {
                 System.out.println("Table Entity exists: " + tableEntity);
             }, error -> {

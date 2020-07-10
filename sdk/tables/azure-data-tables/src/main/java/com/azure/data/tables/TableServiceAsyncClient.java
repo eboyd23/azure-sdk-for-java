@@ -32,16 +32,6 @@ public class TableServiceAsyncClient {
     }
 
     /**
-     * gets the client for this table
-     *
-     * @param tableName the table to get the client from
-     * @return the table client
-     */
-    public TableAsyncClient getTableClient(String tableName) {
-        return null;
-    }
-
-    /**
      * creates the table with the given name.  If a table with the same name already exists, the operation fails.
      *
      * @param name the name of the table to create

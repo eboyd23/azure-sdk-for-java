@@ -2,7 +2,9 @@
 // Licensed under the MIT License.
 package com.azure.data.tables;
 
+import com.azure.core.annotation.ReturnType;
 import com.azure.core.annotation.ServiceClient;
+import com.azure.core.annotation.ServiceMethod;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.http.rest.Response;
 import com.azure.core.util.Context;
@@ -26,6 +28,7 @@ public class TableServiceClient {
      * @param name the name of the table to create
      * @return AzureTable of the created table
      */
+    @ServiceMethod(returns = ReturnType.SINGLE)
     public AzureTable createTable(String name) {
         return client.createTable(name).block();
     }
@@ -37,6 +40,7 @@ public class TableServiceClient {
      * @param context the context of the query
      * @return AzureTable of the created table
      */
+    @ServiceMethod(returns = ReturnType.SINGLE)
     public AzureTable createTable(String name, Context context) {
         return null;
     }
@@ -48,6 +52,7 @@ public class TableServiceClient {
      * @param context the context of the query
      * @return response with azureTable of the created table
      */
+    @ServiceMethod(returns = ReturnType.SINGLE)
     public Response<AzureTable> createTableWithResponse(String name, Context context) {
         return null;
     }
@@ -57,6 +62,7 @@ public class TableServiceClient {
      *
      * @param name the name of the table to be deleted
      */
+    @ServiceMethod(returns = ReturnType.SINGLE)
     public void deleteTable(String name) {
         client.deleteTable(name).block();
     }
@@ -67,6 +73,7 @@ public class TableServiceClient {
      * @param name the name of the table to be deleted
      * @param context the context of the query
      */
+    @ServiceMethod(returns = ReturnType.SINGLE)
     public void deleteTable(String name, Context context) {
     }
 
@@ -77,6 +84,7 @@ public class TableServiceClient {
      * @param context the context of the query
      * @return response
      */
+    @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> deleteTableWithResponse(String name, Context context) {
         return Mono.empty();
     }
@@ -86,6 +94,7 @@ public class TableServiceClient {
      *
      * @param azureTable the table to be deleted
      */
+    @ServiceMethod(returns = ReturnType.SINGLE)
     public void deleteTable(AzureTable azureTable) {
         client.deleteTable(azureTable.getName()).block();
     }
@@ -96,6 +105,7 @@ public class TableServiceClient {
      * @param azureTable the table to be deleted
      * @param context the context of the query
      */
+    @ServiceMethod(returns = ReturnType.SINGLE)
     public void deleteTable(AzureTable azureTable, Context context) {
     }
 
@@ -106,6 +116,7 @@ public class TableServiceClient {
      * @param context the context of the query
      * @return response
      */
+    @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> deleteTableWithResponse(AzureTable azureTable, Context context) {
         return Mono.empty();
     }
@@ -137,6 +148,7 @@ public class TableServiceClient {
      * @param queryOptions the odata query object
      * @return a list of tables that meet the query
      */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<AzureTable> queryTables(QueryOptions queryOptions) {
         return null;
     }
@@ -149,6 +161,7 @@ public class TableServiceClient {
      * @param context context of the query
      * @return a list of tables that meet the query
      */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<AzureTable> queryTables(QueryOptions queryOptions, Context context) {
         return null;
     }
@@ -161,6 +174,7 @@ public class TableServiceClient {
      * @param context context of the query
      * @return a response of a list of tables that meet the query
      */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
     Response<PagedIterable<AzureTable>> queryTablesWithResponse(QueryOptions queryOptions, Context context) {
         return null;
     }

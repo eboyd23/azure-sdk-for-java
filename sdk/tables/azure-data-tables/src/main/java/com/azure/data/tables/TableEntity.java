@@ -89,7 +89,7 @@ public class TableEntity {
 
     /**
      * sets the etag for the entity
-     * @param etag
+     * @param etag the etag of the entity
      */
     public void setEtag(String etag) {
         this.etag = etag;

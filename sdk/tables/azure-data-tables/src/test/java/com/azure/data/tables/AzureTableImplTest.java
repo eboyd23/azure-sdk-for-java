@@ -17,8 +17,8 @@ import com.azure.core.http.policy.RetryPolicy;
 import com.azure.core.test.TestBase;
 import com.azure.core.util.Context;
 import com.azure.core.util.logging.ClientLogger;
+import com.azure.data.tables.implementation.AzureTableBuilder;
 import com.azure.data.tables.implementation.AzureTableImpl;
-import com.azure.data.tables.implementation.AzureTableImplBuilder;
 import com.azure.data.tables.implementation.models.OdataMetadataFormat;
 import com.azure.data.tables.implementation.models.QueryOptions;
 import com.azure.data.tables.implementation.models.ResponseFormat;
@@ -79,7 +79,7 @@ public class AzureTableImplTest extends TestBase {
             .httpClient(httpClientToUse)
             .policies(policies.toArray(new HttpPipelinePolicy[0]))
             .build();
-        azureTable = new AzureTableImplBuilder()
+        azureTable = new AzureTableBuilder()
             .pipeline(pipeline)
             .version("2019-02-02")
             .url(storageConnectionString.getTableEndpoint().getPrimaryUri())

@@ -8,6 +8,7 @@ import com.azure.core.util.Context;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
+import reactor.core.publisher.Mono;
 
 /**
  * sync client for table operations
@@ -266,6 +267,7 @@ public class TableClient {
      * @param context the context of the query
      */
     public void updateEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout, Context context) {
+
     }
 
     /**
@@ -290,7 +292,7 @@ public class TableClient {
      * @param ifMatch if the etag of the entity must match the entity in the service or not
      */
     public void deleteEntity(TableEntity tableEntity, boolean ifMatch) {
-        client.deleteEntity(tableEntity, ifMatch);
+        deleteEntity(tableEntity, ifMatch, null);
     }
 
     /**
@@ -301,6 +303,7 @@ public class TableClient {
      * @param timeout max time for query to execute before erroring out
      */
     public void deleteEntity(TableEntity tableEntity, boolean ifMatch, Duration timeout) {
+        client.deleteEntity(tableEntity, ifMatch, timeout).block();
     }
 
     /**
@@ -312,6 +315,7 @@ public class TableClient {
      * @param context the context of the query
      */
     public void deleteEntity(TableEntity tableEntity, boolean ifMatch, Duration timeout, Context context) {
+        deleteEntityWithResponse(tableEntity, ifMatch, timeout, context).getValue();
     }
 
     /**
@@ -324,7 +328,7 @@ public class TableClient {
      * @return a response
      */
     public Response<Void> deleteEntityWithResponse(TableEntity tableEntity, boolean ifMatch, Duration timeout, Context context) {
-        return null;
+        return client.deleteEntityWithResponse(tableEntity, ifMatch, timeout, context).block();
     }
 
     /**
@@ -349,6 +353,7 @@ public class TableClient {
      * @param timeout max time for query to execute before erroring out
      */
     public void deleteEntity(String partitionKey, String rowKey, boolean ifMatch, String etag, Duration timeout) {
+        client.deleteEntity(partitionKey, rowKey, ifMatch, etag, timeout);
     }
 
     /**
@@ -362,6 +367,7 @@ public class TableClient {
      * @param context the context of the query
      */
     public void deleteEntity(String partitionKey, String rowKey, boolean ifMatch, String etag, Duration timeout, Context context) {
+        deleteEntityWithResponse(partitionKey, rowKey, ifMatch, etag, timeout, context).getValue();
     }
 
     /**
@@ -375,7 +381,7 @@ public class TableClient {
      * @return a response
      */
     public Response<Void> deleteEntityWithResponse(String partitionKey, String rowKey, boolean ifMatch, String etag, Duration timeout, Context context) {
-        return null;
+        return client.deleteEntityWithResponse(partitionKey, rowKey,ifMatch, etag, timeout, context).block();
     }
 
 }

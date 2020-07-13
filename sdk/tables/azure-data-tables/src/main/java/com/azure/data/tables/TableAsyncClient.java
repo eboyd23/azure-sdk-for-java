@@ -96,7 +96,7 @@ public class TableAsyncClient {
      * @return a mono of the table entity
      */
     public Mono<TableEntity> getEntity(String rowKey, String partitionKey, Boolean ifMatch, String etag) {
-        return null;
+        return getEntity(rowKey, partitionKey, ifMatch, etag, null);
     }
 
     /**
@@ -110,7 +110,7 @@ public class TableAsyncClient {
      * @return a mono of the table entity
      */
     public Mono<TableEntity> getEntity(String rowKey, String partitionKey, Boolean ifMatch, String etag, Duration timeout) {
-        return null;
+        return getEntityWithResponse(rowKey, partitionKey, ifMatch, etag, timeout).flatMap(response -> Mono.justOrEmpty(response.getValue()));
     }
 
     /**
@@ -124,11 +124,23 @@ public class TableAsyncClient {
      * @return a mono of the response with the table entity
      */
     public Mono<Response<TableEntity>> getEntityWithResponse(String rowKey, String partitionKey, Boolean ifMatch, String etag, Duration timeout) {
-        return null;
+        return withContext(context -> getEntityWithResponse(rowKey, partitionKey, ifMatch, etag, timeout, context));
     }
 
     Mono<Response<TableEntity>> getEntityWithResponse(String rowKey, String partitionKey, Boolean ifMatch, String etag, Duration timeout, Context context) {
-        return null;
+        try {
+            return impl.queryEntitiesWithPartitionAndRowKeyWithResponseAsync(tableName, partitionKey, rowKey, timeout.toMillisPart(), "", null, context).flatMap(response -> {
+                for (Map<String, Object> m : response.getValue().getValue()) {
+                    if (m.get("PartitionKey").equals(partitionKey) && m.get("RowKey").equals(rowKey)) {
+                        return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
+                            new TableEntity(m));
+                    }
+                }
+                //return monoError(logger, new RuntimeException("entity not found"));
+            });
+        } catch (RuntimeException ex) {
+            return monoError(logger, ex);
+        }
     }
 
     /**
@@ -139,7 +151,7 @@ public class TableAsyncClient {
      * @return the created TableEntity
      */
     public Mono<TableEntity> createEntity(Map<String, Object> tableEntityProperties) {
-        return createEntity(tableEntityProperties, (Duration) null);
+        return createEntity(tableEntityProperties, null);
     }
 
     /**
@@ -151,7 +163,7 @@ public class TableAsyncClient {
      * @return the created TableEntity
      */
     public Mono<TableEntity> createEntity(Map<String, Object> tableEntityProperties, Duration timeout) {
-        return null;
+        return createEntityWithResponse(tableEntityProperties, timeout).flatMap(response -> Mono.justOrEmpty(response.getValue()));
     }
 
     /**
@@ -200,7 +212,7 @@ public class TableAsyncClient {
      * @return void
      */
     public Mono<Void> upsertEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout) {
-        return null;
+        return upsertEntityWithResponse(updateMode, tableEntity, ifMatch, timeout).flatMap(response -> Mono.justOrEmpty(response.getValue()));
     }
 
     /**
@@ -269,7 +281,7 @@ public class TableAsyncClient {
      * @return void
      */
     public Mono<Void> updateEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout) {
-        return null;
+        return updateEntityWithResponse(updateMode, tableEntity, ifMatch, timeout).flatMap(response -> Mono.justOrEmpty(response.getValue()));
     }
 
     /**
@@ -425,7 +437,7 @@ public class TableAsyncClient {
      * @return void
      */
     public Mono<Void> deleteEntity(String partitionKey, String rowKey, boolean ifMatch, String etag, Duration timeout) {
-        return null;
+        return deleteEntityWithResponse(partitionKey, rowKey, ifMatch, etag, timeout).flatMap(response -> Mono.justOrEmpty(response.getValue()));
     }
 
     /**
@@ -439,12 +451,7 @@ public class TableAsyncClient {
      * @return a response
      */
     public Mono<Response<Void>> deleteEntityWithResponse(String partitionKey, String rowKey, boolean ifMatch, String etag, Duration timeout) {
-        String requestID = "";
-        String matchParam = ifMatch ? etag : "*";
-        return withContext(context -> impl.deleteEntityWithResponseAsync(tableName, partitionKey, rowKey,
-            matchParam, timeout.toMillisPart(), requestID, null, context)).map(response -> {
-            return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(), null);
-        });
+        return withContext(context -> deleteEntityWithResponse(partitionKey, rowKey, ifMatch, etag, timeout));
     }
 
     Mono<Response<Void>> deleteEntityWithResponse(String partitionKey, String rowKey, boolean ifMatch, String etag, Duration timeout, Context context) {

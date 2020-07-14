@@ -4,12 +4,13 @@
 package com.azure.data.tables;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.data.tables.implementation.models.QueryOptions;
 
 /**
  * helps construct a query
  */
 @Fluent
-public final class QueryOptions {
+public final class QueryParams {
     private Integer top;
     private String select;
     private String filter;
@@ -29,7 +30,7 @@ public final class QueryOptions {
      * @param top the top value to set.
      * @return the QueryOptions object itself.
      */
-    public QueryOptions setTop(Integer top) {
+    public QueryParams setTop(Integer top) {
         this.top = top;
         return this;
     }
@@ -51,7 +52,7 @@ public final class QueryOptions {
      * @param select the select value to set.
      * @return the QueryOptions object itself.
      */
-    public QueryOptions setSelect(String select) {
+    public QueryParams setSelect(String select) {
         this.select = select;
         return this;
     }
@@ -71,9 +72,16 @@ public final class QueryOptions {
      * @param filter the filter value to set.
      * @return the QueryOptions object itself.
      */
-    public QueryOptions setFilter(String filter) {
+    public QueryParams setFilter(String filter) {
         this.filter = filter;
         return this;
+    }
+
+    private QueryOptions convertToQueryOptions(){
+        return new QueryOptions()
+            .setSelect(this.select)
+            .setTop(this.top)
+            .setFilter(this.filter);
     }
 }
 

@@ -10,7 +10,6 @@ import com.azure.core.util.Context;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
-import reactor.core.publisher.Mono;
 
 /**
  * sync client for table operations
@@ -42,7 +41,7 @@ public class TableClient {
      * @return a list of the tables that fit the query
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public List<TableEntity> queryEntities(QueryOptions queryOptions) {
+    public List<TableEntity> queryEntities(QueryParams queryOptions) {
         return null;
     }
 
@@ -54,7 +53,7 @@ public class TableClient {
      * @return a list of the tables that fit the query
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public List<TableEntity> queryEntities(QueryOptions queryOptions, Duration timeout) {
+    public List<TableEntity> queryEntities(QueryParams queryOptions, Duration timeout) {
         return null;
     }
 
@@ -67,7 +66,7 @@ public class TableClient {
      * @return a list of the tables that fit the query
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public List<TableEntity> queryEntities(QueryOptions queryOptions, Duration timeout, Context context) {
+    public List<TableEntity> queryEntities(QueryParams queryOptions, Duration timeout, Context context) {
         return null;
     }
 
@@ -80,7 +79,7 @@ public class TableClient {
      * @return a list responses with the tables that fit the query
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public List<Response<TableEntity>> queryEntitiesWithResponse(QueryOptions queryOptions, Duration timeout, Context context) {
+    public List<Response<TableEntity>> queryEntitiesWithResponse(QueryParams queryOptions, Duration timeout, Context context) {
         return null;
     }
 

@@ -41,7 +41,7 @@ public class TableAsyncClient {
      *
      * @return table name
      */
-    public Mono<String> getTableName() {
+    public String getTableName() {
         return Mono.empty();
     }
 
@@ -52,7 +52,7 @@ public class TableAsyncClient {
      * @return a paged flux of all the entity which fit this criteria
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<TableEntity> queryEntities(QueryOptions queryOptions) {
+    public PagedFlux<TableEntity> queryEntities(QueryParams queryOptions) {
         return null;
     }
 
@@ -64,7 +64,7 @@ public class TableAsyncClient {
      * @return a paged flux of all the entity which fit this criteria
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<TableEntity> queryEntities(QueryOptions queryOptions, Duration timeout) {
+    public PagedFlux<TableEntity> queryEntities(QueryParams queryOptions, Duration timeout) {
         return null;
     }
 
@@ -76,17 +76,17 @@ public class TableAsyncClient {
      * @return a paged flux of responses of all the entity which fit this criteria
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<Response<TableEntity>> queryEntitiesWithResponse(QueryOptions queryOptions, Duration timeout) {
+    public PagedFlux<Response<TableEntity>> queryEntitiesWithResponse(QueryParams queryOptions, Duration timeout) {
         return null;
     }
 
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    private PagedFlux<Response<TableEntity>> queryEntitiesWithResponse(QueryOptions queryOptions, Duration timeout, Context context) {
+    private PagedFlux<Response<TableEntity>> queryEntitiesWithResponse(QueryParams queryOptions, Duration timeout, Context context) {
         return null;
     }
 
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    private Mono<PagedResponse<TableEntity>> queryFirstPageEntities(QueryOptions queryOptions, Context context) {
+    private Mono<PagedResponse<TableEntity>> queryFirstPageEntities(QueryParams queryOptions, Context context) {
         return null;
     }
 

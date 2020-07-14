@@ -149,7 +149,7 @@ public class TableServiceClient {
      * @return a list of tables that meet the query
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<AzureTable> queryTables(QueryOptions queryOptions) {
+    public PagedIterable<AzureTable> queryTables(QueryParams queryOptions) {
         return null;
     }
 
@@ -162,7 +162,7 @@ public class TableServiceClient {
      * @return a list of tables that meet the query
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<AzureTable> queryTables(QueryOptions queryOptions, Context context) {
+    public PagedIterable<AzureTable> queryTables(QueryParams queryOptions, Context context) {
         return null;
     }
 
@@ -175,7 +175,7 @@ public class TableServiceClient {
      * @return a response of a list of tables that meet the query
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    Response<PagedIterable<AzureTable>> queryTablesWithResponse(QueryOptions queryOptions, Context context) {
+    Response<PagedIterable<AzureTable>> queryTablesWithResponse(QueryParams queryOptions, Context context) {
         return null;
     }
 

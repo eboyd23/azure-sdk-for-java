@@ -12,26 +12,14 @@ import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedResponse;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
-import com.azure.core.http.rest.SimpleResponse;
-import com.azure.core.util.Configuration;
 import com.azure.core.util.Context;
 import com.azure.core.util.IterableStream;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.data.tables.implementation.TablesImpl;
-import com.azure.data.tables.implementation.models.TableResponse;
-import com.azure.data.tables.implementation.models.TableResponseProperties;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import reactor.core.publisher.Mono;
 
-import static com.azure.core.util.FluxUtil.monoError;
 import static com.azure.core.util.FluxUtil.withContext;
 
 /**
@@ -153,7 +141,7 @@ public class TableServiceAsyncClient {
      * @return a flux of the tables that met this criteria
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<AzureTable> queryTables(QueryOptions queryOptions) {
+    public PagedFlux<AzureTable> queryTables(QueryParams queryOptions) {
         return null;
     }
 ////        return new PagedFlux<>(

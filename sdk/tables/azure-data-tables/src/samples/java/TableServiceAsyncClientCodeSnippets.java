@@ -47,7 +47,7 @@ public class TableServiceAsyncClientCodeSnippets {
         TableServiceAsyncClient tableServiceAsyncClient = new TableServiceClientBuilder()
             .connectionString("connectionString")
             .buildAsyncClient();
-        QueryOptions queryOptions = new QueryOptions().setFilter("TableName eq OfficeSupplies");
+        QueryParams queryOptions = new QueryParams().setFilter("TableName eq OfficeSupplies");
 
         tableServiceAsyncClient.queryTables(queryOptions).subscribe(azureTable -> {
             System.out.println(azureTable.getName());
@@ -152,7 +152,7 @@ public class TableServiceAsyncClientCodeSnippets {
             .buildAsyncClient();
 
         TableAsyncClient tableAsyncClient = tableServiceAsyncClient.getTableAsyncClient("OfficeSupplies");
-        QueryOptions queryOptions = new QueryOptions()
+        QueryParams queryOptions = new QueryParams()
             .setFilter("Product eq markers")
             .setSelect("Seller, Price");
 

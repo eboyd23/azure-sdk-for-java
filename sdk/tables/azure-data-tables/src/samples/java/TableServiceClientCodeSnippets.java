@@ -52,7 +52,7 @@ public class TableServiceClientCodeSnippets {
             .connectionString("connectionString")
             .buildClient();
 
-        QueryOptions queryOptions = new QueryOptions().setFilter("TableName eq OfficeSupplies");
+        QueryParams queryOptions = new QueryParams().setFilter("TableName eq OfficeSupplies");
 
         try {
             PagedIterable<AzureTable> responseTables = tableServiceClient.queryTables(queryOptions);
@@ -161,7 +161,7 @@ public class TableServiceClientCodeSnippets {
             .tableName("OfficeSupplies")
             .buildClient();
 
-        QueryOptions queryOptions = new QueryOptions()
+        QueryParams queryOptions = new QueryParams()
             .setFilter("Product eq markers")
             .setSelect("Seller, Price");
         try {

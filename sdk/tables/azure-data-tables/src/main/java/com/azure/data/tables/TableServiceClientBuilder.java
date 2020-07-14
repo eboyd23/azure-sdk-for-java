@@ -217,7 +217,7 @@ public class TableServiceClientBuilder {
      * @return the updated TableServiceClient builder
      * @throws NullPointerException If {@code credential} is {@code null}.
      */
-    public TableServiceClientBuilder credential(TablesSharedKeyCredential credential) {
+    public TableServiceClientBuilder credential(TokenCredential credential) {
         this.tablesSharedKeyCredential = Objects.requireNonNull(tablesSharedKeyCredential, "credential cannot"
             + "be null");
         return this;

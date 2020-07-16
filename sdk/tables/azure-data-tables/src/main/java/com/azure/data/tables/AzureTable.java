@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 package com.azure.data.tables;
 
-import com.azure.data.tables.TableClient;
-
 /**
  * class for a table object
  */

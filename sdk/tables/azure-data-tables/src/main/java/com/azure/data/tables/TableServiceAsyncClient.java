@@ -11,6 +11,7 @@ import com.azure.core.exception.HttpResponseException;
 import com.azure.core.exception.ResourceExistsException;
 import com.azure.core.exception.ResourceModifiedException;
 import com.azure.core.exception.ResourceNotFoundException;
+import com.azure.core.http.HttpHeader;
 import com.azure.core.http.HttpHeaders;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.HttpPipelineBuilder;
@@ -148,7 +149,10 @@ public class TableServiceAsyncClient {
         context = context == null ? Context.NONE : context;
         try {
             return impl.createWithResponseAsync(new TableProperties().setTableName(tableName), null, ResponseFormat.RETURN_CONTENT, null, context)
-                .onErrorMap(TableServiceAsyncClient::mapException)
+                //.onErrorMap(TableServiceAsyncClient::mapException)
+                .onErrorMap(error -> {
+                    System.out.print(error);
+                    return new Exception();})
                 .handle((response, sink) -> {
                     if (response.getValue() == null) {
                         sink.error(new NullPointerException("create call returned null"));
@@ -173,8 +177,8 @@ public class TableServiceAsyncClient {
         if (!(exception instanceof TableServiceErrorException)) {
             return exception;
         }
-        final TableServiceErrorException managementError = ((TableServiceErrorException) exception);
-        final TableServiceError error = managementError.getValue();
+        final TableServiceErrorException tableError = ((TableServiceErrorException) exception);
+        final TableServiceError error = tableError.getValue();
         return new Exception(error.getMessage()); //TODO: fix this because it use to be a switch
     }
 
@@ -291,6 +295,9 @@ public class TableServiceAsyncClient {
                     return azureTable;
                 }).collect(Collectors.toList());
             try {
+                HttpHeader token = response.getHeaders().get("x-ms-continuation-NextTableName");
+                String continuationToken = token != null ? token.getValue() : null;
+                return Mono.just(new FeedPa)
                 return Mono.just(extractPage(response, tables, response.getRequest().getUrl()));
             } catch (UnsupportedEncodingException error) {
                 return Mono.error(new RuntimeException("Could not parse response into FeedPage<QueueDescription>",
@@ -326,7 +333,7 @@ public class TableServiceAsyncClient {
 
         if (nextTable.isPresent()) {
             return new FeedPage<TResult>(response.getStatusCode(), response.getHeaders(), response.getRequest(), entities,
-                2); //nextTable.get()
+                nextTable.get());
         } else {
             logger.warning("There should have been a skip parameter for the next page.");
             return new FeedPage<>(response.getStatusCode(), response.getHeaders(), response.getRequest(), entities);
@@ -364,12 +371,12 @@ public class TableServiceAsyncClient {
          * @param entries Items in the page.
          * @param skip Number of elements to "skip".
          */
-        private FeedPage(int statusCode, HttpHeaders header, HttpRequest request, List<T> entries, int skip) {
+        private FeedPage(int statusCode, HttpHeaders header, HttpRequest request, List<T> entries, String nextTableName) {
             this.statusCode = statusCode;
             this.header = header;
             this.request = request;
             this.entries = new IterableStream<>(entries);
-            this.continuationToken = String.valueOf(skip);
+            this.continuationToken = nextTableName;
         }
 
         @Override

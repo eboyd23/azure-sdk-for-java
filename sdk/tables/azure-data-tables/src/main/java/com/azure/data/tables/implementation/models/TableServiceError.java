@@ -16,6 +16,12 @@ public final class TableServiceError {
     @JsonProperty(value = "Message")
     private String message;
 
+    /*
+     * The service error code.
+     */
+    @JsonProperty(value = "Code")
+    private Integer code;
+
     /**
      * Get the message property: The error message.
      *
@@ -33,6 +39,26 @@ public final class TableServiceError {
      */
     public TableServiceError setMessage(String message) {
         this.message = message;
+        return this;
+    }
+
+    /**
+     * Get the code property: The service error code.
+     *
+     * @return the code value.
+     */
+    public Integer getCode() {
+        return this.code;
+    }
+
+    /**
+     * Set the code property: The service error code.
+     *
+     * @param code the code value to set.
+     * @return the ServiceBusManagementError object itself.
+     */
+    public TableServiceError setCode(Integer code) {
+        this.code = code;
         return this;
     }
 }

@@ -182,4 +182,5 @@ public class TableClientBuilder {
         this.serviceVersion = version;
         return this;
     }
+
 }

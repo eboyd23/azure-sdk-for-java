@@ -5,29 +5,31 @@ package com.azure.data.tables;
 import com.azure.core.annotation.ServiceClientBuilder;
 import com.azure.core.credential.TokenCredential;
 import com.azure.core.http.HttpClient;
-import com.azure.core.http.HttpHeaders;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.HttpPipelineBuilder;
 import com.azure.core.http.policy.AddDatePolicy;
-import com.azure.core.http.policy.AddHeadersFromContextPolicy;
-import com.azure.core.http.policy.AddHeadersPolicy;
 import com.azure.core.http.policy.BearerTokenAuthenticationPolicy;
-import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.policy.HttpLoggingPolicy;
 import com.azure.core.http.policy.HttpPipelinePolicy;
 import com.azure.core.http.policy.HttpPolicyProviders;
 import com.azure.core.http.policy.RequestIdPolicy;
-import com.azure.core.http.policy.RetryPolicy;
 import com.azure.core.http.policy.UserAgentPolicy;
+import com.azure.core.util.Configuration;
 import com.azure.core.util.logging.ClientLogger;
-import com.azure.data.tables.implementation.models.OdataMetadataFormat;
+import com.azure.storage.common.StorageSharedKeyCredential;
 import com.azure.storage.common.implementation.connectionstring.StorageAuthenticationSettings;
 import com.azure.storage.common.implementation.connectionstring.StorageConnectionString;
+import com.azure.storage.common.implementation.connectionstring.StorageEndpoint;
 import com.azure.storage.common.implementation.credentials.SasTokenCredential;
+import com.azure.storage.common.implementation.policy.SasTokenCredentialPolicy;
+import com.azure.storage.common.policy.RequestRetryOptions;
+import com.azure.storage.common.policy.RequestRetryPolicy;
+import com.azure.storage.common.policy.ScrubEtagPolicy;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import com.azure.core.util.Configuration;
 import java.util.Objects;
 
 /**
@@ -48,6 +50,8 @@ public class TableServiceClientBuilder {
     private HttpPipeline httpPipeline;
     private SasTokenCredential sasTokenCredential;
     private HttpPipeline pipeline;
+    private String accountName;
+    private RequestRetryOptions retryOptions = new RequestRetryOptions();
 
     /**
      * constructor
@@ -58,27 +62,13 @@ public class TableServiceClientBuilder {
     }
 
     /**
-     * Sets the connection string to help build the client
-     *
-     * @param connectionString the connection string to the storage account
-     * @return the TableServiceClientBuilder
-     */
-    public TableServiceClientBuilder connectionString(String connectionString) {
-        this.connectionString = connectionString;
-        return this;
-    }
-
-    /**
      * builds a sync TableServiceClient
      *
      * @return a sync TableServiceClient
      */
     public TableServiceClient buildClient() {
-        //return new TableServiceClient(buildAsyncClient());
-        return null;
+        return new TableServiceClient(buildAsyncClient());
     }
-
-
 
     /**
      * builds an async TableServiceAsyncClient
@@ -86,118 +76,109 @@ public class TableServiceClientBuilder {
      * @return TableServiceAsyncClient an aysnc TableServiceAsyncClient
      */
     public TableServiceAsyncClient buildAsyncClient() {
-        return null;
+
+        TablesServiceVersion serviceVersion = version != null ? version : TablesServiceVersion.getLatest();
+
+        HttpPipeline pipeline = (httpPipeline != null) ? httpPipeline : BuilderHelper.buildPipeline(
+            tablesSharedKeyCredential, tokenCredential, sasTokenCredential, endpoint, retryOptions, httpLogOptions,
+            httpClient, policies, configuration, logger);
+
+        return new TableServiceAsyncClient(pipeline, endpoint, serviceVersion);
     }
-////        BuilderHelper.httpsValidation(customerProvidedKey, "customer provided key", endpoint, logger);
-//
-//        boolean anonymousAccess = false;
-//
-//        if (Objects.isNull(tablesSharedKeyCredential) && Objects.isNull(tokenCredential)
-//            && Objects.isNull(sasTokenCredential)) {
-//            anonymousAccess = true;
-//        }
-//
-//        if (Objects.nonNull(customerProvidedKey) && Objects.nonNull(encryptionScope)) {
-//            throw logger.logExceptionAsError(new IllegalArgumentException("Customer provided key and encryption "
-//                + "scope cannot both be set"));
-//        }
-//
-//        TablesServiceVersion serviceVersion = version != null ? version : TablesServiceVersion.getLatest();
-//
-//        HttpPipeline pipeline = (httpPipeline != null) ? httpPipeline : BuilderHelper.buildPipeline(
-//            storageSharedKeyCredential, tokenCredential, sasTokenCredential, endpoint, retryOptions, logOptions,
-//            httpClient, additionalPolicies, configuration, logger);
-//
-//        return new BlobServiceAsyncClient(pipeline, endpoint, serviceVersion, accountName, customerProvidedKey,
-//            encryptionScope, blobContainerEncryptionScope, anonymousAccess);
-//    }
-//    public TableServiceAsyncClient buildAsyncClient() {
-//        // Global Env configuration store
-//        Configuration buildConfiguration =
-//            (configuration == null) ? Configuration.getGlobalConfiguration().clone() : configuration;
-//
-//        // Service version
-//        TablesServiceVersion serviceVersion =
-//            version != null ? version : TablesServiceVersion.getLatest();
-//
-//        // Endpoint
-//        String buildEndpoint = endpoint;
-//        if (tokenCredential == null) {
-//            buildEndpoint = getEndpoint();
-//        }
-//        // endpoint cannot be null, which is required in request authentication
-//        Objects.requireNonNull(buildEndpoint, "'Endpoint' is required and can not be null.");
-//
-//        // if http pipeline is already defined
-//        if (pipeline != null) {
-//            return new TableServiceAsyncClient(buildEndpoint, pipeline, serviceVersion);
-//        }
-//
-//        // Closest to API goes first, closest to wire goes last.
-//        final List<HttpPipelinePolicy> policies = new ArrayList<>();
-//
-//        String clientName = properties.getOrDefault(SDK_NAME, "UnknownName");
-//        String clientVersion = properties.getOrDefault(SDK_VERSION, "UnknownVersion");
-//
-//        policies.add(new UserAgentPolicy(httpLogOptions.getApplicationId(), clientName, clientVersion,
-//            buildConfiguration));
-//        policies.add(new RequestIdPolicy());
-//        policies.add(new AddHeadersFromContextPolicy());
-//        policies.add(new AddHeadersPolicy(headers));
-//
-//        HttpPolicyProviders.addBeforeRetryPolicies(policies);
-//
-//        policies.add(retryPolicy == null ? DEFAULT_RETRY_POLICY : retryPolicy);
-//
-//        policies.add(new AddDatePolicy());
-//
-//        if (tokenCredential != null) {
-//            // User token based policy
-//            policies.add(
-//                new BearerTokenAuthenticationPolicy(tokenCredential, String.format("%s/.default", buildEndpoint)));
-//        } else if (credential != null) {
-//            // Use credential based policy
-//            policies.add(new ConfigurationCredentialsPolicy(credential));
-//        } else {
-//            // Throw exception that credential and tokenCredential cannot be null
-//            throw logger.logExceptionAsError(
-//                new IllegalArgumentException("Missing credential information while building a client."));
-//        }
-//
-//        policies.addAll(this.policies);
-//        HttpPolicyProviders.addAfterRetryPolicies(policies);
-//        policies.add(new HttpLoggingPolicy(httpLogOptions));
-//
-//        // customized pipeline
-//        HttpPipeline pipeline = new HttpPipelineBuilder()
-//            .policies(policies.toArray(new HttpPipelinePolicy[0]))
-//            .httpClient(httpClient)
-//            .build();
-//
-//        return new ConfigurationAsyncClient(buildEndpoint, pipeline, serviceVersion);
-//
-//
-//    }
-//
-//    public BlobServiceClientBuilder customerProvidedKey(CustomerProvidedKey customerProvidedKey) {
-//        if (customerProvidedKey == null) {
-//            this.customerProvidedKey = null;
-//        } else {
-//            this.customerProvidedKey = new CpkInfo()
-//                .setEncryptionKey(customerProvidedKey.getKey())
-//                .setEncryptionKeySha256(customerProvidedKey.getKeySha256())
-//                .setEncryptionAlgorithm(customerProvidedKey.getEncryptionAlgorithm());
-//        }
-//
-//        return this;
-//    }
+
+
+    /**
+     * Sets the connection string to help build the client
+     *
+     * @param connectionString the connection string to the storage account
+     * @return the TableServiceClientBuilder
+     */
+    public TableServiceClientBuilder connectionString(String connectionString) {
+        StorageConnectionString storageConnectionString
+            = StorageConnectionString.create(connectionString, logger);
+        StorageEndpoint endpoint = storageConnectionString.getTableEndpoint();
+        if (endpoint == null || endpoint.getPrimaryUri() == null) {
+            throw logger
+                .logExceptionAsError(new IllegalArgumentException(
+                    "connectionString missing required settings to derive blob service endpoint."));
+        }
+        this.endpoint(endpoint.getPrimaryUri());
+        if (storageConnectionString.getAccountName() != null) {
+            this.accountName = storageConnectionString.getAccountName();
+        }
+        StorageAuthenticationSettings authSettings = storageConnectionString.getStorageAuthSettings();
+        if (authSettings.getType() == StorageAuthenticationSettings.Type.ACCOUNT_NAME_KEY) {
+            this.credential(new TablesSharedKeyCredential(authSettings.getAccount().getName(),
+                authSettings.getAccount().getAccessKey()));
+        } else if (authSettings.getType() == StorageAuthenticationSettings.Type.SAS_TOKEN) {
+            this.sasToken(authSettings.getSasToken());
+        }
+        return this;
+    }
+
+    /**
+     * Sets the table service endpoint
+     *
+     * @param endpoint URL of the service
+     * @return the updated TableServiceClientBuilder object
+     */
+    public TableServiceClientBuilder endpoint(String endpoint) {
+        try {
+            new URL(endpoint);
+        } catch (MalformedURLException ex) {
+            throw logger.logExceptionAsWarning(new IllegalArgumentException("'endpoint' must be a valid URL"));
+        }
+        this.endpoint = endpoint;
+        return this;
+    }
+
+    /**
+     * Sets the HTTP pipeline to use for the service client.
+     *
+     * @param pipeline The HTTP pipeline to use for sending service requests and receiving responses.
+     * @return The updated TableServiceClientBuilder object.
+     */
+    public TableServiceClientBuilder pipeline(HttpPipeline pipeline) {
+        if (this.httpPipeline != null && httpPipeline == null) {
+            logger.info("HttpPipeline is being set to 'null' when it was previously configured.");
+        }
+        this.pipeline = pipeline;
+        return this;
+    }
+
+    /**
+     * Sets the SAS token used to authorize requests sent to the service.
+     *
+     * @param sasToken The SAS token to use for authenticating requests.
+     * @return the updated BlobServiceClientBuilder
+     * @throws NullPointerException If {@code sasToken} is {@code null}.
+     */
+    public TableServiceClientBuilder sasToken(String sasToken) {
+        this.sasTokenCredential = new SasTokenCredential(Objects.requireNonNull(sasToken,
+            "'sasToken' cannot be null."));
+        this.tablesSharedKeyCredential = null;
+        this.tokenCredential = null;
+        return this;
+    }
+
 
     /**
      * gets the connection string
+     *
      * @return the connection string
      */
     public String getConnectionString() {
         return this.connectionString;
+    }
+
+    private String getEndpoint() {
+        if (endpoint != null) {
+            return endpoint;
+        } else if (tablesSharedKeyCredential != null) {
+            return null; // tablesSharedKeyCredential.getCanonicalizedResource();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -213,36 +194,15 @@ public class TableServiceClientBuilder {
 
     /**
      * update credential
+     *
      * @param credential the tables shared key credential
      * @return the updated TableServiceClient builder
      * @throws NullPointerException If {@code credential} is {@code null}.
      */
-    public TableServiceClientBuilder credential(TokenCredential credential) {
-        this.tablesSharedKeyCredential = Objects.requireNonNull(tablesSharedKeyCredential, "credential cannot"
+    public TableServiceClientBuilder credential(TablesSharedKeyCredential credential) {
+        this.tablesSharedKeyCredential = Objects.requireNonNull(credential, "credential cannot"
             + "be null");
         return this;
-    }
-
-    /**
-     * Sets the table service endpoint
-     *
-     * @param endpoint URL of the service
-     * @return the updated TableServiceClientBuilder object
-     */
-    public TableServiceClientBuilder endpoint(String endpoint) {
-        this.endpoint = endpoint;
-        return this;
-    }
-
-    private String getEndpoint() {
-        if (endpoint != null) {
-            return endpoint;
-        } else if (tablesSharedKeyCredential != null) {
-            //return tablesSharedKeyCredential.getCanonicalizedResource();
-        } else {
-            return null;
-        }
-        return null;
     }
 
     /**
@@ -267,7 +227,7 @@ public class TableServiceClientBuilder {
      * @throws NullPointerException If {@code logOptions} is {@code null}.
      */
     public TableServiceClientBuilder httpLogOptions(HttpLogOptions logOptions) {
-        //this.logOptions = Objects.requireNonNull(logOptions, "'logOptions' cannot be null.");
+        this.httpLogOptions = Objects.requireNonNull(logOptions, "'logOptions' cannot be null.");
         return this;
     }
 
@@ -280,7 +240,7 @@ public class TableServiceClientBuilder {
      * @throws NullPointerException If {@code pipelinePolicy} is {@code null}.
      */
     public TableServiceClientBuilder addPolicy(HttpPipelinePolicy pipelinePolicy) {
-        //this.additionalPolicies.add(Objects.requireNonNull(pipelinePolicy, "'pipelinePolicy' cannot be null"));
+        this.policies.add(Objects.requireNonNull(pipelinePolicy, "'pipelinePolicy' cannot be null"));
         return this;
     }
 
@@ -302,13 +262,14 @@ public class TableServiceClientBuilder {
     }
 
     /**
-     * Sets the HTTP pipeline to use for the service client.
+     * Sets the request retry options for all the requests made through the client.
      *
-     * @param pipeline The HTTP pipeline to use for sending service requests and receiving responses.
-     * @return The updated TableServiceClientBuilder object.
+     * @param retryOptions {@link RequestRetryOptions}.
+     * @return the updated TableServiceClientBuilder object
+     * @throws NullPointerException If {@code retryOptions} is {@code null}.
      */
-    public TableServiceClientBuilder pipeline(HttpPipeline pipeline) {
-        this.pipeline = pipeline;
+    public TableServiceClientBuilder retryOptions(RequestRetryOptions retryOptions) {
+        this.retryOptions = Objects.requireNonNull(retryOptions, "'retryOptions' cannot be null.");
         return this;
     }
 

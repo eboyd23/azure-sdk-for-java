@@ -57,9 +57,10 @@ public class TablesSharedKeyCredential {
         String dateHeader = headers.containsKey("x-ms-date")
             ? ""
             : this.getStandardHeaderValue(headers, "Date");
-        return String.join("\n",
+        String s = String.join("\n",
             dateHeader,  //date
             getCanonicalizedResource(requestUrl)); //Canonicalized resource
+        return s;
     }
 
     /**

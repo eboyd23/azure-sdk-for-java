@@ -47,9 +47,9 @@ public class TableServiceAsyncClientCodeSnippets {
         TableServiceAsyncClient tableServiceAsyncClient = new TableServiceClientBuilder()
             .connectionString("connectionString")
             .buildAsyncClient();
-        QueryParams queryOptions = new QueryParams().setFilter("TableName eq OfficeSupplies");
+        QueryParams queryParams = new QueryParams().setFilter("TableName eq OfficeSupplies");
 
-        tableServiceAsyncClient.queryTables(queryOptions).subscribe(azureTable -> {
+        tableServiceAsyncClient.queryTables(queryParams).subscribe(azureTable -> {
             System.out.println(azureTable.getName());
         }, error -> {
                 System.err.println("There was an error querying the service. Error: " + error);
@@ -152,11 +152,11 @@ public class TableServiceAsyncClientCodeSnippets {
             .buildAsyncClient();
 
         TableAsyncClient tableAsyncClient = tableServiceAsyncClient.getTableAsyncClient("OfficeSupplies");
-        QueryParams queryOptions = new QueryParams()
+        QueryParams queryParams = new QueryParams()
             .setFilter("Product eq markers")
             .setSelect("Seller, Price");
 
-        tableAsyncClient.queryEntities(queryOptions).subscribe(tableEntity -> {
+        tableAsyncClient.queryEntities(queryParams).subscribe(tableEntity -> {
             System.out.println("Table Entity: " + tableEntity);
         }, error -> {
                 System.err.println("There was an error querying the table. Error: " + error);

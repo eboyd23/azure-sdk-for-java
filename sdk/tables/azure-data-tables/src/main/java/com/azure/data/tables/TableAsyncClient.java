@@ -5,9 +5,13 @@ package com.azure.data.tables;
 import com.azure.core.annotation.ReturnType;
 import com.azure.core.annotation.ServiceClient;
 import com.azure.core.annotation.ServiceMethod;
+import com.azure.core.exception.ResourceNotFoundException;
+import com.azure.core.http.HttpPipeline;
+import com.azure.core.http.HttpResponse;
 import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedResponse;
 import com.azure.core.http.rest.Response;
+import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.util.Context;
 import com.azure.core.util.logging.ClientLogger;
@@ -29,12 +33,21 @@ import static com.azure.core.util.FluxUtil.withContext;
 public class TableAsyncClient {
     private final ClientLogger logger = new ClientLogger(TableAsyncClient.class);
     private final String tableName;
-    private final TablesImpl impl = null;
+    private final TablesImpl impl;
+    private String tablesServiceVersion;
+    private String serviceEndpoint;
 
-    TableAsyncClient(String tableName) {
+    TableAsyncClient(HttpPipeline pipeline, String serviceEndpoint, String version, String tableName) {
+        this.impl = RestProxy.create(TablesImpl.class, pipeline);
+        this.serviceEndpoint = serviceEndpoint;
+        tablesServiceVersion = version;
         this.tableName = tableName;
     }
 
+    TableAsyncClient(TablesImpl tables, String tableName) {
+        impl = tables;
+        this.tableName = tableName;
+    }
 
     /**
      * returns the table name associated with the client
@@ -42,7 +55,7 @@ public class TableAsyncClient {
      * @return table name
      */
     public String getTableName() {
-        return Mono.empty();
+        return tableName;
     }
 
     /**
@@ -141,20 +154,20 @@ public class TableAsyncClient {
 
     @ServiceMethod(returns = ReturnType.SINGLE)
     Mono<Response<TableEntity>> getEntityWithResponse(String rowKey, String partitionKey, Boolean ifMatch, String etag, Duration timeout, Context context) {
-//        try {
-//            return impl.queryEntitiesWithPartitionAndRowKeyWithResponseAsync(tableName, partitionKey, rowKey, (int) timeout.toMillis(), "", null, context).flatMap(response -> {
-//                for (Map<String, Object> m : response.getValue().getValue()) {
-//                    if (m.get("PartitionKey").equals(partitionKey) && m.get("RowKey").equals(rowKey)) {
-//                        return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
-//                            new TableEntity(m));
-//                    }
-//                }
-//                //return monoError(logger, new RuntimeException("entity not found"));
-//            });
-//        } catch (RuntimeException ex) {
-//            return monoError(logger, ex);
-//        }
-        return Mono.empty();
+        try {
+            return impl.queryEntitiesWithPartitionAndRowKeyWithResponseAsync(tableName, partitionKey, rowKey, (int) timeout.toSeconds(),
+                null, null, context).handle((response, sink) -> {
+                for (Map<String, Object> m : response.getValue().getValue()) {
+                    if (m.get("PartitionKey").equals(partitionKey) && m.get("RowKey").equals(rowKey)) {
+                        sink.next(new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
+                            new TableEntity(m)));
+                    }
+                }
+                sink.error(new NullPointerException("resource not found"));
+            });
+        } catch (RuntimeException ex) {
+            return monoError(logger, ex);
+        }
     }
 
     /**
@@ -197,9 +210,8 @@ public class TableAsyncClient {
 
     @ServiceMethod(returns = ReturnType.SINGLE)
     Mono<Response<TableEntity>> createEntityWithResponse(Map<String, Object> tableEntityProperties, Duration timeout, Context context) {
-        String requestID = "";
-
-        return impl.insertEntityWithResponseAsync(tableName, (int) timeout.toMillis(), requestID, ResponseFormat.RETURN_CONTENT, tableEntityProperties,
+        Integer timeoutInt = timeout != null ? (int) timeout.getSeconds() : null;
+        return impl.insertEntityWithResponseAsync(tableName, timeoutInt, null, ResponseFormat.RETURN_CONTENT, tableEntityProperties,
             null, context).map(response -> {
             Map<String, Object> properties = response.getValue();
             String etag = response.getHeaders().get("ETag").getValue();
@@ -341,17 +353,7 @@ public class TableAsyncClient {
     }
 
     private Mono<Void> mergeEntity(TableEntity tableEntity, boolean ifMatch, Duration timeout, Context context) {
-        if (tableEntity == null) {
-            monoError(logger, new NullPointerException("TableEntity cannot be null"));
-        }
-        if (ifMatch && tableEntity.getEtag() == null) {
-            monoError(logger, new NullPointerException("etag cannot be null when 'ifMatch' is true"));
-        }
-        String requestID = "";
-        String matchParam = ifMatch ? tableEntity.getEtag() : "*";
-
-        return impl.mergeEntityWithResponseAsync(tableName, tableEntity.getPartitionKey(), tableEntity.getRowKey(),
-            (int) timeout.toMillis(), requestID, matchParam, tableEntity.getProperties(), null, context).then();
+        return mergeEntityWithResponse(tableEntity, ifMatch, timeout, context).flatMap(response -> Mono.justOrEmpty(response.getValue()));
     }
 
     private Mono<Response<Void>> mergeEntityWithResponse(TableEntity tableEntity, boolean ifMatch, Duration timeout, Context context) {
@@ -361,30 +363,22 @@ public class TableAsyncClient {
         if (ifMatch && tableEntity.getEtag() == null) {
             monoError(logger, new NullPointerException("etag cannot be null when 'ifMatch' is true"));
         }
-        String requestID = "";
         String matchParam = ifMatch ? tableEntity.getEtag() : "*";
 
         return impl.mergeEntityWithResponseAsync(tableName, tableEntity.getPartitionKey(), tableEntity.getRowKey(),
-            (int) timeout.toMillis(), requestID, matchParam, tableEntity.getProperties(), null, context).map(response -> {
+            (int) timeout.toSeconds(), null, matchParam, tableEntity.getProperties(), null, context).map(response -> {
             return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
                 null);
         });
     }
 
     private Mono<Boolean> existsEntity(TableEntity tableEntity, Duration timeout, Context context) {
-        String requestID = "";
-
-        return impl.queryEntitiesWithPartitionAndRowKeyWithResponseAsync(tableName, tableEntity.getPartitionKey(),
-            tableEntity.getRowKey(), (int) timeout.toMillis(), requestID, null, context).map(response -> {
-            return (response.getValue() != null);
-        });
+        return existsEntityWithResponse(tableEntity, timeout, context).flatMap(response -> Mono.justOrEmpty(response.getValue()));
     }
 
     private Mono<Response<Boolean>> existsEntityWithResponse(TableEntity tableEntity, Duration timeout, Context context) {
-        String requestID = "";
-
         return impl.queryEntitiesWithPartitionAndRowKeyWithResponseAsync(tableName, tableEntity.getPartitionKey(),
-            tableEntity.getRowKey(),(int) timeout.toMillis(), requestID, null, context).map(response -> {
+            tableEntity.getRowKey(),(int) timeout.toSeconds(), null, null, context).map(response -> {
             return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
                 (response.getValue() != null));
 
@@ -487,10 +481,9 @@ public class TableAsyncClient {
     }
 
     Mono<Response<Void>> deleteEntityWithResponse(String partitionKey, String rowKey, boolean ifMatch, String etag, Duration timeout, Context context) {
-        String requestID = "";
         String matchParam = ifMatch ? etag : "*";
         return impl.deleteEntityWithResponseAsync(tableName, partitionKey, rowKey,
-            matchParam, (int) timeout.toMillis(), requestID, null, context).map(response -> {
+            matchParam, (int) timeout.toSeconds(), null, null, context).map(response -> {
             return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(), null);
         });
     }

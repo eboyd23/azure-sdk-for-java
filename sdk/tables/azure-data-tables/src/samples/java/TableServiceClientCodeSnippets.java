@@ -52,10 +52,10 @@ public class TableServiceClientCodeSnippets {
             .connectionString("connectionString")
             .buildClient();
 
-        QueryParams queryOptions = new QueryParams().setFilter("TableName eq OfficeSupplies");
+        QueryParams queryParams = new QueryParams().setFilter("TableName eq OfficeSupplies");
 
         try {
-            PagedIterable<AzureTable> responseTables = tableServiceClient.queryTables(queryOptions);
+            PagedIterable<AzureTable> responseTables = tableServiceClient.queryTables(queryParams);
         } catch (HttpResponseException e) {
             System.err.println("Table Query Unsuccessful. Error: " + e);
         }
@@ -161,11 +161,11 @@ public class TableServiceClientCodeSnippets {
             .tableName("OfficeSupplies")
             .buildClient();
 
-        QueryParams queryOptions = new QueryParams()
+        QueryParams queryParams = new QueryParams()
             .setFilter("Product eq markers")
             .setSelect("Seller, Price");
         try {
-            List<TableEntity> tableEntities = tableClient.queryEntities(queryOptions);
+            List<TableEntity> tableEntities = tableClient.queryEntities(queryParams);
         } catch (HttpResponseException e) {
             System.err.println("Query Table Entities Unsuccessful. Error: " + e);
         }

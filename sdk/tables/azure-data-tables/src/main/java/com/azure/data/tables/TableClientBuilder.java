@@ -66,7 +66,7 @@ public class TableClientBuilder {
      * @return an aysnc tableClient
      */
     public TableAsyncClient buildAsyncClient() {
-        return new TableAsyncClient(tableName);
+        return new TableAsyncClient(pipeline, "", serviceVersion.getVersion() ,tableName);
     }
 
     /**

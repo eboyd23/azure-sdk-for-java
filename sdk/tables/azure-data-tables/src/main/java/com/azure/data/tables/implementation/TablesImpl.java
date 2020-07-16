@@ -57,7 +57,7 @@ public final class TablesImpl {
      *
      * @param client the instance of the service client containing this operation class.
      */
-    TablesImpl(AzureTableImpl client) {
+    public TablesImpl(AzureTableImpl client) {
         this.service = RestProxy.create(TablesService.class, client.getHttpPipeline());
         this.client = client;
     }

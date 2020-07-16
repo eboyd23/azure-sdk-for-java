@@ -25,68 +25,69 @@ public class TableServiceClient {
     /**
      * creates the table with the given name.  If a table with the same name already exists, the operation fails.
      *
-     * @param name the name of the table to create
+     * @param tableName the name of the table to create
      * @return AzureTable of the created table
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public AzureTable createTable(String name) {
-        return client.createTable(name).block();
+    public AzureTable createTable(String tableName) {
+        return client.createTable(tableName).block();
     }
 
     /**
      * creates the table with the given name.  If a table with the same name already exists, the operation fails.
      *
-     * @param name the name of the table to create
+     * @param tableName the name of the table to create
      * @param context the context of the query
      * @return AzureTable of the created table
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public AzureTable createTable(String name, Context context) {
-        return null;
+    public AzureTable createTable(String tableName, Context context) {
+        return client.createTableWithResponse(tableName, context).block().getValue();
     }
 
     /**
      * creates the table with the given name.  If a table with the same name already exists, the operation fails.
      *
-     * @param name the name of the table to create
+     * @param tableName the name of the table to create
      * @param context the context of the query
      * @return response with azureTable of the created table
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<AzureTable> createTableWithResponse(String name, Context context) {
-        return null;
+    public Response<AzureTable> createTableWithResponse(String tableName, Context context) {
+        return client.createTableWithResponse(tableName, context).block();
     }
 
     /**
      * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
      *
-     * @param name the name of the table to be deleted
+     * @param tableName the name of the table to be deleted
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void deleteTable(String name) {
-        client.deleteTable(name).block();
+    public void deleteTable(String tableName) {
+        client.deleteTable(tableName).block();
     }
 
     /**
      * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
      *
-     * @param name the name of the table to be deleted
+     * @param tableName the name of the table to be deleted
      * @param context the context of the query
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void deleteTable(String name, Context context) {
+    public void deleteTable(String tableName, Context context) {
+        client.deleteTableWithResponse(tableName, context).block();
     }
 
     /**
      * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
      *
-     * @param name the name of the table to be deleted
+     * @param tableName the name of the table to be deleted
      * @param context the context of the query
      * @return response
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteTableWithResponse(String name, Context context) {
-        return Mono.empty();
+    public Response<Void> deleteTableWithResponse(String tableName, Context context) {
+        return client.deleteTableWithResponse(tableName, context).block();
     }
 
     /**
@@ -96,7 +97,7 @@ public class TableServiceClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void deleteTable(AzureTable azureTable) {
-        client.deleteTable(azureTable.getName()).block();
+        client.deleteTable(azureTable).block();
     }
 
     /**
@@ -106,7 +107,8 @@ public class TableServiceClient {
      * @param context the context of the query
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void deleteTable(AzureTable azureTable, Context context) {
+    public void deleteTable(AzureTable azureTable, Context context)  {
+        client.deleteTableWithResponse(azureTable, context).block();
     }
 
     /**
@@ -118,7 +120,7 @@ public class TableServiceClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> deleteTableWithResponse(AzureTable azureTable, Context context) {
-        return Mono.empty();
+        return deleteTableWithResponse(azureTable, context);
     }
 
     /**
@@ -145,38 +147,25 @@ public class TableServiceClient {
      * query all the tables under the storage account given the query options and returns the ones that fit the
      * criteria
      *
-     * @param queryOptions the odata query object
+     * @param queryParams the odata query object
      * @return a list of tables that meet the query
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<AzureTable> queryTables(QueryParams queryOptions) {
-        return null;
+    public PagedIterable<AzureTable> queryTables(QueryParams queryParams) {
+        return new PagedIterable<>(client.queryTables(queryParams));
     }
 
     /**
      * query all the tables under the storage account given the query options and returns the ones that fit the
      * criteria
      *
-     * @param queryOptions the odata query object
+     * @param queryParams the odata query object
      * @param context context of the query
      * @return a list of tables that meet the query
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<AzureTable> queryTables(QueryParams queryOptions, Context context) {
-        return null;
-    }
-
-    /**
-     * query all the tables under the storage account given the query options and returns the ones that fit the
-     * criteria
-     *
-     * @param queryOptions the odata query object
-     * @param context context of the query
-     * @return a response of a list of tables that meet the query
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    Response<PagedIterable<AzureTable>> queryTablesWithResponse(QueryParams queryOptions, Context context) {
-        return null;
+    public PagedIterable<AzureTable> queryTables(QueryParams queryParams, Context context) {
+        return new PagedIterable<>(client.queryTables(queryParams, context));
     }
 
 }

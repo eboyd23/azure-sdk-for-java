@@ -25,6 +25,7 @@ import com.azure.data.tables.implementation.models.ResponseFormat;
 import com.azure.data.tables.implementation.models.TableProperties;
 import com.azure.data.tables.implementation.models.TableResponseProperties;
 import com.azure.data.tables.implementation.models.TableServiceErrorException;
+import com.azure.data.tables.implementation.models.TableServiceErrorOdataError;
 import com.azure.storage.common.implementation.connectionstring.StorageAuthenticationSettings;
 import com.azure.storage.common.implementation.connectionstring.StorageConnectionString;
 import org.junit.jupiter.api.Assertions;
@@ -38,6 +39,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -139,6 +142,7 @@ public class AzureTableImplTest extends TestBase {
     @Test
     void createTableDuplicateName() {
         // Arrange
+        String expectedErrorCode = "TableAlreadyExists";
         String tableName = testResourceNamer.randomName("test", 20);
         TableProperties tableProperties = new TableProperties().setTableName(tableName);
         createTable(tableName);
@@ -151,6 +155,11 @@ public class AzureTableImplTest extends TestBase {
                 assertTrue(error instanceof TableServiceErrorException);
 
                 final TableServiceErrorException exception = (TableServiceErrorException) error;
+                assertNotNull(exception.getValue());
+
+                final TableServiceErrorOdataError odataError = exception.getValue().getOdataError();
+                assertNotNull(odataError);
+                assertEquals(expectedErrorCode, odataError.getCode());
             })
             .verify();
     }

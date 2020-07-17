@@ -17,8 +17,8 @@ import com.azure.core.http.policy.RetryPolicy;
 import com.azure.core.test.TestBase;
 import com.azure.core.util.Context;
 import com.azure.core.util.logging.ClientLogger;
-import com.azure.data.tables.implementation.AzureTableBuilder;
 import com.azure.data.tables.implementation.AzureTableImpl;
+import com.azure.data.tables.implementation.AzureTableImplBuilder;
 import com.azure.data.tables.implementation.models.OdataMetadataFormat;
 import com.azure.data.tables.implementation.models.QueryOptions;
 import com.azure.data.tables.implementation.models.ResponseFormat;
@@ -27,15 +27,18 @@ import com.azure.data.tables.implementation.models.TableResponseProperties;
 import com.azure.data.tables.implementation.models.TableServiceErrorException;
 import com.azure.storage.common.implementation.connectionstring.StorageAuthenticationSettings;
 import com.azure.storage.common.implementation.connectionstring.StorageConnectionString;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * This class tests the Autorest code for the Tables track 2 SDK
@@ -79,9 +82,9 @@ public class AzureTableImplTest extends TestBase {
             .httpClient(httpClientToUse)
             .policies(policies.toArray(new HttpPipelinePolicy[0]))
             .build();
-        azureTable = new AzureTableBuilder()
+        azureTable = new AzureTableImplBuilder()
             .pipeline(pipeline)
-            .version("2019-02-02")
+            .version(TablesServiceVersion.getLatest().getVersion())
             .url(storageConnectionString.getTableEndpoint().getPrimaryUri())
             .buildClient();
     }
@@ -144,7 +147,11 @@ public class AzureTableImplTest extends TestBase {
         // Act & Assert
         StepVerifier.create(azureTable.getTables().createWithResponseAsync(tableProperties,
             requestId, ResponseFormat.RETURN_CONTENT, null, Context.NONE))
-            .expectError(TableServiceErrorException.class)
+            .expectErrorSatisfies(error -> {
+                assertTrue(error instanceof TableServiceErrorException);
+
+                final TableServiceErrorException exception = (TableServiceErrorException) error;
+            })
             .verify();
     }
 
@@ -210,7 +217,7 @@ public class AzureTableImplTest extends TestBase {
     }
 
     @Test
-    void queryTablewithTop() {
+    void queryTableWithTop() {
         // Arrange
         QueryOptions queryOptions = new QueryOptions()
             .setFormat(OdataMetadataFormat.APPLICATION_JSON_ODATA_MINIMALMETADATA);

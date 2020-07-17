@@ -48,6 +48,22 @@ public final class AzureTableImplBuilder {
     }
 
     /**
+     * The version for Tables service.
+     */
+    private String version;
+
+    /**
+     * Sets the version for Tables service.
+     *
+     * @param version the service value.
+     * @return the AzureTableImplBuilder.
+     */
+    public AzureTableImplBuilder version(String version) {
+        this.version = version;
+        return this;
+    }
+
+    /**
      * Builds an instance of AzureTableImpl with the provided parameters.
      *
      * @return an instance of AzureTableImpl.
@@ -59,7 +75,7 @@ public final class AzureTableImplBuilder {
                             .policies(new UserAgentPolicy(), new RetryPolicy(), new CookiePolicy())
                             .build();
         }
-        AzureTableImpl client = new AzureTableImpl(pipeline, url);
+        AzureTableImpl client = new AzureTableImpl(pipeline, url, version);
         return client;
     }
 }

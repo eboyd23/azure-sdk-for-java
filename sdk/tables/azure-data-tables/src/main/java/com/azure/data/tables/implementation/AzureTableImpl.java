@@ -73,12 +73,12 @@ public final class AzureTableImpl {
     }
 
     /** Initializes an instance of AzureTable client. */
-    AzureTableImpl(String url) {
+    AzureTableImpl(String url, String version) {
         this(
                 new HttpPipelineBuilder()
                         .policies(new UserAgentPolicy(), new RetryPolicy(), new CookiePolicy())
                         .build(),
-                url);
+                url, version);
     }
 
     /**
@@ -86,10 +86,10 @@ public final class AzureTableImpl {
      *
      * @param httpPipeline The HTTP pipeline to send requests through.
      */
-    AzureTableImpl(HttpPipeline httpPipeline, String url) {
+    AzureTableImpl(HttpPipeline httpPipeline, String url, String version) {
         this.httpPipeline = httpPipeline;
         this.url = url;
-        this.version = "2019-02-02";
+        this.version = version;
         this.tables = new TablesImpl(this);
         this.services = new ServicesImpl(this);
     }

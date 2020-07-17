@@ -3,26 +3,20 @@ package com.azure.data.tables;
 import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.policy.HttpLoggingPolicy;
-import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.test.TestBase;
-import com.azure.core.util.Context;
 import com.azure.core.util.logging.ClientLogger;
-import com.azure.data.tables.AzureTable;
-import com.azure.data.tables.TableServiceClient;
-import com.azure.data.tables.TableServiceClientBuilder;
-import com.azure.data.tables.implementation.models.ResponseFormat;
 import com.azure.storage.common.implementation.connectionstring.StorageConnectionString;
-import java.util.HashMap;
-import java.util.Map;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import reactor.test.StepVerifier;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class AuthorizationSamples extends TestBase {
-    private String connectionString= null;
-    private String endpoint= null;
-    private TablesSharedKeyCredential tablesSharedKeyCredential= null;
+    private String connectionString = null;
+    private String endpoint = null;
+    private TablesSharedKeyCredential tablesSharedKeyCredential = null;
     private final ClientLogger logger = new ClientLogger(AuthorizationSamples.class);
 
     private TableServiceClient client;
@@ -34,7 +28,7 @@ public class AuthorizationSamples extends TestBase {
     private static final String ROW_KEY = "RowKey";
 
     @Test
-     void withConnectionString() {
+    void withConnectionString() {
         // BEGIN: com.azure.data.tables.TablesServiceClient.buildClient
         TableServiceClient client = new TableServiceClientBuilder()
             .connectionString(connectionString)
@@ -55,7 +49,6 @@ public class AuthorizationSamples extends TestBase {
         // END: com.azure.storage.blob.specialized.BlobClientBase.Builder.endpoint#String
         client.createTable("tableName");
     }
-
 
 
     @Override

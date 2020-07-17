@@ -12,11 +12,11 @@ import com.azure.core.http.policy.UserAgentPolicy;
 
 /** Initializes a new instance of the AzureTable type. */
 public final class AzureTableImpl {
-    /** The URL of the service account or table that is the targe of the desired operation. */
-    private String url;
+    /** The URL of the service account or table that is the target of the desired operation. */
+    private final String url;
 
     /**
-     * Gets The URL of the service account or table that is the targe of the desired operation.
+     * Gets The URL of the service account or table that is the target of the desired operation.
      *
      * @return the url value.
      */
@@ -24,19 +24,8 @@ public final class AzureTableImpl {
         return this.url;
     }
 
-    /**
-     * Sets The URL of the service account or table that is the targe of the desired operation.
-     *
-     * @param url the url value.
-     * @return the service client itself.
-     */
-    public AzureTableImpl setUrl(String url) {
-        this.url = url;
-        return this;
-    }
-
     /** Specifies the version of the operation to use for this request. */
-    private String version;
+    private final String version;
 
     /**
      * Gets Specifies the version of the operation to use for this request.
@@ -45,17 +34,6 @@ public final class AzureTableImpl {
      */
     public String getVersion() {
         return this.version;
-    }
-
-    /**
-     * Sets Specifies the version of the operation to use for this request.
-     *
-     * @param version the version value.
-     * @return the service client itself.
-     */
-    public AzureTableImpl setVersion(String version) {
-        this.version = version;
-        return this;
     }
 
     /** The HTTP pipeline to send requests through. */
@@ -95,8 +73,12 @@ public final class AzureTableImpl {
     }
 
     /** Initializes an instance of AzureTable client. */
-    public AzureTableImpl() {
-        this(new HttpPipelineBuilder().policies(new UserAgentPolicy(), new RetryPolicy(), new CookiePolicy()).build());
+    AzureTableImpl(String url) {
+        this(
+                new HttpPipelineBuilder()
+                        .policies(new UserAgentPolicy(), new RetryPolicy(), new CookiePolicy())
+                        .build(),
+                url);
     }
 
     /**
@@ -104,8 +86,10 @@ public final class AzureTableImpl {
      *
      * @param httpPipeline The HTTP pipeline to send requests through.
      */
-    public AzureTableImpl(HttpPipeline httpPipeline) {
+    AzureTableImpl(HttpPipeline httpPipeline, String url) {
         this.httpPipeline = httpPipeline;
+        this.url = url;
+        this.version = "2019-02-02";
         this.tables = new TablesImpl(this);
         this.services = new ServicesImpl(this);
     }

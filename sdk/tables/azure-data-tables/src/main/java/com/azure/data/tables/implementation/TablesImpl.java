@@ -20,7 +20,6 @@ import com.azure.core.annotation.ReturnType;
 import com.azure.core.annotation.ServiceInterface;
 import com.azure.core.annotation.ServiceMethod;
 import com.azure.core.annotation.UnexpectedResponseExceptionType;
-import com.azure.core.exception.HttpResponseException;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.util.Context;
 import com.azure.data.tables.implementation.models.OdataMetadataFormat;
@@ -57,7 +56,7 @@ public final class TablesImpl {
      *
      * @param client the instance of the service client containing this operation class.
      */
-    public TablesImpl(AzureTableImpl client) {
+    TablesImpl(AzureTableImpl client) {
         this.service = RestProxy.create(TablesService.class, client.getHttpPipeline());
         this.client = client;
     }
@@ -71,7 +70,7 @@ public final class TablesImpl {
     private interface TablesService {
         @Get("/Tables")
         @ExpectedResponses({200})
-        @UnexpectedResponseExceptionType(HttpResponseException.class)
+        @UnexpectedResponseExceptionType(TableServiceErrorException.class)
         Mono<TablesQueryResponse> query(
                 @HostParam("url") String url,
                 @HeaderParam("x-ms-version") String version,
@@ -242,7 +241,7 @@ public final class TablesImpl {
      * @param queryOptions Parameter group.
      * @param context The context to associate with this operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws HttpResponseException thrown if the request is rejected by server.
+     * @throws TableServiceErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      * @return the properties for the table query response.
      */

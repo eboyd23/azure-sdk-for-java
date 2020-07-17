@@ -11,16 +11,36 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Fluent
 public final class TableServiceError {
     /*
+     * The service error code.
+     */
+    @JsonProperty(value = "Code")
+    private String code;
+
+    /*
      * The error message.
      */
     @JsonProperty(value = "Message")
     private String message;
 
-    /*
-     * The service error code.
+    /**
+     * Get the code property: The service error code.
+     *
+     * @return the code value.
      */
-    @JsonProperty(value = "Code")
-    private Integer code;
+    public String getCode() {
+        return this.code;
+    }
+
+    /**
+     * Set the code property: The service error code.
+     *
+     * @param code the code value to set.
+     * @return the TableServiceError object itself.
+     */
+    public TableServiceError setCode(String code) {
+        this.code = code;
+        return this;
+    }
 
     /**
      * Get the message property: The error message.
@@ -39,26 +59,6 @@ public final class TableServiceError {
      */
     public TableServiceError setMessage(String message) {
         this.message = message;
-        return this;
-    }
-
-    /**
-     * Get the code property: The service error code.
-     *
-     * @return the code value.
-     */
-    public Integer getCode() {
-        return this.code;
-    }
-
-    /**
-     * Set the code property: The service error code.
-     *
-     * @param code the code value to set.
-     * @return the ServiceBusManagementError object itself.
-     */
-    public TableServiceError setCode(Integer code) {
-        this.code = code;
         return this;
     }
 }

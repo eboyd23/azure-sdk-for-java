@@ -120,7 +120,7 @@ public class AuthorizationSamples extends TestBase {
 
     @Test
     void insertEntity() {
-        asyncClientTable = asyncClient.createTableAsyncClient("hello");
+        asyncClientTable = asyncClient.getTableAsyncClient("hello");
         Map<String, Object> properties = new HashMap<>();
         String partitionKeyValue = testResourceNamer.randomName("partitionKey", 20);
         String rowKeyValue = testResourceNamer.randomName("rowKey", 20);
@@ -132,7 +132,7 @@ public class AuthorizationSamples extends TestBase {
 
     @Test
     void queryEntity() {
-        asyncClientTable = asyncClient.createTableAsyncClient("hello");
+        asyncClientTable = asyncClient.getTableAsyncClient("hello");
         QueryParams queryParams = new QueryParams().setSelect("PartitionKey");
         asyncClientTable.queryEntities(queryParams).subscribe(r -> {
             r.getPartitionKey();

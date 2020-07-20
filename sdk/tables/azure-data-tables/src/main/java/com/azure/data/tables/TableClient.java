@@ -197,7 +197,7 @@ public class TableClient {
      * @param ifMatch if the etag of the entity must match the entity in the service or not
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void upsertEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch) {
+    public void upsertEntity(TableEntity tableEntity, UpdateMode updateMode, boolean ifMatch) {
     }
 
     /**
@@ -209,7 +209,7 @@ public class TableClient {
      * @param timeout max time for query to execute before erroring out
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void upsertEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout) {
+    public void upsertEntity(TableEntity tableEntity, UpdateMode updateMode, boolean ifMatch, Duration timeout) {
     }
 
     /**
@@ -222,7 +222,7 @@ public class TableClient {
      * @param context the context of the query
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void upsertEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout, Context context) {
+    public void upsertEntity(TableEntity tableEntity, UpdateMode updateMode, boolean ifMatch, Duration timeout, Context context) {
     }
 
     /**
@@ -236,8 +236,8 @@ public class TableClient {
      * @return a response
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<Void> upsertEntityWithResponse(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout, Context context) {
-        return client.upsertEntityWithResponse(updateMode, tableEntity, ifMatch, timeout, context).block();
+    public Response<Void> upsertEntityWithResponse(TableEntity tableEntity, UpdateMode updateMode, boolean ifMatch, Duration timeout, Context context) {
+        return client.upsertEntityWithResponse( tableEntity, updateMode, ifMatch, timeout, context).block();
     }
 
     /**
@@ -249,8 +249,8 @@ public class TableClient {
      * @param ifMatch if the etag of the entity must match the entity in the service or not
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void updateEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch) {
-        client.updateEntity(updateMode, tableEntity, ifMatch).block();
+    public void updateEntity(TableEntity tableEntity, UpdateMode updateMode, boolean ifMatch) {
+        client.updateEntity( tableEntity, updateMode, ifMatch).block();
     }
 
     /**
@@ -263,8 +263,8 @@ public class TableClient {
      * @param timeout max time for query to execute before erroring out
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void updateEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout) {
-        client.updateEntity(updateMode, tableEntity, ifMatch, timeout).block();
+    public void updateEntity(TableEntity tableEntity, UpdateMode updateMode, boolean ifMatch, Duration timeout) {
+        client.updateEntity( tableEntity, updateMode, ifMatch, timeout).block();
     }
 
     /**
@@ -278,7 +278,7 @@ public class TableClient {
      * @param context the context of the query
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void updateEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout, Context context) {
+    public void updateEntity(TableEntity tableEntity, UpdateMode updateMode, boolean ifMatch, Duration timeout, Context context) {
 
     }
 
@@ -294,8 +294,8 @@ public class TableClient {
      * @return a response
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<Void> updateEntityWithResponse(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout, Context context) {
-        return updateEntityWithResponse(updateMode, tableEntity, ifMatch, timeout, context);
+    public Response<Void> updateEntityWithResponse(TableEntity tableEntity, UpdateMode updateMode, boolean ifMatch, Duration timeout, Context context) {
+        return updateEntityWithResponse( tableEntity, updateMode, ifMatch, timeout, context);
     }
 
     /**

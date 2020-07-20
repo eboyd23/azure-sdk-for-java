@@ -212,8 +212,8 @@ public class TableAsyncClient {
      * @return void
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Void> upsertEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch) {
-        return upsertEntity(updateMode, tableEntity, ifMatch, (Duration) null);
+    public Mono<Void> upsertEntity(TableEntity tableEntity, UpdateMode updateMode, boolean ifMatch) {
+        return upsertEntity( tableEntity, updateMode, ifMatch, (Duration) null);
     }
 
     /**
@@ -226,8 +226,8 @@ public class TableAsyncClient {
      * @return void
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Void> upsertEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout) {
-        return upsertEntityWithResponse(updateMode, tableEntity, ifMatch, timeout).flatMap(response -> Mono.justOrEmpty(response.getValue()));
+    public Mono<Void> upsertEntity(TableEntity tableEntity, UpdateMode updateMode, boolean ifMatch, Duration timeout) {
+        return upsertEntityWithResponse( tableEntity, updateMode, ifMatch, timeout).flatMap(response -> Mono.justOrEmpty(response.getValue()));
     }
 
     /**
@@ -240,12 +240,12 @@ public class TableAsyncClient {
      * @return a response
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> upsertEntityWithResponse(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout) {
-        return withContext(context -> upsertEntityWithResponse(updateMode, tableEntity, ifMatch, timeout, context));
+    public Mono<Response<Void>> upsertEntityWithResponse(TableEntity tableEntity, UpdateMode updateMode, boolean ifMatch, Duration timeout) {
+        return withContext(context -> upsertEntityWithResponse( tableEntity, updateMode, ifMatch, timeout, context));
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<Response<Void>> upsertEntityWithResponse(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout, Context context) {
+    Mono<Response<Void>> upsertEntityWithResponse(TableEntity tableEntity, UpdateMode updateMode, boolean ifMatch, Duration timeout, Context context) {
         if (tableEntity == null) {
             monoError(logger, new NullPointerException("TableEntity cannot be null"));
         }
@@ -284,8 +284,8 @@ public class TableAsyncClient {
      * @return void
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Void> updateEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch) {
-        return updateEntity(updateMode, tableEntity, ifMatch, (Duration) null);
+    public Mono<Void> updateEntity(TableEntity tableEntity, UpdateMode updateMode, boolean ifMatch) {
+        return updateEntity( tableEntity, updateMode, ifMatch, (Duration) null);
     }
 
     /**
@@ -299,8 +299,8 @@ public class TableAsyncClient {
      * @return void
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Void> updateEntity(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout) {
-        return updateEntityWithResponse(updateMode, tableEntity, ifMatch, timeout).flatMap(response -> Mono.justOrEmpty(response.getValue()));
+    public Mono<Void> updateEntity(TableEntity tableEntity, UpdateMode updateMode, boolean ifMatch, Duration timeout) {
+        return updateEntityWithResponse( tableEntity, updateMode, ifMatch, timeout).flatMap(response -> Mono.justOrEmpty(response.getValue()));
     }
 
     /**
@@ -314,12 +314,12 @@ public class TableAsyncClient {
      * @return a response
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> updateEntityWithResponse(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout) {
-        return withContext(context -> updateEntityWithResponse(updateMode, tableEntity, ifMatch, timeout, context));
+    public Mono<Response<Void>> updateEntityWithResponse(TableEntity tableEntity, UpdateMode updateMode, boolean ifMatch, Duration timeout) {
+        return withContext(context -> updateEntityWithResponse( tableEntity, updateMode, ifMatch, timeout, context));
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<Response<Void>> updateEntityWithResponse(UpdateMode updateMode, TableEntity tableEntity, boolean ifMatch, Duration timeout, Context context) {
+    Mono<Response<Void>> updateEntityWithResponse(TableEntity tableEntity, UpdateMode updateMode, boolean ifMatch, Duration timeout, Context context) {
         if (tableEntity == null) {
             monoError(logger, new NullPointerException("TableEntity cannot be null"));
         }

@@ -24,8 +24,14 @@ public class TableServiceClientCodeSnippets {
             .buildClient();
         try {
             AzureTable officeSuppliesTable = tableServiceClient.createTable("OfficeSupplies");
-        } catch (Exception e) {
-            System.err.println("Create Table Unsuccessful. Error: " + e);
+        } catch (TableStorageException e) {
+            if (e.getErrorCode() == TableErrorCode.TABLE_ALREADY_EXISTS) {
+                System.err.println("Create Table Unsuccessful. Table already exists.");
+            } else if (e.getErrorCode() == TableErrorCode.INVALID_TABLE_NAME) {
+                System.err.println("Create Table Unsuccessful. Table name invalid");
+            } else {
+                System.err.println("Create Table Unsuccessful. " + e);
+            }
         }
     }
 
@@ -39,8 +45,12 @@ public class TableServiceClientCodeSnippets {
 
         try {
             tableServiceClient.deleteTable("OfficeSupplies");
-        } catch (Exception e) {
-            System.err.println("Delete Table Unsuccessful. Error: " + e);
+        } catch (TableStorageException e) {
+            if (e.getErrorCode() == TableErrorCode.TABLE_NOT_FOUND) {
+                System.err.println("Delete Table Unsuccessful. Table not found.");
+            } else {
+                System.err.println("Delete Table Unsuccessful. Error: " + e);
+            }
         }
     }
 
@@ -56,7 +66,7 @@ public class TableServiceClientCodeSnippets {
 
         try {
             PagedIterable<AzureTable> responseTables = tableServiceClient.queryTables(queryParams);
-        } catch (HttpResponseException e) {
+        } catch (TableStorageException e) {
             System.err.println("Table Query Unsuccessful. Error: " + e);
         }
     }
@@ -75,8 +85,14 @@ public class TableServiceClientCodeSnippets {
         properties.put("PartitionKey", "markers");
         try {
             TableEntity tableEntity = tableClient.createEntity(properties);
-        } catch (HttpResponseException e) {
-            System.err.println("Insert Entity Unsuccessful. Error: " + e);
+        } catch (TableStorageException e) {
+            if (e.getErrorCode() == TableErrorCode.ENTITY_ALREADY_EXISTS) {
+                System.err.println("Create Entity Unsuccessful. Entity already exists.");
+            } else if (e.getErrorCode() == TableErrorCode.INVALID_PK_OR_RK_NAME) {
+                System.err.println("Create Table Unsuccessful. Row key or Partition key is unvalid.");
+            } else {
+                System.err.println("Create Entity Unsuccessful. " + e);
+            }
         }
     }
 
@@ -93,14 +109,14 @@ public class TableServiceClientCodeSnippets {
         String partitionKey = "markers";
         TableEntity tableEntity = null;
         try {
-            tableEntity = tableClient.getEntity(rowKey, partitionKey, false, null);
-        } catch (HttpResponseException e) {
-            System.err.println("Get Entity Unsuccessful: " + e);
-        }
-        try {
+            tableEntity = tableClient.getEntity(rowKey, partitionKey);
             tableClient.updateEntity(UpdateMode.REPLACE, tableEntity,true);
-        } catch (HttpResponseException e) {
-            System.err.println("Update Entity Unsuccessful. Error: " + e);
+        } catch (TableStorageException e) {
+            if (e.getErrorCode() == TableErrorCode.ENTITY_NOT_FOUND) {
+                System.err.println("Cannot find entity. Update unsuccessful");
+            } else {
+                System.err.println("Update Entity Unsuccessful. Error: " + e);
+            }
         }
     }
 
@@ -117,14 +133,14 @@ public class TableServiceClientCodeSnippets {
         String partitionKey = "markers";
         TableEntity tableEntity = null;
         try {
-            tableEntity = tableClient.getEntity(rowKey, partitionKey, false, null);
-        } catch (HttpResponseException e) {
-            System.err.println("Get Entity Unsuccessful: " + e);
-        }
-        try {
+            tableEntity = tableClient.getEntity(rowKey, partitionKey);
             tableClient.upsertEntity(UpdateMode.REPLACE, tableEntity, true);
-        } catch (HttpResponseException e) {
-            System.err.println("Upsert Entity Unsuccessful. Error: " + e);
+        } catch (TableStorageException e) {
+            if (e.getErrorCode() == TableErrorCode.ENTITY_NOT_FOUND) {
+                System.err.println("Cannot find entity. Upsert unsuccessful");
+            } else {
+                System.err.println("Upsert Entity Unsuccessful. Error: " + e);
+            }
         }
     }
 
@@ -141,14 +157,14 @@ public class TableServiceClientCodeSnippets {
         String partitionKey = "markers";
         TableEntity tableEntity = null;
         try {
-            tableEntity = tableClient.getEntity(rowKey, partitionKey, false, null);
-        } catch (HttpResponseException e) {
-            System.err.println("Get Entity Unsuccessful: " + e);
-        }
-        try {
+            tableEntity = tableClient.getEntity(rowKey, partitionKey);
             tableClient.deleteEntity(tableEntity, true);
-        } catch (HttpResponseException e) {
-            System.err.println("Delete Entity Unsuccessful. Error: " + e);
+        } catch (TableStorageException e) {
+            if (e.getErrorCode() == TableErrorCode.ENTITY_NOT_FOUND) {
+                System.err.println("Delete Entity Unsuccessful. Entity not found.");
+            } else {
+                System.err.println("Delete Entity Unsuccessful. Error: " + e);
+            }
         }
     }
 
@@ -166,7 +182,7 @@ public class TableServiceClientCodeSnippets {
             .setSelect("Seller, Price");
         try {
             List<TableEntity> tableEntities = tableClient.queryEntities(queryParams);
-        } catch (HttpResponseException e) {
+        } catch (TableStorageException e) {
             System.err.println("Query Table Entities Unsuccessful. Error: " + e);
         }
     }
@@ -183,8 +199,8 @@ public class TableServiceClientCodeSnippets {
         String rowKey = "crayolaMarkers";
         String partitionKey = "markers";
         try {
-            TableEntity tableEntity = tableClient.getEntity(rowKey, partitionKey, false, null);
-        } catch (HttpResponseException e) {
+            TableEntity tableEntity = tableClient.getEntity(rowKey, partitionKey);
+        } catch (TableStorageException e) {
             System.err.println("Get Entity Unsuccessful. Entity may not exist: " + e);
         }
     }

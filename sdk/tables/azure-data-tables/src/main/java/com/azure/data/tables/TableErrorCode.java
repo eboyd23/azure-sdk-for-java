@@ -13,12 +13,32 @@ public class TableErrorCode extends ExpandableStringEnum<TableErrorCode> {
     /**
      * Static value ResourceAlreadyExists for TableErrorCode.
      */
-    public static final TableErrorCode RESOURCE_ALREADY_EXISTS = fromString("ResourceAlreadyExists");
+    public static final TableErrorCode TABLE_ALREADY_EXISTS = fromString("TableAlreadyExists");
 
     /**
      * Static value ResourceNotFound for TableErrorCode.
      */
-    public static final TableErrorCode RESOURCE_NOT_FOUND = fromString("ResourceNotFound");
+    public static final TableErrorCode TABLE_NOT_FOUND = fromString("TableNotFound");
+
+    /**
+     * Static value InvalidResourceName for TableErrorCode.
+     */
+    public static final TableErrorCode INVALID_TABLE_NAME = fromString("InvalidTableName");
+
+    /**
+     * Static value ResourceAlreadyExists for TableErrorCode.
+     */
+    public static final TableErrorCode ENTITY_ALREADY_EXISTS = fromString("EntityAlreadyExists");
+
+    /**
+     * Static value ResourceNotFound for TableErrorCode.
+     */
+    public static final TableErrorCode ENTITY_NOT_FOUND = fromString("EntityNotFound");
+
+    /**
+     * Static value InvalidResourceName for TableErrorCode.
+     */
+    public static final TableErrorCode INVALID_PK_OR_RK_NAME = fromString("InvalidPkOrRkName");
 
     public static TableErrorCode fromString(String name) {
         return fromString(name, TableErrorCode.class);

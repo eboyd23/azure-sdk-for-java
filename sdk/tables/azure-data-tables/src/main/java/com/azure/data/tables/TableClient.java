@@ -88,13 +88,11 @@ public class TableClient {
      *
      * @param rowKey the row key of the entity
      * @param partitionKey the partition key of the entity
-     * @param ifMatch if the etag of the entity must match the found entity or not
-     * @param etag the etag, only required if the ifMatch param is true
      * @return the table entity
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public TableEntity getEntity(String rowKey, String partitionKey, Boolean ifMatch, String etag) {
-        return client.getEntity(rowKey, partitionKey, ifMatch, etag).block();
+    public TableEntity getEntity(String rowKey, String partitionKey) {
+        return client.getEntity(rowKey, partitionKey).block();
     }
 
     /**
@@ -102,14 +100,12 @@ public class TableClient {
      *
      * @param rowKey the row key of the entity
      * @param partitionKey the partition key of the entity
-     * @param ifMatch if the etag of the entity must match the found entity or not
-     * @param etag the etag, only required if the ifMatch param is true
      * @param timeout max time for query to execute before erroring out
      * @return a mono of the table entity
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public TableEntity getEntity(String rowKey, String partitionKey, Boolean ifMatch, String etag, Duration timeout) {
-        return client.getEntity(rowKey, partitionKey, ifMatch, etag, timeout).block();
+    public TableEntity getEntity(String rowKey, String partitionKey, Duration timeout) {
+        return client.getEntity(rowKey, partitionKey, timeout).block();
     }
 
     /**
@@ -117,14 +113,12 @@ public class TableClient {
      *
      * @param rowKey the row key of the entity
      * @param partitionKey the partition key of the entity
-     * @param ifMatch if the etag of the entity must match the found entity or not
-     * @param etag the etag, only required if the ifMatch param is true
      * @param timeout max time for query to execute before erroring out
      * @param context the context of the query
      * @return a mono of the table entity
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public TableEntity getEntity(String rowKey, String partitionKey, Boolean ifMatch, String etag, Duration timeout, Context context) {
+    public TableEntity getEntity(String rowKey, String partitionKey, Duration timeout, Context context) {
         return null;
     }
 
@@ -133,15 +127,13 @@ public class TableClient {
      *
      * @param rowKey the row key of the entity
      * @param partitionKey the partition key of the entity
-     * @param ifMatch if the etag of the entity must match the found entity or not
-     * @param etag the etag, only required if the ifMatch param is true
      * @param timeout max time for query to execute before erroring out
      * @param context the context of the query
      * @return a mono of the response with the table entity
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<TableEntity> getEntityWithResponse(String rowKey, String partitionKey, Boolean ifMatch, String etag, Duration timeout, Context context) {
-        return getEntityWithResponse(rowKey, partitionKey, ifMatch, etag, timeout, context);
+    public Response<TableEntity> getEntityWithResponse(String rowKey, String partitionKey, Duration timeout, Context context) {
+        return getEntityWithResponse(rowKey, partitionKey, timeout, context);
     }
 
     /**

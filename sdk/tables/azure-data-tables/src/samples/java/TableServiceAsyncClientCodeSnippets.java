@@ -88,7 +88,7 @@ public class TableServiceAsyncClientCodeSnippets {
         String rowKey = "crayolaMarkers";
         String partitionKey = "markers";
 
-        tableAsyncClient.getEntity(rowKey, partitionKey, false, null).flatMap(tableEntity -> {
+        tableAsyncClient.getEntity(rowKey, partitionKey).flatMap(tableEntity -> {
             System.out.println("Table Entity: " + tableEntity);
             return tableAsyncClient.deleteEntity(tableEntity, false);
         }).subscribe(
@@ -109,7 +109,7 @@ public class TableServiceAsyncClientCodeSnippets {
         String rowKey = "crayolaMarkers";
         String partitionKey = "markers";
 
-        tableAsyncClient.getEntity(rowKey, partitionKey, false, null).flatMap(tableEntity -> {
+        tableAsyncClient.getEntity(rowKey, partitionKey).flatMap(tableEntity -> {
             System.out.println("Table Entity: " + tableEntity);
             tableEntity.addProperty("Price", "5");
             Mono<Void> updateEntityMono = tableAsyncClient.upsertEntity(UpdateMode.MERGE, tableEntity, false);
@@ -132,7 +132,7 @@ public class TableServiceAsyncClientCodeSnippets {
         String rowKey = "crayolaMarkers";
         String partitionKey = "markers";
 
-        tableAsyncClient.getEntity(rowKey, partitionKey, false, null).flatMap(tableEntity -> {
+        tableAsyncClient.getEntity(rowKey, partitionKey).flatMap(tableEntity -> {
             System.out.println("Table Entity: " + tableEntity);
             tableEntity.addProperty("Price", "5");
             Mono<Void> updateEntityMono = tableAsyncClient.updateEntity(UpdateMode.REPLACE, tableEntity, false);
@@ -173,7 +173,7 @@ public class TableServiceAsyncClientCodeSnippets {
 
         TableAsyncClient tableAsyncClient = tableServiceAsyncClient.getTableAsyncClient("OfficeSupplies");
 
-        tableAsyncClient.getEntity("crayolaMarkers", "markers", false, null)
+        tableAsyncClient.getEntity("crayolaMarkers", "markers")
             .subscribe(tableEntity -> {
                 System.out.println("Table Entity exists: " + tableEntity);
             }, error -> {

@@ -102,13 +102,11 @@ public class TableAsyncClient {
      *
      * @param rowKey the row key of the entity
      * @param partitionKey the partition key of the entity
-     * @param ifMatch if the etag of the entity must match the found entity or not
-     * @param etag the etag, only required if the ifMatch param is true
      * @return a mono of the table entity
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<TableEntity> getEntity(String rowKey, String partitionKey, Boolean ifMatch, String etag) {
-        return getEntity(rowKey, partitionKey, ifMatch, etag, null);
+    public Mono<TableEntity> getEntity(String rowKey, String partitionKey) {
+        return getEntity(rowKey, partitionKey, null);
     }
 
     /**
@@ -116,14 +114,12 @@ public class TableAsyncClient {
      *
      * @param rowKey the row key of the entity
      * @param partitionKey the partition key of the entity
-     * @param ifMatch if the etag of the entity must match the found entity or not
-     * @param etag the etag, only required if the ifMatch param is true
      * @param timeout max time for query to execute before erroring out
      * @return a mono of the table entity
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<TableEntity> getEntity(String rowKey, String partitionKey, Boolean ifMatch, String etag, Duration timeout) {
-        return getEntityWithResponse(rowKey, partitionKey, ifMatch, etag, timeout).flatMap(response -> Mono.justOrEmpty(response.getValue()));
+    public Mono<TableEntity> getEntity(String rowKey, String partitionKey, Duration timeout) {
+        return getEntityWithResponse(rowKey, partitionKey, timeout).flatMap(response -> Mono.justOrEmpty(response.getValue()));
     }
 
     /**
@@ -131,18 +127,16 @@ public class TableAsyncClient {
      *
      * @param rowKey the row key of the entity
      * @param partitionKey the partition key of the entity
-     * @param ifMatch if the etag of the entity must match the found entity or not
-     * @param etag the etag, only required if the ifMatch param is true
      * @param timeout max time for query to execute before erroring out
      * @return a mono of the response with the table entity
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<TableEntity>> getEntityWithResponse(String rowKey, String partitionKey, Boolean ifMatch, String etag, Duration timeout) {
-        return withContext(context -> getEntityWithResponse(rowKey, partitionKey, ifMatch, etag, timeout, context));
+    public Mono<Response<TableEntity>> getEntityWithResponse(String rowKey, String partitionKey, Duration timeout) {
+        return withContext(context -> getEntityWithResponse(rowKey, partitionKey, timeout, context));
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<Response<TableEntity>> getEntityWithResponse(String rowKey, String partitionKey, Boolean ifMatch, String etag, Duration timeout, Context context) {
+    Mono<Response<TableEntity>> getEntityWithResponse(String rowKey, String partitionKey, Duration timeout, Context context) {
         try {
             return tableImplementation.queryEntitiesWithPartitionAndRowKeyWithResponseAsync(tableName, partitionKey, rowKey, (int) timeout.toSeconds(),
                 null, null, context).handle((response, sink) -> {

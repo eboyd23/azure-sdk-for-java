@@ -2,44 +2,28 @@
 // Licensed under the MIT License.
 package com.azure.data.tables;
 
-import com.azure.core.annotation.Host;
 import com.azure.core.annotation.ReturnType;
 import com.azure.core.annotation.ServiceClient;
 import com.azure.core.annotation.ServiceMethod;
-import com.azure.core.exception.ClientAuthenticationException;
-import com.azure.core.exception.HttpResponseException;
-import com.azure.core.exception.ResourceExistsException;
-import com.azure.core.exception.ResourceModifiedException;
-import com.azure.core.exception.ResourceNotFoundException;
 import com.azure.core.http.HttpHeader;
 import com.azure.core.http.HttpHeaders;
 import com.azure.core.http.HttpPipeline;
-import com.azure.core.http.HttpPipelineBuilder;
 import com.azure.core.http.HttpRequest;
-import com.azure.core.http.policy.CookiePolicy;
-import com.azure.core.http.policy.RetryPolicy;
-import com.azure.core.http.policy.UserAgentPolicy;
 import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedResponse;
 import com.azure.core.http.rest.Response;
-import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.util.Context;
 import com.azure.core.util.IterableStream;
-import com.azure.core.util.UrlBuilder;
 import com.azure.core.util.logging.ClientLogger;
-import com.azure.data.tables.implementation.AzureTableBuilder;
 import com.azure.data.tables.implementation.AzureTableImpl;
-import com.azure.data.tables.implementation.TablesImpl;
+import com.azure.data.tables.implementation.AzureTableImplBuilder;
 import com.azure.data.tables.implementation.models.OdataMetadataFormat;
 import com.azure.data.tables.implementation.models.QueryOptions;
 import com.azure.data.tables.implementation.models.ResponseFormat;
 import com.azure.data.tables.implementation.models.TableProperties;
-import com.azure.data.tables.implementation.models.TableResponse;
-import com.azure.data.tables.implementation.models.TableResponseProperties;
-import com.azure.data.tables.implementation.models.TableServiceError;
-import com.azure.data.tables.implementation.models.TableServiceErrorException;
-import com.azure.data.tables.implementation.models.TablesQueryResponse;
+import reactor.core.publisher.Mono;
+
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -50,82 +34,49 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import reactor.core.publisher.Mono;
-import static com.azure.core.util.FluxUtil.monoError;
 
-import static com.azure.core.util.FluxUtil.pagedFluxError;
+import static com.azure.core.util.FluxUtil.monoError;
 import static com.azure.core.util.FluxUtil.withContext;
 
 /**
  * async client for account operations
  */
-@ServiceClient(
-    builder = TableServiceClientBuilder.class,
-    isAsync = true)
+@ServiceClient(builder = TableServiceClientBuilder.class, isAsync = true)
 public class TableServiceAsyncClient {
-    private TablesImpl impl;
     private final ClientLogger logger = new ClientLogger(TableServiceAsyncClient.class);
-    private String version;
-    private String url;
-    private HttpPipeline pipeline;
+    private final AzureTableImpl implementation;
 
-    TableServiceAsyncClient() {
-    }
-
-    TableServiceAsyncClient(HttpPipeline pipeline, String url, TablesServiceVersion tablesServiceVersion) {
-
+    TableServiceAsyncClient(HttpPipeline pipeline, String url, TablesServiceVersion serviceVersion) {
         try {
-            URI.create(url);
+            final URI uri = URI.create(url);
+            logger.verbose("Table Service URI: {}", uri);
         } catch (IllegalArgumentException ex) {
             throw logger.logExceptionAsError(ex);
         }
 
-        this.pipeline = pipeline;
-        this.url = url;
-        this.version = tablesServiceVersion.getVersion();
-
-        AzureTableImpl azureTable = new AzureTableBuilder()
+        this.implementation = new AzureTableImplBuilder()
+            .url(url)
             .pipeline(pipeline)
-            .version("2019-02-02")
+            .version(serviceVersion.getVersion())
             .buildClient();
-
-        this.impl = new TablesImpl(build());
-    }
-
-    TableAsyncClient createTableAsyncClient(String tableName){
-        return new TableAsyncClient(impl, tableName);
-    }
-
-    private AzureTableImpl build(){
-        if (pipeline == null) {
-            this.pipeline = new HttpPipelineBuilder().policies(new UserAgentPolicy(), new RetryPolicy(), new CookiePolicy()).build();
-        }
-        AzureTableImpl client = new AzureTableImpl(pipeline);
-        if (url != null) {
-            client.setUrl(url);
-        }
-        if (this.version != null) {
-            client.setVersion(this.version);
-        } else {
-            client.setVersion(TablesServiceVersion.getLatest().getVersion());
-        }
-        return client;
     }
 
     /**
      * retrieves the async table client for the provided table or creates one if it doesn't exist
      *
      * @param tableName the tableName of the table
+     *
      * @return associated TableAsyncClient
      */
     public TableAsyncClient getTableAsyncClient(String tableName) {
-        return new TableAsyncClient(pipeline, url, version, tableName);
+        return new TableAsyncClient(implementation.getTables(), tableName);
     }
 
     /**
      * creates the table with the given name.  If a table with the same name already exists, the operation fails.
      *
      * @param tableName the name of the table to create
+     *
      * @return the azure table object for the created table
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
@@ -137,6 +88,7 @@ public class TableServiceAsyncClient {
      * creates the table with the given name.  If a table with the same name already exists, the operation fails.
      *
      * @param tableName the name of the table to create
+     *
      * @return a response wth the azure table object for the created table
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
@@ -147,18 +99,17 @@ public class TableServiceAsyncClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     Mono<Response<AzureTable>> createTableWithResponse(String tableName, Context context) {
         context = context == null ? Context.NONE : context;
+        final TableProperties properties = new TableProperties().setTableName(tableName);
+
         try {
-            return impl.createWithResponseAsync(new TableProperties().setTableName(tableName), null, ResponseFormat.RETURN_CONTENT, null, context)
-                //.onErrorMap(TableServiceAsyncClient::mapException)
-                .onErrorMap(error -> {
-                    System.out.print(error);
-                    return new Exception();})
-                .handle((response, sink) -> {
-                    if (response.getValue() == null) {
-                        sink.error(new NullPointerException("create call returned null"));
-                    }
-                    String name = response.getValue().getTableName();
-                    sink.next(new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(), new AzureTable(name)));
+            return implementation.getTables().createWithResponseAsync(properties,
+                null,
+                ResponseFormat.RETURN_CONTENT, null, context)
+                .map(response -> {
+                    final AzureTable table = new AzureTable(response.getValue().getTableName());
+
+                    return new SimpleResponse<>(response.getRequest(), response.getStatusCode(),
+                        response.getHeaders(), table);
                 });
         } catch (RuntimeException ex) {
             return monoError(logger, ex);
@@ -166,26 +117,10 @@ public class TableServiceAsyncClient {
     }
 
     /**
-     * Maps an exception from the ATOM APIs to its associated {@link HttpResponseException}.
-     *
-     * @param exception Exception from the ATOM API.
-     *
-     * @return The corresponding {@link HttpResponseException} or {@code throwable} if it is not an instance of {@link
-     *     TableServiceErrorException}.
-     */
-    private static Throwable mapException(Throwable exception) {
-        if (!(exception instanceof TableServiceErrorException)) {
-            return exception;
-        }
-        final TableServiceErrorException tableError = ((TableServiceErrorException) exception);
-        final TableServiceError error = tableError.getValue();
-        return new Exception(error.getMessage()); //TODO: fix this because it use to be a switch
-    }
-
-    /**
      * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
      *
      * @param tableName the name of the table to delete
+     *
      * @return mono void
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
@@ -197,6 +132,7 @@ public class TableServiceAsyncClient {
      * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
      *
      * @param tableName the name of the table to delete
+     *
      * @return a response
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
@@ -207,7 +143,7 @@ public class TableServiceAsyncClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     Mono<Response<Void>> deleteTableWithResponse(String tableName, Context context) {
         context = context == null ? Context.NONE : context;
-        return impl.deleteWithResponseAsync(tableName,null, context).map(response -> {
+        return implementation.getTables().deleteWithResponseAsync(tableName, null, context).map(response -> {
             return new SimpleResponse<>(response, null);
         });
     }
@@ -216,6 +152,7 @@ public class TableServiceAsyncClient {
      * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
      *
      * @param azureTable the table to delete
+     *
      * @return mono void
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
@@ -227,6 +164,7 @@ public class TableServiceAsyncClient {
      * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
      *
      * @param azureTable the table to delete
+     *
      * @return a response
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
@@ -243,6 +181,7 @@ public class TableServiceAsyncClient {
      * query all the tables under the storage account and returns the tables that fit the query params
      *
      * @param queryParams the odata query object
+     *
      * @return a flux of the tables that met this criteria
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
@@ -253,7 +192,7 @@ public class TableServiceAsyncClient {
             token -> withContext(context -> queryTablesNextPage(token, context, queryParams)));
     } //802
 
-     PagedFlux<AzureTable> queryTables(QueryParams QueryParams, Context context) {
+    PagedFlux<AzureTable> queryTables(QueryParams QueryParams, Context context) {
 
         return new PagedFlux<>(
             () -> queryTablesFirstPage(context, QueryParams),
@@ -269,7 +208,7 @@ public class TableServiceAsyncClient {
         }
     } //1459
 
-    private Mono<PagedResponse<AzureTable>> queryTablesNextPage( String token, Context context, QueryParams queryParams) {
+    private Mono<PagedResponse<AzureTable>> queryTablesNextPage(String token, Context context, QueryParams queryParams) {
         try {
             return queryTables(token, context, queryParams);
         } catch (RuntimeException e) {
@@ -280,7 +219,7 @@ public class TableServiceAsyncClient {
     private Mono<PagedResponse<AzureTable>> queryTables(String nextTableName, Context context, QueryParams queryParams) {
         QueryOptions queryOptions = queryParams != null ? queryParams.convertToQueryOptions() : new QueryOptions();
         queryOptions.setFormat(OdataMetadataFormat.APPLICATION_JSON_ODATA_MINIMALMETADATA);
-        return impl.queryWithResponseAsync(null, nextTableName, queryOptions, context).flatMap(response -> {
+        return implementation.getTables().queryWithResponseAsync(null, nextTableName, queryOptions, context).flatMap(response -> {
             System.out.println("RESPONSE:: ");
             System.out.println(response.getValue().getValue());
             if (response.getValue() == null) {
@@ -297,7 +236,6 @@ public class TableServiceAsyncClient {
             try {
                 HttpHeader token = response.getHeaders().get("x-ms-continuation-NextTableName");
                 String continuationToken = token != null ? token.getValue() : null;
-                return Mono.just(new FeedPa)
                 return Mono.just(extractPage(response, tables, response.getRequest().getUrl()));
             } catch (UnsupportedEncodingException error) {
                 return Mono.error(new RuntimeException("Could not parse response into FeedPage<QueueDescription>",
@@ -318,7 +256,7 @@ public class TableServiceAsyncClient {
      * @throws MalformedURLException if the "next" page link does not contain a well-formed URL.
      */
     private <TResult, TFeed> FeedPage<TResult> extractPage(Response<TFeed> response, List<TResult> entities,
-                                                           URL currentUrl) throws UnsupportedEncodingException {
+        URL currentUrl) throws UnsupportedEncodingException {
 
         if (response == null) {
             return new FeedPage<>(response.getStatusCode(), response.getHeaders(), response.getRequest(), entities);
@@ -369,7 +307,6 @@ public class TableServiceAsyncClient {
          * Creates an instance that has additional pages to fetch.
          *
          * @param entries Items in the page.
-         * @param skip Number of elements to "skip".
          */
         private FeedPage(int statusCode, HttpHeaders header, HttpRequest request, List<T> entries, String nextTableName) {
             this.statusCode = statusCode;

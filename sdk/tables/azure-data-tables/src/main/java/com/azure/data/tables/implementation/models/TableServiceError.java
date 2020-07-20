@@ -11,54 +11,28 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Fluent
 public final class TableServiceError {
     /*
-     * The error message.
+     * The odata error.
      */
-    @JsonProperty(value = "Message")
-    private String message;
-
-    /*
-     * The service error code.
-     */
-    @JsonProperty(value = "Code")
-    private Integer code;
+    @JsonProperty(value = "odata.error")
+    private TableServiceErrorOdataError odataError;
 
     /**
-     * Get the message property: The error message.
+     * Get the odataError property: The odata error.
      *
-     * @return the message value.
+     * @return the odataError value.
      */
-    public String getMessage() {
-        return this.message;
+    public TableServiceErrorOdataError getOdataError() {
+        return this.odataError;
     }
 
     /**
-     * Set the message property: The error message.
+     * Set the odataError property: The odata error.
      *
-     * @param message the message value to set.
+     * @param odataError the odataError value to set.
      * @return the TableServiceError object itself.
      */
-    public TableServiceError setMessage(String message) {
-        this.message = message;
-        return this;
-    }
-
-    /**
-     * Get the code property: The service error code.
-     *
-     * @return the code value.
-     */
-    public Integer getCode() {
-        return this.code;
-    }
-
-    /**
-     * Set the code property: The service error code.
-     *
-     * @param code the code value to set.
-     * @return the ServiceBusManagementError object itself.
-     */
-    public TableServiceError setCode(Integer code) {
-        this.code = code;
+    public TableServiceError setOdataError(TableServiceErrorOdataError odataError) {
+        this.odataError = odataError;
         return this;
     }
 }

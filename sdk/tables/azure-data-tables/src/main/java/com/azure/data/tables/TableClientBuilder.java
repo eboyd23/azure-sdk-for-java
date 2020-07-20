@@ -10,7 +10,7 @@ import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.policy.HttpPipelinePolicy;
 import com.azure.core.util.Configuration;
-import com.azure.core.util.CoreUtils;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -66,7 +66,8 @@ public class TableClientBuilder {
      * @return an aysnc tableClient
      */
     public TableAsyncClient buildAsyncClient() {
-        return new TableAsyncClient(pipeline, "", serviceVersion.getVersion() ,tableName);
+        return null;
+        // return new TableAsyncClient(pipeline, "", serviceVersion.getVersion() ,tableName);
     }
 
     /**

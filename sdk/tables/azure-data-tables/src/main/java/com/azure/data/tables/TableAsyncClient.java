@@ -5,21 +5,18 @@ package com.azure.data.tables;
 import com.azure.core.annotation.ReturnType;
 import com.azure.core.annotation.ServiceClient;
 import com.azure.core.annotation.ServiceMethod;
-import com.azure.core.exception.ResourceNotFoundException;
-import com.azure.core.http.HttpPipeline;
-import com.azure.core.http.HttpResponse;
 import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedResponse;
 import com.azure.core.http.rest.Response;
-import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.util.Context;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.data.tables.implementation.TablesImpl;
 import com.azure.data.tables.implementation.models.ResponseFormat;
+import reactor.core.publisher.Mono;
+
 import java.time.Duration;
 import java.util.Map;
-import reactor.core.publisher.Mono;
 
 import static com.azure.core.util.FluxUtil.monoError;
 import static com.azure.core.util.FluxUtil.withContext;
@@ -33,19 +30,10 @@ import static com.azure.core.util.FluxUtil.withContext;
 public class TableAsyncClient {
     private final ClientLogger logger = new ClientLogger(TableAsyncClient.class);
     private final String tableName;
-    private final TablesImpl impl;
-    private String tablesServiceVersion;
-    private String serviceEndpoint;
+    private final TablesImpl tableImplementation;
 
-    TableAsyncClient(HttpPipeline pipeline, String serviceEndpoint, String version, String tableName) {
-        this.impl = RestProxy.create(TablesImpl.class, pipeline);
-        this.serviceEndpoint = serviceEndpoint;
-        tablesServiceVersion = version;
-        this.tableName = tableName;
-    }
-
-    TableAsyncClient(TablesImpl tables, String tableName) {
-        impl = tables;
+    TableAsyncClient(TablesImpl tableImplementation, String tableName) {
+        this.tableImplementation = tableImplementation;
         this.tableName = tableName;
     }
 
@@ -155,7 +143,7 @@ public class TableAsyncClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     Mono<Response<TableEntity>> getEntityWithResponse(String rowKey, String partitionKey, Boolean ifMatch, String etag, Duration timeout, Context context) {
         try {
-            return impl.queryEntitiesWithPartitionAndRowKeyWithResponseAsync(tableName, partitionKey, rowKey, (int) timeout.toSeconds(),
+            return tableImplementation.queryEntitiesWithPartitionAndRowKeyWithResponseAsync(tableName, partitionKey, rowKey, (int) timeout.toSeconds(),
                 null, null, context).handle((response, sink) -> {
                 for (Map<String, Object> m : response.getValue().getValue()) {
                     if (m.get("PartitionKey").equals(partitionKey) && m.get("RowKey").equals(rowKey)) {
@@ -211,7 +199,7 @@ public class TableAsyncClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     Mono<Response<TableEntity>> createEntityWithResponse(Map<String, Object> tableEntityProperties, Duration timeout, Context context) {
         Integer timeoutInt = timeout != null ? (int) timeout.getSeconds() : null;
-        return impl.insertEntityWithResponseAsync(tableName, timeoutInt, null, ResponseFormat.RETURN_CONTENT, tableEntityProperties,
+        return tableImplementation.insertEntityWithResponseAsync(tableName, timeoutInt, null, ResponseFormat.RETURN_CONTENT, tableEntityProperties,
             null, context).map(response -> {
             Map<String, Object> properties = response.getValue();
             String etag = response.getHeaders().get("ETag").getValue();
@@ -365,7 +353,7 @@ public class TableAsyncClient {
         }
         String matchParam = ifMatch ? tableEntity.getEtag() : "*";
 
-        return impl.mergeEntityWithResponseAsync(tableName, tableEntity.getPartitionKey(), tableEntity.getRowKey(),
+        return tableImplementation.mergeEntityWithResponseAsync(tableName, tableEntity.getPartitionKey(), tableEntity.getRowKey(),
             (int) timeout.toSeconds(), null, matchParam, tableEntity.getProperties(), null, context).map(response -> {
             return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
                 null);
@@ -377,7 +365,7 @@ public class TableAsyncClient {
     }
 
     private Mono<Response<Boolean>> existsEntityWithResponse(TableEntity tableEntity, Duration timeout, Context context) {
-        return impl.queryEntitiesWithPartitionAndRowKeyWithResponseAsync(tableName, tableEntity.getPartitionKey(),
+        return tableImplementation.queryEntitiesWithPartitionAndRowKeyWithResponseAsync(tableName, tableEntity.getPartitionKey(),
             tableEntity.getRowKey(),(int) timeout.toSeconds(), null, null, context).map(response -> {
             return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
                 (response.getValue() != null));
@@ -482,7 +470,7 @@ public class TableAsyncClient {
 
     Mono<Response<Void>> deleteEntityWithResponse(String partitionKey, String rowKey, boolean ifMatch, String etag, Duration timeout, Context context) {
         String matchParam = ifMatch ? etag : "*";
-        return impl.deleteEntityWithResponseAsync(tableName, partitionKey, rowKey,
+        return tableImplementation.deleteEntityWithResponseAsync(tableName, partitionKey, rowKey,
             matchParam, (int) timeout.toSeconds(), null, null, context).map(response -> {
             return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(), null);
         });

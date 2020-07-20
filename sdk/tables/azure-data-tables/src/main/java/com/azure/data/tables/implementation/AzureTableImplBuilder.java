@@ -13,37 +13,21 @@ import com.azure.core.http.policy.UserAgentPolicy;
 
 /** A builder for creating a new instance of the AzureTable type. */
 @ServiceClientBuilder(serviceClients = {AzureTableImpl.class})
-public final class AzureTableBuilder {
+public final class AzureTableImplBuilder {
     /*
-     * The URL of the service account or table that is the targe of the desired
-     * operation.
+     * The URL of the service account or table that is the target of the
+     * desired operation.
      */
     private String url;
 
     /**
-     * Sets The URL of the service account or table that is the targe of the desired operation.
+     * Sets The URL of the service account or table that is the target of the desired operation.
      *
      * @param url the url value.
-     * @return the AzureTableBuilder.
+     * @return the AzureTableImplBuilder.
      */
-    public AzureTableBuilder url(String url) {
+    public AzureTableImplBuilder url(String url) {
         this.url = url;
-        return this;
-    }
-
-    /*
-     * Specifies the version of the operation to use for this request.
-     */
-    private String version;
-
-    /**
-     * Sets Specifies the version of the operation to use for this request.
-     *
-     * @param version the version value.
-     * @return the AzureTableBuilder.
-     */
-    public AzureTableBuilder version(String version) {
-        this.version = version;
         return this;
     }
 
@@ -56,10 +40,26 @@ public final class AzureTableBuilder {
      * Sets The HTTP pipeline to send requests through.
      *
      * @param pipeline the pipeline value.
-     * @return the AzureTableBuilder.
+     * @return the AzureTableImplBuilder.
      */
-    public AzureTableBuilder pipeline(HttpPipeline pipeline) {
+    public AzureTableImplBuilder pipeline(HttpPipeline pipeline) {
         this.pipeline = pipeline;
+        return this;
+    }
+
+    /**
+     * The version for Tables service.
+     */
+    private String version;
+
+    /**
+     * Sets the version for Tables service.
+     *
+     * @param version the service value.
+     * @return the AzureTableImplBuilder.
+     */
+    public AzureTableImplBuilder version(String version) {
+        this.version = version;
         return this;
     }
 
@@ -75,9 +75,7 @@ public final class AzureTableBuilder {
                             .policies(new UserAgentPolicy(), new RetryPolicy(), new CookiePolicy())
                             .build();
         }
-        AzureTableImpl client = new AzureTableImpl(pipeline);
-        client.setUrl(this.url);
-        client.setVersion(this.version);
+        AzureTableImpl client = new AzureTableImpl(pipeline, url, version);
         return client;
     }
 }

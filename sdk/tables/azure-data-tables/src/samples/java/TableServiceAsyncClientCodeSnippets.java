@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 package com.azure.data.tables;
 
+import com.azure.data.tables.models.UpdateMode;
 import java.util.HashMap;
 import java.util.Map;
 import reactor.core.publisher.Mono;
@@ -43,13 +44,13 @@ public class TableServiceAsyncClientCodeSnippets {
     /**
      * query tables code snippet
      */
-    public void queryTable() {
+    public void listTable() {
         TableServiceAsyncClient tableServiceAsyncClient = new TableServiceClientBuilder()
             .connectionString("connectionString")
             .buildAsyncClient();
         QueryParams queryParams = new QueryParams().setFilter("TableName eq OfficeSupplies");
 
-        tableServiceAsyncClient.queryTables(queryParams).subscribe(azureTable -> {
+        tableServiceAsyncClient.listTables(queryParams).subscribe(azureTable -> {
             System.out.println(azureTable.getName());
         }, error -> {
                 System.err.println("There was an error querying the service. Error: " + error);
@@ -59,15 +60,15 @@ public class TableServiceAsyncClientCodeSnippets {
     /**
      * insert entity code snippet
      */
-    private void createEntity() {
+    private void insertEntity() {
         TableServiceAsyncClient tableServiceAsyncClient = new TableServiceClientBuilder()
             .connectionString("connectionString")
             .buildAsyncClient();
 
         TableAsyncClient tableAsyncClient = tableServiceAsyncClient.getTableAsyncClient("OfficeSupplies");
         Map<String, Object> properties = new HashMap<>();
-        properties.put("RowKey", "crayolaMarkers");
         properties.put("PartitionKey", "markers");
+        properties.put("RowKey", "crayolaMarkers");
 
         tableAsyncClient.createEntity(properties).subscribe(tableEntity -> {
             System.out.println("Insert Entity Successful. Entity: " + tableEntity);
@@ -85,12 +86,15 @@ public class TableServiceAsyncClientCodeSnippets {
             .buildAsyncClient();
 
         TableAsyncClient tableAsyncClient = tableServiceAsyncClient.getTableAsyncClient("OfficeSupplies");
-        String rowKey = "crayolaMarkers";
         String partitionKey = "markers";
+        String rowKey = "crayolaMarkers";
 
-        tableAsyncClient.getEntity(rowKey, partitionKey).flatMap(tableEntity -> {
+        tableAsyncClient.getEntity(partitionKey, rowKey).flatMap(tableEntity -> {
             System.out.println("Table Entity: " + tableEntity);
-            return tableAsyncClient.deleteEntity(tableEntity, false);
+
+            //delete entity without an ifUnchanged param will default to always deleting
+            //(using "*" as match condition in request)
+            return tableAsyncClient.deleteEntity(tableEntity);
         }).subscribe(
             Void -> { },
             error -> System.err.println("There was an error deleting the Entity. Error: " + error),
@@ -106,14 +110,16 @@ public class TableServiceAsyncClientCodeSnippets {
             .buildAsyncClient();
 
         TableAsyncClient tableAsyncClient = tableServiceAsyncClient.getTableAsyncClient("OfficeSupplies");
-        String rowKey = "crayolaMarkers";
         String partitionKey = "markers";
+        String rowKey = "crayolaMarkers";
 
-        tableAsyncClient.getEntity(rowKey, partitionKey).flatMap(tableEntity -> {
+        tableAsyncClient.getEntity(partitionKey, rowKey).flatMap(tableEntity -> {
             System.out.println("Table Entity: " + tableEntity);
-            tableEntity.addProperty("Price", "5");
-            Mono<Void> updateEntityMono = tableAsyncClient.upsertEntity(UpdateMode.MERGE, tableEntity, false);
-            return updateEntityMono;
+            tableEntity.getProperties().put("Price", "5");
+
+            //default is for UpdateMode is UpdateMode.MERGE, which means it merges if exists; inserts if not
+            //ifUnchanged being true means the eTags must match to upsert
+            return tableAsyncClient.upsertEntity(tableEntity, true);
         }).subscribe(
             Void -> { },
             error -> System.err.println("There was an error upserting the Entity. Error: " + error),
@@ -129,14 +135,16 @@ public class TableServiceAsyncClientCodeSnippets {
             .buildAsyncClient();
 
         TableAsyncClient tableAsyncClient = tableServiceAsyncClient.getTableAsyncClient("OfficeSupplies");
-        String rowKey = "crayolaMarkers";
         String partitionKey = "markers";
+        String rowKey = "crayolaMarkers";
 
-        tableAsyncClient.getEntity(rowKey, partitionKey).flatMap(tableEntity -> {
+        tableAsyncClient.getEntity(partitionKey, rowKey).flatMap(tableEntity -> {
             System.out.println("Table Entity: " + tableEntity);
-            tableEntity.addProperty("Price", "5");
-            Mono<Void> updateEntityMono = tableAsyncClient.updateEntity(UpdateMode.REPLACE, tableEntity, false);
-            return updateEntityMono;
+            tableEntity.getProperties().put("Price", "5");
+
+            //UpdateMode.REPLACE: so the entity will be replaced if it exists or the request fails if not found
+            //ifUnchanged being false means the eTags must not match
+            return tableAsyncClient.updateEntity(tableEntity, false, UpdateMode.REPLACE);
         }).subscribe(
             Void -> { },
             error -> System.err.println("There was an error updating the Entity. Error: " + error),
@@ -146,7 +154,7 @@ public class TableServiceAsyncClientCodeSnippets {
     /**
      * query entity code snippet
      */
-    private void queryEntities() {
+    private void listEntities() {
         TableServiceAsyncClient tableServiceAsyncClient = new TableServiceClientBuilder()
             .connectionString("connectionString")
             .buildAsyncClient();
@@ -156,7 +164,7 @@ public class TableServiceAsyncClientCodeSnippets {
             .setFilter("Product eq markers")
             .setSelect("Seller, Price");
 
-        tableAsyncClient.queryEntities(queryParams).subscribe(tableEntity -> {
+        tableAsyncClient.listEntities(queryParams).subscribe(tableEntity -> {
             System.out.println("Table Entity: " + tableEntity);
         }, error -> {
                 System.err.println("There was an error querying the table. Error: " + error);

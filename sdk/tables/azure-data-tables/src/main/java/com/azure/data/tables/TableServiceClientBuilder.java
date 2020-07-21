@@ -41,7 +41,6 @@ public class TableServiceClientBuilder {
     private final List<HttpPipelinePolicy> policies;
     private String connectionString;
     private Configuration configuration;
-    private TablesSharedKeyCredential tablesSharedKeyCredential;
     private String endpoint;
     private HttpClient httpClient;
     private HttpLogOptions httpLogOptions;
@@ -80,7 +79,7 @@ public class TableServiceClientBuilder {
         TablesServiceVersion serviceVersion = version != null ? version : TablesServiceVersion.getLatest();
 
         HttpPipeline pipeline = (httpPipeline != null) ? httpPipeline : BuilderHelper.buildPipeline(
-            tablesSharedKeyCredential, tokenCredential, sasTokenCredential, endpoint, retryOptions, httpLogOptions,
+            (TablesSharedKeyCredential) tokenCredential, tokenCredential, sasTokenCredential, endpoint, retryOptions, httpLogOptions,
             httpClient, policies, configuration, logger);
 
         return new TableServiceAsyncClient(pipeline, endpoint, serviceVersion);
@@ -108,8 +107,8 @@ public class TableServiceClientBuilder {
         }
         StorageAuthenticationSettings authSettings = storageConnectionString.getStorageAuthSettings();
         if (authSettings.getType() == StorageAuthenticationSettings.Type.ACCOUNT_NAME_KEY) {
-            this.credential(new TablesSharedKeyCredential(authSettings.getAccount().getName(),
-                authSettings.getAccount().getAccessKey()));
+//            this.credential(new TablesSharedKeyCredential(authSettings.getAccount().getName(),
+//                authSettings.getAccount().getAccessKey()));
         } else if (authSettings.getType() == StorageAuthenticationSettings.Type.SAS_TOKEN) {
             this.sasToken(authSettings.getSasToken());
         }
@@ -156,25 +155,24 @@ public class TableServiceClientBuilder {
     public TableServiceClientBuilder sasToken(String sasToken) {
         this.sasTokenCredential = new SasTokenCredential(Objects.requireNonNull(sasToken,
             "'sasToken' cannot be null."));
-        this.tablesSharedKeyCredential = null;
+        this.tokenCredential = null;
         this.tokenCredential = null;
         return this;
     }
-
 
     /**
      * gets the connection string
      *
      * @return the connection string
      */
-    public String getConnectionString() {
+    private String getConnectionString() {
         return this.connectionString;
     }
 
     private String getEndpoint() {
         if (endpoint != null) {
             return endpoint;
-        } else if (tablesSharedKeyCredential != null) {
+        } else if (tokenCredential != null) {
             return null; // tablesSharedKeyCredential.getCanonicalizedResource();
         } else {
             return null;
@@ -199,8 +197,8 @@ public class TableServiceClientBuilder {
      * @return the updated TableServiceClient builder
      * @throws NullPointerException If {@code credential} is {@code null}.
      */
-    public TableServiceClientBuilder credential(TablesSharedKeyCredential credential) {
-        this.tablesSharedKeyCredential = Objects.requireNonNull(credential, "credential cannot"
+    public TableServiceClientBuilder credential(TokenCredential credential) {
+        this.tokenCredential = Objects.requireNonNull(credential, "credential cannot"
             + "be null");
         return this;
     }

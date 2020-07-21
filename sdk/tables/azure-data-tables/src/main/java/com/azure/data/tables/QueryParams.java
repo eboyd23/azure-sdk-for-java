@@ -77,7 +77,7 @@ public final class QueryParams {
         return this;
     }
 
-    QueryOptions convertToQueryOptions(){
+    QueryOptions convertToQueryOptions() {
         return new QueryOptions()
             .setSelect(this.select)
             .setTop(this.top)

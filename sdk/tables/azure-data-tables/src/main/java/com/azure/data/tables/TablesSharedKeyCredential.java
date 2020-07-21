@@ -40,7 +40,7 @@ public class TablesSharedKeyCredential {
      * @param headers the headers of the request
      * @return the auth header
      */
-    public String generateAuthorizationHeader(URL requestUrl, Map<String, String> headers) {
+    String generateAuthorizationHeader(URL requestUrl, Map<String, String> headers) {
         String signature = StorageImplUtils.computeHMac256(accountKey, buildStringToSign(requestUrl,
             headers));
         return String.format(AUTHORIZATION_HEADER_FORMAT, accountName, signature);

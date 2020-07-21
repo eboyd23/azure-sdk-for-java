@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class BuilderHelper {
+class BuilderHelper {
     private static final Map<String, String> PROPERTIES =
         CoreUtils.getProperties("azure-storage-blob.properties");
     private static final String SDK_NAME = "name";
@@ -51,15 +51,15 @@ public class BuilderHelper {
         policies.add(new AddDatePolicy());
         HttpPipelinePolicy credentialPolicy;
         if (tablesSharedKeyCredential != null) {
-            credentialPolicy =  new TablesSharedKeyCredentialPolicy(tablesSharedKeyCredential);
+            credentialPolicy = new TablesSharedKeyCredentialPolicy(tablesSharedKeyCredential);
         } else if (tokenCredential != null) {
             httpsValidation(tokenCredential, "bearer token", endpoint, logger);
-            credentialPolicy =  new BearerTokenAuthenticationPolicy(tokenCredential,
+            credentialPolicy = new BearerTokenAuthenticationPolicy(tokenCredential,
                 String.format("%s/.default", getPrimaryEndpointForTokenAuth(endpoint)));
         } else if (sasTokenCredential != null) {
-            credentialPolicy =  new SasTokenCredentialPolicy(sasTokenCredential);
+            credentialPolicy = new SasTokenCredentialPolicy(sasTokenCredential);
         } else {
-            credentialPolicy =  null;
+            credentialPolicy = null;
         }
 
         if (credentialPolicy != null) {
@@ -103,7 +103,6 @@ public class BuilderHelper {
     }
 
     /**
-     *
      * @param endpoint The endpoint passed by the customer.
      * @return The primary endpoint for the account. It may be the same endpoint passed if it is already a primary or it
      * may have had "-secondary" stripped from the end of the account name.
@@ -120,7 +119,7 @@ public class BuilderHelper {
      *
      * @return the default http log options.
      */
-    public static HttpLogOptions getDefaultHttpLogOptions() {
+    private static HttpLogOptions getDefaultHttpLogOptions() {
         HttpLogOptions defaultOptions = new HttpLogOptions();
         //BlobHeadersAndQueryParameters.getBlobHeaders().forEach(defaultOptions::addAllowedHeaderName);
         //BlobHeadersAndQueryParameters.getBlobQueryParameters().forEach(defaultOptions::addAllowedQueryParamName);
@@ -146,8 +145,9 @@ public class BuilderHelper {
      * @param objectToCheck The object to check for.
      * @param objectName The name of the object.
      * @param endpoint The endpoint for the client.
+     * @param logger the logger
      */
-    public static void httpsValidation(Object objectToCheck, String objectName, String endpoint, ClientLogger logger) {
+    private static void httpsValidation(Object objectToCheck, String objectName, String endpoint, ClientLogger logger) {
 //        if (objectToCheck != null && !BlobUrlParts.parse(endpoint).getScheme().equals(Constants.HTTPS)) {
 //            throw logger.logExceptionAsError(new IllegalArgumentException(
 //                "Using a(n) " + objectName + " requires https"));

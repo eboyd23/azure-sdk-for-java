@@ -1,10 +1,12 @@
 package com.azure.data.tables;
 
+import com.azure.core.credential.TokenCredential;
 import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.policy.HttpLoggingPolicy;
 import com.azure.core.test.TestBase;
 import com.azure.core.util.logging.ClientLogger;
+import com.azure.data.tables.models.Entity;
 import com.azure.storage.common.implementation.connectionstring.StorageConnectionString;
 import org.junit.jupiter.api.Test;
 import reactor.test.StepVerifier;
@@ -43,7 +45,7 @@ public class AuthorizationSamples extends TestBase {
             = StorageConnectionString.create(connectionString, logger);
         TableServiceClient client = new TableServiceClientBuilder()
             .endpoint(storageConnectionString.getTableEndpoint().getPrimaryUri())
-            .credential(tablesSharedKeyCredential)
+            .credential((TokenCredential) tablesSharedKeyCredential)
             .addPolicy(new HttpLoggingPolicy(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS)))
             .buildClient();
         // END: com.azure.storage.blob.specialized.BlobClientBase.Builder.endpoint#String
@@ -68,7 +70,7 @@ public class AuthorizationSamples extends TestBase {
 
         clientEndpoint = new TableServiceClientBuilder()
             .endpoint(storageConnectionString.getTableEndpoint().getPrimaryUri())
-            .credential(tablesSharedKeyCredential)
+            .credential((TokenCredential) tablesSharedKeyCredential)
             .addPolicy(new HttpLoggingPolicy(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS)))
             .buildClient();
 
@@ -97,14 +99,14 @@ public class AuthorizationSamples extends TestBase {
 
     @Test
     void createTableAsync() {
-        asyncClient.queryTables(null).subscribe(r -> {
+        asyncClient.listTables(null).subscribe(r -> {
             r.getName();
         });
     }
 
     @Test
     void queryTableAsync() {
-        StepVerifier.create(asyncClient.queryTables(null))
+        StepVerifier.create(asyncClient.listTables(null))
             .assertNext(response -> {
                 System.out.print("Response");
                 System.out.print(response);
@@ -127,14 +129,14 @@ public class AuthorizationSamples extends TestBase {
         properties.put(PARTITION_KEY, partitionKeyValue);
         properties.put(ROW_KEY, rowKeyValue);
 
-        TableEntity tableEntity = asyncClientTable.createEntity(properties).block();
+        Entity entity = asyncClientTable.createEntity(properties).block();
     }
 
     @Test
     void queryEntity() {
         asyncClientTable = asyncClient.getTableAsyncClient("hello");
         QueryParams queryParams = new QueryParams().setSelect("PartitionKey");
-        asyncClientTable.queryEntities(queryParams).subscribe(r -> {
+        asyncClientTable.listEntities(queryParams).subscribe(r -> {
             r.getPartitionKey();
         });
     }

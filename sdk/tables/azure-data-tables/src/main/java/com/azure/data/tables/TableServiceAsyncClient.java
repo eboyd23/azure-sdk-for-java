@@ -22,6 +22,8 @@ import com.azure.data.tables.implementation.models.OdataMetadataFormat;
 import com.azure.data.tables.implementation.models.QueryOptions;
 import com.azure.data.tables.implementation.models.ResponseFormat;
 import com.azure.data.tables.implementation.models.TableProperties;
+import com.azure.data.tables.models.Table;
+import java.time.Duration;
 import reactor.core.publisher.Mono;
 
 import java.io.UnsupportedEncodingException;
@@ -65,7 +67,6 @@ public class TableServiceAsyncClient {
      * retrieves the async table client for the provided table or creates one if it doesn't exist
      *
      * @param tableName the tableName of the table
-     *
      * @return associated TableAsyncClient
      */
     public TableAsyncClient getTableAsyncClient(String tableName) {
@@ -73,14 +74,23 @@ public class TableServiceAsyncClient {
     }
 
     /**
+     * gets a given table by name
+     *
+     * @param name the name of the table
+     * @return associated azure table object
+     */
+    public Table getTable(String name) {
+        return null;
+    }
+
+    /**
      * creates the table with the given name.  If a table with the same name already exists, the operation fails.
      *
      * @param tableName the name of the table to create
-     *
      * @return the azure table object for the created table
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<AzureTable> createTable(String tableName) {
+    public Mono<Table> createTable(String tableName) {
         return createTableWithResponse(tableName).flatMap(response -> Mono.justOrEmpty(response.getValue()));
     }
 
@@ -88,16 +98,15 @@ public class TableServiceAsyncClient {
      * creates the table with the given name.  If a table with the same name already exists, the operation fails.
      *
      * @param tableName the name of the table to create
-     *
      * @return a response wth the azure table object for the created table
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<AzureTable>> createTableWithResponse(String tableName) {
+    public Mono<Response<Table>> createTableWithResponse(String tableName) {
         return withContext(context -> createTableWithResponse(tableName, context));
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<Response<AzureTable>> createTableWithResponse(String tableName, Context context) {
+    Mono<Response<Table>> createTableWithResponse(String tableName, Context context) {
         context = context == null ? Context.NONE : context;
         final TableProperties properties = new TableProperties().setTableName(tableName);
 
@@ -106,7 +115,7 @@ public class TableServiceAsyncClient {
                 null,
                 ResponseFormat.RETURN_CONTENT, null, context)
                 .map(response -> {
-                    final AzureTable table = new AzureTable(response.getValue().getTableName());
+                    final Table table = new Table(response.getValue().getTableName());
 
                     return new SimpleResponse<>(response.getRequest(), response.getStatusCode(),
                         response.getHeaders(), table);
@@ -120,7 +129,6 @@ public class TableServiceAsyncClient {
      * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
      *
      * @param tableName the name of the table to delete
-     *
      * @return mono void
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
@@ -132,7 +140,6 @@ public class TableServiceAsyncClient {
      * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
      *
      * @param tableName the name of the table to delete
-     *
      * @return a response
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
@@ -151,72 +158,69 @@ public class TableServiceAsyncClient {
     /**
      * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
      *
-     * @param azureTable the table to delete
-     *
+     * @param table the table to delete
      * @return mono void
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Void> deleteTable(AzureTable azureTable) {
-        return deleteTable(azureTable.getName());
+    public Mono<Void> deleteTable(Table table) {
+        return deleteTable(table.getName());
     }
 
     /**
      * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
      *
-     * @param azureTable the table to delete
-     *
+     * @param table the table to delete
      * @return a response
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteTableWithResponse(AzureTable azureTable) {
-        return deleteTableWithResponse(azureTable.getName());
+    public Mono<Response<Void>> deleteTableWithResponse(Table table) {
+        return deleteTableWithResponse(table.getName());
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<Response<Void>> deleteTableWithResponse(AzureTable azureTable, Context context) {
-        return deleteTableWithResponse(azureTable.getName(), context);
+    Mono<Response<Void>> deleteTableWithResponse(Table table, Context context) {
+        return deleteTableWithResponse(table.getName(), context);
     }
+
 
     /**
      * query all the tables under the storage account and returns the tables that fit the query params
      *
      * @param queryParams the odata query object
-     *
      * @return a flux of the tables that met this criteria
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<AzureTable> queryTables(QueryParams queryParams) {
+    public PagedFlux<Table> listTables(QueryParams queryParams) {
 
         return new PagedFlux<>(
-            () -> withContext(context -> queryTablesFirstPage(context, queryParams)),
-            token -> withContext(context -> queryTablesNextPage(token, context, queryParams)));
+            () -> withContext(context -> listTablesFirstPage(context, queryParams)),
+            token -> withContext(context -> listTablesNextPage(token, context, queryParams)));
     } //802
 
-    PagedFlux<AzureTable> queryTables(QueryParams QueryParams, Context context) {
+    PagedFlux<Table> listTables(QueryParams QueryParams, Context context) {
 
         return new PagedFlux<>(
-            () -> queryTablesFirstPage(context, QueryParams),
-            token -> queryTablesNextPage(token, context, QueryParams));
+            () -> listTablesFirstPage(context, QueryParams),
+            token -> listTablesNextPage(token, context, QueryParams));
     } //802
 
-
-    private Mono<PagedResponse<AzureTable>> queryTablesFirstPage(Context context, QueryParams queryParams) {
+    private Mono<PagedResponse<Table>> listTablesFirstPage(Context context, QueryParams queryParams) {
         try {
-            return queryTables(null, context, queryParams);
+            return listTables(null, context, queryParams);
         } catch (RuntimeException e) {
             return monoError(logger, e);
         }
     } //1459
 
-    private Mono<PagedResponse<AzureTable>> queryTablesNextPage(String token, Context context, QueryParams queryParams) {
+    private Mono<PagedResponse<Table>> listTablesNextPage(String token, Context context, QueryParams queryParams) {
         try {
-            return queryTables(token, context, queryParams);
+            return listTables(token, context, queryParams);
         } catch (RuntimeException e) {
             return monoError(logger, e);
         }
     } //1459
 
-    private Mono<PagedResponse<AzureTable>> queryTables(String nextTableName, Context context, QueryParams queryParams) {
+    private Mono<PagedResponse<Table>> listTables(String nextTableName, Context context, QueryParams queryParams) {
         QueryOptions queryOptions = queryParams != null ? queryParams.convertToQueryOptions() : new QueryOptions();
         queryOptions.setFormat(OdataMetadataFormat.APPLICATION_JSON_ODATA_MINIMALMETADATA);
         return implementation.getTables().queryWithResponseAsync(null, nextTableName, queryOptions, context).flatMap(response -> {
@@ -228,10 +232,10 @@ public class TableServiceAsyncClient {
             if (response.getValue().getValue() == null) {
                 return Mono.empty();
             }
-            final List<AzureTable> tables = response.getValue().getValue().stream()
+            final List<Table> tables = response.getValue().getValue().stream()
                 .map(e -> {
-                    AzureTable azureTable = new AzureTable(e.getTableName());
-                    return azureTable;
+                    Table table = new Table(e.getTableName());
+                    return table;
                 }).collect(Collectors.toList());
             try {
                 HttpHeader token = response.getHeaders().get("x-ms-continuation-NextTableName");
@@ -251,12 +255,11 @@ public class TableServiceAsyncClient {
      * @param entities Entities in the feed.
      * @param currentUrl the url that was returned
      * @param <TResult> Type of Service Bus entities in page.
-     *
      * @return A {@link FeedPage} indicating whether this can be continued or not.
      * @throws MalformedURLException if the "next" page link does not contain a well-formed URL.
      */
     private <TResult, TFeed> FeedPage<TResult> extractPage(Response<TFeed> response, List<TResult> entities,
-        URL currentUrl) throws UnsupportedEncodingException {
+                                                           URL currentUrl) throws UnsupportedEncodingException {
 
         if (response == null) {
             return new FeedPage<>(response.getStatusCode(), response.getHeaders(), response.getRequest(), entities);

@@ -196,7 +196,7 @@ public class TableClientBuilder {
     public TableClientBuilder sasToken(String sasToken) {
         this.sasTokenCredential = new SasTokenCredential(Objects.requireNonNull(sasToken,
             "'sasToken' cannot be null."));
-        this.tablesSharedKeyCredential= null;
+        this.tablesSharedKeyCredential = null;
         this.tokenCredential = null;
         return this;
     }

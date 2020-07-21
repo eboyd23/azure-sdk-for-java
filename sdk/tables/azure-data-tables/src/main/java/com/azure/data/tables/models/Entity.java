@@ -62,7 +62,7 @@ public class Entity {
      * gets the etag
      * @return the etag for the entity
      */
-    public String getEtag() {
+    public String getETag() {
         return etag;
     }
 

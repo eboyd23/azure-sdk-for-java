@@ -49,85 +49,6 @@ public class TableAsyncClient {
     }
 
     /**
-     * Queries and returns entities in the given table using the odata query options
-     *
-     * @param queryOptions the odata query object
-     * @return a paged flux of all the entity which fit this criteria
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<Entity> queryEntities(QueryParams queryOptions) {
-        return null;
-    }
-
-    /**
-     * Queries and returns entities in the given table using the odata query options
-     *
-     * @param queryOptions the odata query object
-     * @return a paged flux of responses of all the entity which fit this criteria
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<Response<Entity>> queryEntitiesWithResponse(QueryParams queryOptions) {
-        return null;
-    }
-
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    private PagedFlux<Response<Entity>> queryEntitiesWithResponse(QueryParams queryOptions, Duration timeout, Context context) {
-        return null;
-    }
-
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    private Mono<PagedResponse<Entity>> queryFirstPageEntities(QueryParams queryOptions, Context context) {
-        return null;
-    }
-
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    private Mono<PagedResponse<Entity>> queryNextPageEntities(Context context, String nextPartitionKey, String nextRowKey) {
-        return null;
-    }
-
-    /**
-     * gets the entity which fits the given criteria
-     *
-     * @param rowKey the row key of the entity
-     * @param partitionKey the partition key of the entity
-     * @return a mono of the table entity
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Entity> getEntity(String rowKey, String partitionKey) {
-        return withContext(context -> getEntityWithResponse(rowKey, partitionKey, null, context)).flatMap(response -> Mono.justOrEmpty(response.getValue()));
-    }
-
-    /**
-     * gets the entity which fits the given criteria
-     *
-     * @param rowKey the row key of the entity
-     * @param partitionKey the partition key of the entity
-     * @return a mono of the response with the table entity
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Entity>> getEntityWithResponse(String rowKey, String partitionKey) {
-        return withContext(context -> getEntityWithResponse(rowKey, partitionKey, null, context));
-    }
-
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<Response<Entity>> getEntityWithResponse(String rowKey, String partitionKey, Duration timeout, Context context) {
-        try {
-            return tableImplementation.queryEntitiesWithPartitionAndRowKeyWithResponseAsync(tableName, partitionKey, rowKey, (int) timeout.toSeconds(),
-                null, null, context).handle((response, sink) -> {
-                for (Map<String, Object> m : response.getValue().getValue()) {
-                    if (m.get("PartitionKey").equals(partitionKey) && m.get("RowKey").equals(rowKey)) {
-                        sink.next(new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
-                            new Entity(m)));
-                    }
-                }
-                sink.error(new NullPointerException("resource not found"));
-            });
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
-    }
-
-    /**
      * insert a TableEntity with the given properties and return that TableEntity. Property map must include
      * rowKey and partitionKey
      *
@@ -332,13 +253,13 @@ public class TableAsyncClient {
         if (entity == null) {
             monoError(logger, new NullPointerException("TableEntity cannot be null"));
         }
-        if (ifUnchanged && entity.getEtag() == null) {
+        if (ifUnchanged && entity.getETag() == null) {
             monoError(logger, new NullPointerException("eTag cannot be null when 'ifUnchanged' is true"));
         }
-        String matchParam = ifUnchanged ? entity.getEtag() : "*";
+        String matchParam = ifUnchanged ? entity.getETag() : "*";
 
         return tableImplementation.mergeEntityWithResponseAsync(tableName, entity.getPartitionKey(), entity.getRowKey(),
-            (int) timeout.toSeconds(), null, matchParam, entity.getProperties(), null, context).map(response -> {
+            (int) timeout.getSeconds(), null, matchParam, entity.getProperties(), null, context).map(response -> {
             return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
                 null);
         });
@@ -350,11 +271,25 @@ public class TableAsyncClient {
 
     private Mono<Response<Boolean>> existsEntityWithResponse(Entity entity, Duration timeout, Context context) {
         return tableImplementation.queryEntitiesWithPartitionAndRowKeyWithResponseAsync(tableName, entity.getPartitionKey(),
-            entity.getRowKey(),(int) timeout.toSeconds(), null, null, context).map(response -> {
+            entity.getRowKey(), (int) timeout.getSeconds(), null, null, context).map(response -> {
             return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
                 (response.getValue() != null));
 
         });
+    }
+
+    /**
+     * deletes the given entity
+     *
+     * @param entity entity to delete
+     * @return void
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Void> deleteEntity(Entity entity) {
+        if (entity == null) {
+            monoError(logger, new NullPointerException("TableEntity cannot be null"));
+        }
+        return withContext(context -> deleteEntity(entity.getPartitionKey(), entity.getRowKey(), false, entity.getETag()));
     }
 
     /**
@@ -369,7 +304,7 @@ public class TableAsyncClient {
         if (entity == null) {
             monoError(logger, new NullPointerException("TableEntity cannot be null"));
         }
-        return withContext(context -> deleteEntity(entity.getPartitionKey(), entity.getRowKey(), ifUnchanged, entity.getEtag()));
+        return withContext(context -> deleteEntity(entity.getPartitionKey(), entity.getRowKey(), ifUnchanged, entity.getETag()));
     }
 
     /**
@@ -384,14 +319,14 @@ public class TableAsyncClient {
         if (entity == null) {
             monoError(logger, new NullPointerException("TableEntity cannot be null"));
         }
-        return withContext(context -> deleteEntityWithResponse(entity.getPartitionKey(), entity.getRowKey(), ifUnchanged, entity.getEtag(), null, context));
+        return withContext(context -> deleteEntityWithResponse(entity.getPartitionKey(), entity.getRowKey(), ifUnchanged, entity.getETag(), null, context));
     }
 
     Mono<Response<Void>> deleteEntityWithResponse(Entity entity, boolean ifUnchanged, Duration timeout, Context context) {
         if (entity == null) {
             monoError(logger, new NullPointerException("TableEntity cannot be null"));
         }
-        return deleteEntityWithResponse(entity.getPartitionKey(), entity.getRowKey(), ifUnchanged, entity.getEtag(), timeout, context);
+        return deleteEntityWithResponse(entity.getPartitionKey(), entity.getRowKey(), ifUnchanged, entity.getETag(), timeout, context);
     }
 
     /**
@@ -413,6 +348,19 @@ public class TableAsyncClient {
      *
      * @param partitionKey the partition key
      * @param rowKey the row key
+     * @param eTag the eTag for the entity, null if ifUnchanged is false
+     * @return void
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Void> deleteEntity(String partitionKey, String rowKey, String eTag) {
+        return deleteEntityWithResponse(partitionKey, rowKey, false, eTag).flatMap(response -> Mono.justOrEmpty(response.getValue()));
+    }
+
+    /**
+     * inserts the TableEntity if it doesn't exist or replace it if it does
+     *
+     * @param partitionKey the partition key
+     * @param rowKey the row key
      * @param ifUnchanged if the eTag of the entity must match the entity in the service or not
      * @param eTag the eTag for the entity, null if ifUnchanged is false
      * @return a response
@@ -425,9 +373,71 @@ public class TableAsyncClient {
     Mono<Response<Void>> deleteEntityWithResponse(String partitionKey, String rowKey, boolean ifUnchanged, String eTag, Duration timeout, Context context) {
         String matchParam = ifUnchanged ? eTag : "*";
         return tableImplementation.deleteEntityWithResponseAsync(tableName, partitionKey, rowKey,
-            matchParam, (int) timeout.toSeconds(), null, null, context).map(response -> {
+            matchParam, (int) timeout.getSeconds(), null, null, context).map(response -> {
             return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(), null);
         });
     }
 
+    /**
+     * Queries and returns entities in the given table using the odata query options
+     *
+     * @param queryOptions the odata query object
+     * @return a paged flux of all the entity which fit this criteria
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedFlux<Entity> listEntities(QueryParams queryOptions) {
+        return null;
+    }
+
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    private Mono<PagedResponse<Entity>> listFirstPageEntities(QueryParams queryOptions, Context context) {
+        return null;
+    }
+
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    private Mono<PagedResponse<Entity>> listNextPageEntities(Context context, String nextPartitionKey, String nextRowKey) {
+        return null;
+    }
+
+    /**
+     * gets the entity which fits the given criteria
+     *
+     * @param partitionKey the partition key of the entity
+     * @param rowKey the row key of the entity
+     * @return a mono of the table entity
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Entity> getEntity(String partitionKey, String rowKey) {
+        return withContext(context -> getEntityWithResponse(partitionKey, rowKey, null, context)).flatMap(response -> Mono.justOrEmpty(response.getValue()));
+    }
+
+    /**
+     * gets the entity which fits the given criteria
+     *
+     * @param partitionKey the partition key of the entity
+     * @param rowKey the row key of the entity
+     * @return a mono of the response with the table entity
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Response<Entity>> getEntityWithResponse(String partitionKey, String rowKey) {
+        return withContext(context -> getEntityWithResponse(partitionKey, rowKey, null, context));
+    }
+
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    Mono<Response<Entity>> getEntityWithResponse(String partitionKey, String rowKey, Duration timeout, Context context) {
+        try {
+            return tableImplementation.queryEntitiesWithPartitionAndRowKeyWithResponseAsync(tableName, partitionKey, rowKey, (int) timeout.getSeconds(),
+                null, null, context).handle((response, sink) -> {
+                for (Map<String, Object> m : response.getValue().getValue()) {
+                    if (m.get("PartitionKey").equals(partitionKey) && m.get("RowKey").equals(rowKey)) {
+                        sink.next(new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
+                            new Entity(m)));
+                    }
+                }
+                sink.error(new NullPointerException("resource not found"));
+            });
+        } catch (RuntimeException ex) {
+            return monoError(logger, ex);
+        }
+    }
 }

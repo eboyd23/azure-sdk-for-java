@@ -59,7 +59,7 @@ public class TableServiceClientCodeSnippets {
     /**
      * query table code snippet
      */
-    public void queryTables() {
+    public void listTables() {
         TableServiceClient tableServiceClient = new TableServiceClientBuilder()
             .connectionString("connectionString")
             .buildClient();
@@ -67,7 +67,7 @@ public class TableServiceClientCodeSnippets {
         QueryParams queryParams = new QueryParams().setFilter("TableName eq OfficeSupplies");
 
         try {
-            PagedIterable<Table> tablePagedIterable = tableServiceClient.queryTables(queryParams);
+            PagedIterable<Table> tablePagedIterable = tableServiceClient.listTables(queryParams);
         } catch (TableStorageException e) {
             System.err.println("Table Query Unsuccessful. Error: " + e);
         }
@@ -76,15 +76,16 @@ public class TableServiceClientCodeSnippets {
     /**
      * insert entity code snippet
      */
-    private void insertEntity() {
+    private void createEntity() {
         TableClient tableClient = new TableClientBuilder()
             .connectionString("connectionString")
             .tableName("OfficeSupplies")
             .buildClient();
 
         Map<String, Object> properties = new HashMap<>();
-        properties.put("RowKey", "crayolaMarkers");
         properties.put("PartitionKey", "markers");
+        properties.put("RowKey", "crayolaMarkers");
+
         try {
             Entity entity = tableClient.createEntity(properties);
         } catch (TableStorageException e) {
@@ -99,6 +100,31 @@ public class TableServiceClientCodeSnippets {
     }
 
     /**
+     * delete entity code snippet
+     */
+    private void deleteEntity() {
+        TableClient tableClient = new TableClientBuilder()
+            .connectionString("connectionString")
+            .tableName("OfficeSupplies")
+            .buildClient();
+
+        String partitionKey = "markers";
+        String rowKey = "crayolaMarkers";
+        try {
+            Entity entity = tableClient.getEntity(partitionKey, rowKey);
+
+            //ifUnchanged being true means the eTags must match to delete
+            tableClient.deleteEntity(entity, true);
+        } catch (TableStorageException e) {
+            if (e.getErrorCode() == TableErrorCode.ENTITY_NOT_FOUND) {
+                System.err.println("Delete Entity Unsuccessful. Entity not found.");
+            } else {
+                System.err.println("Delete Entity Unsuccessful. Error: " + e);
+            }
+        }
+    }
+
+    /**
      * update entity code snippet
      */
     private void updateEntity() {
@@ -107,11 +133,14 @@ public class TableServiceClientCodeSnippets {
             .tableName("OfficeSupplies")
             .buildClient();
 
-        String rowKey = "crayolaMarkers";
         String partitionKey = "markers";
+        String rowKey = "crayolaMarkers";
         try {
-            Entity entity = tableClient.getEntity(rowKey, partitionKey);
-            tableClient.updateEntity(entity);
+            Entity entity = tableClient.getEntity(partitionKey, rowKey);
+
+            //default is for UpdateMode is UpdateMode.MERGE, which means it merges if exists; fails if not
+            //ifUnchanged being false means the eTags must not match
+            tableClient.updateEntity(entity, false);
         } catch (TableStorageException e) {
             if (e.getErrorCode() == TableErrorCode.ENTITY_NOT_FOUND) {
                 System.err.println("Cannot find entity. Update unsuccessful");
@@ -130,11 +159,14 @@ public class TableServiceClientCodeSnippets {
             .tableName("OfficeSupplies")
             .buildClient();
 
-        String rowKey = "crayolaMarkers";
         String partitionKey = "markers";
+        String rowKey = "crayolaMarkers";
         try {
-            Entity entity = tableClient.getEntity(rowKey, partitionKey);
-            tableClient.upsertEntity(entity);
+            Entity entity = tableClient.getEntity(partitionKey, rowKey);
+
+            //default is for UpdateMode is UpdateMode.REPLACE, which means it replaces if exists; inserts if not
+            //always upsert because if no ifUnchanged boolean present the "*" in request.
+            tableClient.upsertEntity(entity, UpdateMode.REPLACE);
         } catch (TableStorageException e) {
             if (e.getErrorCode() == TableErrorCode.ENTITY_NOT_FOUND) {
                 System.err.println("Cannot find entity. Upsert unsuccessful");
@@ -145,32 +177,9 @@ public class TableServiceClientCodeSnippets {
     }
 
     /**
-     * delete entity code snippet
-     */
-    private void deleteEntity() {
-        TableClient tableClient = new TableClientBuilder()
-            .connectionString("connectionString")
-            .tableName("OfficeSupplies")
-            .buildClient();
-
-        String rowKey = "crayolaMarkers";
-        String partitionKey = "markers";
-        try {
-            Entity entity = tableClient.getEntity(rowKey, partitionKey);
-            tableClient.deleteEntity(entity, true);
-        } catch (TableStorageException e) {
-            if (e.getErrorCode() == TableErrorCode.ENTITY_NOT_FOUND) {
-                System.err.println("Delete Entity Unsuccessful. Entity not found.");
-            } else {
-                System.err.println("Delete Entity Unsuccessful. Error: " + e);
-            }
-        }
-    }
-
-    /**
      * query entity code snippet
      */
-    private void queryEntity() {
+    private void listEntity() {
         TableClient tableClient = new TableClientBuilder()
             .connectionString("connectionString")
             .tableName("OfficeSupplies")
@@ -180,7 +189,7 @@ public class TableServiceClientCodeSnippets {
             .setFilter("Product eq markers")
             .setSelect("Seller, Price");
         try {
-            PagedIterable<Entity> tableEntities = tableClient.queryEntities(queryParams);
+            PagedIterable<Entity> tableEntities = tableClient.listEntities(queryParams);
         } catch (TableStorageException e) {
             System.err.println("Query Table Entities Unsuccessful. Error: " + e);
         }
@@ -195,10 +204,10 @@ public class TableServiceClientCodeSnippets {
             .tableName("OfficeSupplies")
             .buildClient();
 
-        String rowKey = "crayolaMarkers";
         String partitionKey = "markers";
+        String rowKey = "crayolaMarkers";
         try {
-            Entity entity = tableClient.getEntity(rowKey, partitionKey);
+            Entity entity = tableClient.getEntity(partitionKey, rowKey);
         } catch (TableStorageException e) {
             System.err.println("Get Entity Unsuccessful. Entity may not exist: " + e);
         }

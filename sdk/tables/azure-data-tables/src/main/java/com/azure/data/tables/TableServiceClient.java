@@ -103,17 +103,6 @@ public class TableServiceClient {
      *
      * @param table the table to be deleted
      * @param context the context of the query
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void deleteTable(Table table, Context context)  {
-        client.deleteTableWithResponse(table, context).block();
-    }
-
-    /**
-     * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
-     *
-     * @param table the table to be deleted
-     * @param context the context of the query
      * @return response
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
@@ -129,35 +118,8 @@ public class TableServiceClient {
      * @return a list of tables that meet the query
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<Table> queryTables(QueryParams queryParams) {
-        return new PagedIterable<>(client.queryTables(queryParams));
-    }
-
-    /**
-     * query all the tables under the storage account given the query options and returns the ones that fit the
-     * criteria
-     *
-     * @param queryParams the odata query object
-     * @param timeout the time for the query to execute
-     * @return a list of tables that meet the query
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<Table> queryTables(QueryParams queryParams, Duration timeout) {
-        return new PagedIterable<>(client.queryTables(queryParams));
-    }
-
-    /**
-     * query all the tables under the storage account given the query options and returns the ones that fit the
-     * criteria
-     *
-     * @param queryParams the odata query object
-     * @param timeout the time for the query to execute
-     * @param context context of the query
-     * @return a pagedIterable of table responses that meet the query
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<Response<Table>> queryTablesWithResponse(QueryParams queryParams, Duration timeout, Context context) {
-        return null;
+    public PagedIterable<Table> listTables(QueryParams queryParams) {
+        return new PagedIterable<>(client.listTables(queryParams));
     }
 
 }

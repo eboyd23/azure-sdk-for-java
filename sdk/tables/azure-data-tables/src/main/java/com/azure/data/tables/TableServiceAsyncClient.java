@@ -67,7 +67,6 @@ public class TableServiceAsyncClient {
      * retrieves the async table client for the provided table or creates one if it doesn't exist
      *
      * @param tableName the tableName of the table
-     *
      * @return associated TableAsyncClient
      */
     public TableAsyncClient getTableAsyncClient(String tableName) {
@@ -88,7 +87,6 @@ public class TableServiceAsyncClient {
      * creates the table with the given name.  If a table with the same name already exists, the operation fails.
      *
      * @param tableName the name of the table to create
-     *
      * @return the azure table object for the created table
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
@@ -100,7 +98,6 @@ public class TableServiceAsyncClient {
      * creates the table with the given name.  If a table with the same name already exists, the operation fails.
      *
      * @param tableName the name of the table to create
-     *
      * @return a response wth the azure table object for the created table
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
@@ -132,7 +129,6 @@ public class TableServiceAsyncClient {
      * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
      *
      * @param tableName the name of the table to delete
-     *
      * @return mono void
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
@@ -144,7 +140,6 @@ public class TableServiceAsyncClient {
      * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
      *
      * @param tableName the name of the table to delete
-     *
      * @return a response
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
@@ -164,7 +159,6 @@ public class TableServiceAsyncClient {
      * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
      *
      * @param table the table to delete
-     *
      * @return mono void
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
@@ -176,7 +170,6 @@ public class TableServiceAsyncClient {
      * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
      *
      * @param table the table to delete
-     *
      * @return a response
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
@@ -189,61 +182,45 @@ public class TableServiceAsyncClient {
         return deleteTableWithResponse(table.getName(), context);
     }
 
-    /**
-     * query all the tables under the storage account and returns the tables that fit the query params
-     *
-     * @param queryParams the odata query object
-     *
-     * @return a flux of the tables that met this criteria
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<Table> queryTablesWithResponse(QueryParams queryParams) {
-        return null;
-    }
-
-    private PagedFlux<Table> queryTablesWithResponse(QueryParams queryParams, Duration timeout, Context context) {
-        return null;
-    }
 
     /**
      * query all the tables under the storage account and returns the tables that fit the query params
      *
      * @param queryParams the odata query object
-     *
      * @return a flux of the tables that met this criteria
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<Table> queryTables(QueryParams queryParams) {
+    public PagedFlux<Table> listTables(QueryParams queryParams) {
 
         return new PagedFlux<>(
-            () -> withContext(context -> queryTablesFirstPage(context, queryParams)),
-            token -> withContext(context -> queryTablesNextPage(token, context, queryParams)));
+            () -> withContext(context -> listTablesFirstPage(context, queryParams)),
+            token -> withContext(context -> listTablesNextPage(token, context, queryParams)));
     } //802
 
-    PagedFlux<Table> queryTables(QueryParams QueryParams, Context context) {
+    PagedFlux<Table> listTables(QueryParams QueryParams, Context context) {
 
         return new PagedFlux<>(
-            () -> queryTablesFirstPage(context, QueryParams),
-            token -> queryTablesNextPage(token, context, QueryParams));
+            () -> listTablesFirstPage(context, QueryParams),
+            token -> listTablesNextPage(token, context, QueryParams));
     } //802
 
-    private Mono<PagedResponse<Table>> queryTablesFirstPage(Context context, QueryParams queryParams) {
+    private Mono<PagedResponse<Table>> listTablesFirstPage(Context context, QueryParams queryParams) {
         try {
-            return queryTables(null, context, queryParams);
+            return listTables(null, context, queryParams);
         } catch (RuntimeException e) {
             return monoError(logger, e);
         }
     } //1459
 
-    private Mono<PagedResponse<Table>> queryTablesNextPage(String token, Context context, QueryParams queryParams) {
+    private Mono<PagedResponse<Table>> listTablesNextPage(String token, Context context, QueryParams queryParams) {
         try {
-            return queryTables(token, context, queryParams);
+            return listTables(token, context, queryParams);
         } catch (RuntimeException e) {
             return monoError(logger, e);
         }
     } //1459
 
-    private Mono<PagedResponse<Table>> queryTables(String nextTableName, Context context, QueryParams queryParams) {
+    private Mono<PagedResponse<Table>> listTables(String nextTableName, Context context, QueryParams queryParams) {
         QueryOptions queryOptions = queryParams != null ? queryParams.convertToQueryOptions() : new QueryOptions();
         queryOptions.setFormat(OdataMetadataFormat.APPLICATION_JSON_ODATA_MINIMALMETADATA);
         return implementation.getTables().queryWithResponseAsync(null, nextTableName, queryOptions, context).flatMap(response -> {
@@ -278,12 +255,11 @@ public class TableServiceAsyncClient {
      * @param entities Entities in the feed.
      * @param currentUrl the url that was returned
      * @param <TResult> Type of Service Bus entities in page.
-     *
      * @return A {@link FeedPage} indicating whether this can be continued or not.
      * @throws MalformedURLException if the "next" page link does not contain a well-formed URL.
      */
     private <TResult, TFeed> FeedPage<TResult> extractPage(Response<TFeed> response, List<TResult> entities,
-        URL currentUrl) throws UnsupportedEncodingException {
+                                                           URL currentUrl) throws UnsupportedEncodingException {
 
         if (response == null) {
             return new FeedPage<>(response.getStatusCode(), response.getHeaders(), response.getRequest(), entities);

@@ -37,81 +37,6 @@ public class TableClient {
     }
 
     /**
-     * Queries and returns entities in the given table using the odata QueryOptions
-     *
-     * @param queryOptions the odata query object
-     * @return a list of the tables that fit the query
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<Entity> queryEntities(QueryParams queryOptions) {
-        return null;
-    }
-
-    /**
-     * Queries and returns entities in the given table using the odata QueryOptions
-     *
-     * @param queryOptions the odata query object
-     * @param timeout max time for query to execute before erroring out
-     * @return a list of the tables that fit the query
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<Entity> queryEntities(QueryParams queryOptions, Duration timeout) {
-        return null;
-    }
-
-    /**
-     * Queries and returns entities in the given table using the odata QueryOptions
-     *
-     * @param queryOptions the odata query object
-     * @param timeout max time for query to execute before erroring out
-     * @param context the context of the query
-     * @return a list responses with the tables that fit the query
-     */
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<Response<Entity>> queryEntitiesWithResponse(QueryParams queryOptions, Duration timeout, Context context) {
-        return null;
-    }
-
-    /**
-     * gets the entity which fits the given criteria
-     *
-     * @param rowKey the row key of the entity
-     * @param partitionKey the partition key of the entity
-     * @return the table entity
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Entity getEntity(String rowKey, String partitionKey) {
-        return client.getEntity(rowKey, partitionKey).block();
-    }
-
-    /**
-     * gets the entity which fits the given criteria
-     *
-     * @param rowKey the row key of the entity
-     * @param partitionKey the partition key of the entity
-     * @param timeout max time for query to execute before erroring out
-     * @return a mono of the table entity
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Entity getEntity(String rowKey, String partitionKey, Duration timeout) {
-        return null;
-    }
-
-    /**
-     * gets the entity which fits the given criteria
-     *
-     * @param rowKey the row key of the entity
-     * @param partitionKey the partition key of the entity
-     * @param timeout max time for query to execute before erroring out
-     * @param context the context of the query
-     * @return a mono of the response with the table entity
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<Entity> getEntityWithResponse(String rowKey, String partitionKey, Duration timeout, Context context) {
-        return getEntityWithResponse(rowKey, partitionKey, timeout, context);
-    }
-
-    /**
      * insert a TableEntity with the given properties and return that TableEntity. Property map must include
      * rowKey and partitionKey
      *
@@ -347,6 +272,17 @@ public class TableClient {
      *
      * @param partitionKey the partition key
      * @param rowKey the row key
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void deleteEntity(String partitionKey, String rowKey) {
+        client.deleteEntity(partitionKey, rowKey, false, null);
+    }
+
+    /**
+     * inserts the TableEntity if it doesn't exist or replace it if it does
+     *
+     * @param partitionKey the partition key
+     * @param rowKey the row key
      * @param ifUnchanged if the eTag of the entity must match the entity in the service or not
      * @param eTag the eTag for the entity, null if ifUnchanged is false
      */
@@ -381,7 +317,69 @@ public class TableClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Response<Void> deleteEntityWithResponse(String partitionKey, String rowKey, boolean ifUnchanged, String eTag, Duration timeout, Context context) {
-        return client.deleteEntityWithResponse(partitionKey, rowKey,ifUnchanged, eTag, timeout, context).block();
+        return client.deleteEntityWithResponse(partitionKey, rowKey, ifUnchanged, eTag, timeout, context).block();
+    }
+
+    /**
+     * Queries and returns entities in the given table using the odata QueryOptions
+     *
+     * @param queryOptions the odata query object
+     * @return a list of the tables that fit the query
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<Entity> listEntities(QueryParams queryOptions) {
+        return null;
+    }
+
+    /**
+     * Queries and returns entities in the given table using the odata QueryOptions
+     *
+     * @param queryOptions the odata query object
+     * @param timeout max time for query to execute before erroring out
+     * @return a list of the tables that fit the query
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<Entity> listEntities(QueryParams queryOptions, Duration timeout) {
+        return null;
+    }
+
+    /**
+     * gets the entity which fits the given criteria
+     *
+     * @param partitionKey the partition key of the entity
+     * @param rowKey the row key of the entity
+     * @return the table entity
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Entity getEntity(String partitionKey, String rowKey) {
+        return client.getEntity(partitionKey, rowKey).block();
+    }
+
+    /**
+     * gets the entity which fits the given criteria
+     *
+     * @param partitionKey the partition key of the entity
+     * @param rowKey the row key of the entity
+     * @param timeout max time for query to execute before erroring out
+     * @return a mono of the table entity
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Entity getEntity(String partitionKey, String rowKey, Duration timeout) {
+        return null;
+    }
+
+    /**
+     * gets the entity which fits the given criteria
+     *
+     * @param partitionKey the partition key of the entity
+     * @param rowKey the row key of the entity
+     * @param timeout max time for query to execute before erroring out
+     * @param context the context of the query
+     * @return a mono of the response with the table entity
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Response<Entity> getEntityWithResponse(String partitionKey, String rowKey, Duration timeout, Context context) {
+        return getEntityWithResponse(partitionKey, rowKey, timeout, context);
     }
 
 }

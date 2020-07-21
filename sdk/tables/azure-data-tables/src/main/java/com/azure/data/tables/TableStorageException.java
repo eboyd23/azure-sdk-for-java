@@ -5,6 +5,7 @@ package com.azure.data.tables;
 
 import com.azure.core.exception.HttpResponseException;
 import com.azure.core.http.HttpResponse;
+import com.azure.data.tables.models.TableErrorCode;
 
 import static com.azure.storage.common.implementation.Constants.HeaderConstants.ERROR_CODE;
 

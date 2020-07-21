@@ -11,6 +11,7 @@ import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.policy.HttpPipelinePolicy;
 import com.azure.core.util.Configuration;
 
+import com.azure.storage.common.implementation.credentials.SasTokenCredential;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,6 +29,8 @@ public class TableClientBuilder {
     private HttpLogOptions httpLogOptions;
     private HttpPipeline pipeline;
     private TablesServiceVersion serviceVersion;
+    private SasTokenCredential sasTokenCredential;
+    private TablesSharedKeyCredential tablesSharedKeyCredential;
 
     /**
      * Sets the connection string to help build the client
@@ -80,10 +83,9 @@ public class TableClientBuilder {
      * gets the connection string
      * @return the connection string
      */
-    public String getConnectionString(){
+    private String getConnectionString(){
         return this.connectionString;
     }
-
 
     /**
      * Adds a policy to the set of existing policies that are executed after required policies.
@@ -184,4 +186,18 @@ public class TableClientBuilder {
         return this;
     }
 
+    /**
+     * Sets the SAS token used to authorize requests sent to the service.
+     *
+     * @param sasToken The SAS token to use for authenticating requests.
+     * @return the updated BlobClientBuilder
+     * @throws NullPointerException If {@code sasToken} is {@code null}.
+     */
+    public TableClientBuilder sasToken(String sasToken) {
+        this.sasTokenCredential = new SasTokenCredential(Objects.requireNonNull(sasToken,
+            "'sasToken' cannot be null."));
+        this.tablesSharedKeyCredential= null;
+        this.tokenCredential = null;
+        return this;
+    }
 }

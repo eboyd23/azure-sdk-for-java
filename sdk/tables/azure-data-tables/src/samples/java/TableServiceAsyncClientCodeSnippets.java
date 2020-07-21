@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 package com.azure.data.tables;
 
+import com.azure.data.tables.models.UpdateMode;
 import java.util.HashMap;
 import java.util.Map;
 import reactor.core.publisher.Mono;
@@ -111,8 +112,8 @@ public class TableServiceAsyncClientCodeSnippets {
 
         tableAsyncClient.getEntity(rowKey, partitionKey).flatMap(tableEntity -> {
             System.out.println("Table Entity: " + tableEntity);
-            tableEntity.addProperty("Price", "5");
-            Mono<Void> updateEntityMono = tableAsyncClient.upsertEntity(UpdateMode.MERGE, tableEntity, false);
+            tableEntity.getProperties().put("Price", "5");
+            Mono<Void> updateEntityMono = tableAsyncClient.upsertEntity(tableEntity);
             return updateEntityMono;
         }).subscribe(
             Void -> { },
@@ -134,8 +135,8 @@ public class TableServiceAsyncClientCodeSnippets {
 
         tableAsyncClient.getEntity(rowKey, partitionKey).flatMap(tableEntity -> {
             System.out.println("Table Entity: " + tableEntity);
-            tableEntity.addProperty("Price", "5");
-            Mono<Void> updateEntityMono = tableAsyncClient.updateEntity(UpdateMode.REPLACE, tableEntity, false);
+            tableEntity.getProperties().put("Price", "5");
+            Mono<Void> updateEntityMono = tableAsyncClient.updateEntity(tableEntity, UpdateMode.REPLACE);
             return updateEntityMono;
         }).subscribe(
             Void -> { },

@@ -2,11 +2,13 @@
 // Licensed under the MIT License.
 package com.azure.data.tables;
 
-import com.azure.core.exception.HttpResponseException;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.util.logging.ClientLogger;
+import com.azure.data.tables.models.Table;
+import com.azure.data.tables.models.Entity;
+import com.azure.data.tables.models.TableErrorCode;
+import com.azure.data.tables.models.UpdateMode;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,7 +25,7 @@ public class TableServiceClientCodeSnippets {
             .connectionString("connectionString")
             .buildClient();
         try {
-            AzureTable officeSuppliesTable = tableServiceClient.createTable("OfficeSupplies");
+            Table officeSuppliesTable = tableServiceClient.createTable("OfficeSupplies");
         } catch (TableStorageException e) {
             if (e.getErrorCode() == TableErrorCode.TABLE_ALREADY_EXISTS) {
                 System.err.println("Create Table Unsuccessful. Table already exists.");
@@ -65,7 +67,7 @@ public class TableServiceClientCodeSnippets {
         QueryParams queryParams = new QueryParams().setFilter("TableName eq OfficeSupplies");
 
         try {
-            PagedIterable<AzureTable> responseTables = tableServiceClient.queryTables(queryParams);
+            PagedIterable<Table> tablePagedIterable = tableServiceClient.queryTables(queryParams);
         } catch (TableStorageException e) {
             System.err.println("Table Query Unsuccessful. Error: " + e);
         }
@@ -84,12 +86,12 @@ public class TableServiceClientCodeSnippets {
         properties.put("RowKey", "crayolaMarkers");
         properties.put("PartitionKey", "markers");
         try {
-            TableEntity tableEntity = tableClient.createEntity(properties);
+            Entity entity = tableClient.createEntity(properties);
         } catch (TableStorageException e) {
             if (e.getErrorCode() == TableErrorCode.ENTITY_ALREADY_EXISTS) {
                 System.err.println("Create Entity Unsuccessful. Entity already exists.");
             } else if (e.getErrorCode() == TableErrorCode.INVALID_PK_OR_RK_NAME) {
-                System.err.println("Create Table Unsuccessful. Row key or Partition key is unvalid.");
+                System.err.println("Create Table Unsuccessful. Row key or Partition key is invalid.");
             } else {
                 System.err.println("Create Entity Unsuccessful. " + e);
             }
@@ -107,10 +109,9 @@ public class TableServiceClientCodeSnippets {
 
         String rowKey = "crayolaMarkers";
         String partitionKey = "markers";
-        TableEntity tableEntity = null;
         try {
-            tableEntity = tableClient.getEntity(rowKey, partitionKey);
-            tableClient.updateEntity(UpdateMode.REPLACE, tableEntity,true);
+            Entity entity = tableClient.getEntity(rowKey, partitionKey);
+            tableClient.updateEntity(entity);
         } catch (TableStorageException e) {
             if (e.getErrorCode() == TableErrorCode.ENTITY_NOT_FOUND) {
                 System.err.println("Cannot find entity. Update unsuccessful");
@@ -131,10 +132,9 @@ public class TableServiceClientCodeSnippets {
 
         String rowKey = "crayolaMarkers";
         String partitionKey = "markers";
-        TableEntity tableEntity = null;
         try {
-            tableEntity = tableClient.getEntity(rowKey, partitionKey);
-            tableClient.upsertEntity(UpdateMode.REPLACE, tableEntity, true);
+            Entity entity = tableClient.getEntity(rowKey, partitionKey);
+            tableClient.upsertEntity(entity);
         } catch (TableStorageException e) {
             if (e.getErrorCode() == TableErrorCode.ENTITY_NOT_FOUND) {
                 System.err.println("Cannot find entity. Upsert unsuccessful");
@@ -155,10 +155,9 @@ public class TableServiceClientCodeSnippets {
 
         String rowKey = "crayolaMarkers";
         String partitionKey = "markers";
-        TableEntity tableEntity = null;
         try {
-            tableEntity = tableClient.getEntity(rowKey, partitionKey);
-            tableClient.deleteEntity(tableEntity, true);
+            Entity entity = tableClient.getEntity(rowKey, partitionKey);
+            tableClient.deleteEntity(entity, true);
         } catch (TableStorageException e) {
             if (e.getErrorCode() == TableErrorCode.ENTITY_NOT_FOUND) {
                 System.err.println("Delete Entity Unsuccessful. Entity not found.");
@@ -181,7 +180,7 @@ public class TableServiceClientCodeSnippets {
             .setFilter("Product eq markers")
             .setSelect("Seller, Price");
         try {
-            List<TableEntity> tableEntities = tableClient.queryEntities(queryParams);
+            PagedIterable<Entity> tableEntities = tableClient.queryEntities(queryParams);
         } catch (TableStorageException e) {
             System.err.println("Query Table Entities Unsuccessful. Error: " + e);
         }
@@ -199,7 +198,7 @@ public class TableServiceClientCodeSnippets {
         String rowKey = "crayolaMarkers";
         String partitionKey = "markers";
         try {
-            TableEntity tableEntity = tableClient.getEntity(rowKey, partitionKey);
+            Entity entity = tableClient.getEntity(rowKey, partitionKey);
         } catch (TableStorageException e) {
             System.err.println("Get Entity Unsuccessful. Entity may not exist: " + e);
         }

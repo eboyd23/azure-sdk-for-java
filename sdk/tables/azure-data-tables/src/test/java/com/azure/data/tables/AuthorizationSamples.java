@@ -5,6 +5,7 @@ import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.policy.HttpLoggingPolicy;
 import com.azure.core.test.TestBase;
 import com.azure.core.util.logging.ClientLogger;
+import com.azure.data.tables.models.Entity;
 import com.azure.storage.common.implementation.connectionstring.StorageConnectionString;
 import org.junit.jupiter.api.Test;
 import reactor.test.StepVerifier;
@@ -127,7 +128,7 @@ public class AuthorizationSamples extends TestBase {
         properties.put(PARTITION_KEY, partitionKeyValue);
         properties.put(ROW_KEY, rowKeyValue);
 
-        TableEntity tableEntity = asyncClientTable.createEntity(properties).block();
+        Entity entity = asyncClientTable.createEntity(properties).block();
     }
 
     @Test

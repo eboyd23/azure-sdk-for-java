@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-package com.azure.data.tables;
+package com.azure.data.tables.models;
 
 import com.azure.core.annotation.Fluent;
 import java.util.Map;
@@ -9,7 +9,7 @@ import java.util.Map;
  * table entity class
  */
 @Fluent
-public class TableEntity {
+public class Entity {
     private String rowKey;
     private String partitionKey;
     private Map<String, Object> properties;
@@ -22,7 +22,7 @@ public class TableEntity {
      *
      * @param properties map of properties of the entity
      */
-    public TableEntity(Map<String, Object> properties) {
+    public Entity(Map<String, Object> properties) {
         this.properties = properties;
     }
 
@@ -30,16 +30,7 @@ public class TableEntity {
      * creates a new TableEntity
      *
      */
-    public TableEntity() {
-    }
-
-    /**
-     * creates a new TableEntity
-     *
-     * @param properties map of properties of the entity
-     * @param etag the etag of the entity
-     */
-    public TableEntity(Map<String, Object> properties, String etag) {
+    public Entity() {
     }
 
     /**
@@ -67,18 +58,6 @@ public class TableEntity {
         return partitionKey;
     }
 
-
-    /**
-     * adds a new property to this entity's property map
-     *
-     * @param key the key of the property
-     * @param value the value of the property
-     * @return the updated entity
-     */
-    public TableEntity addProperty(String key, Object value) {
-        return this;
-    }
-
     /**
      * gets the etag
      * @return the etag for the entity
@@ -87,11 +66,28 @@ public class TableEntity {
         return etag;
     }
 
-    /**
-     * sets the etag for the entity
-     * @param etag the etag of the entity
-     */
-    public void setEtag(String etag) {
+    private Entity setEtag(String etag) {
         this.etag = etag;
+        return this;
+    }
+
+    /**
+     * sets the partition key parameter
+     * @param partitionKey the partition key value
+     * @return the updated TableEntity
+     */
+    public Entity setPartitionKey(String partitionKey) {
+        this.partitionKey = partitionKey;
+        return this;
+    }
+
+    /**
+     * sets the row key
+     * @param rowKey value of row key
+     * @return updated tableEntity object
+     */
+    public Entity setRowKey(String rowKey) {
+        this.rowKey = rowKey;
+        return this;
     }
 }

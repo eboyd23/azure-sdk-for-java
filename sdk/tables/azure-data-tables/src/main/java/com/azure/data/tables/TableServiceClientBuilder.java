@@ -161,13 +161,12 @@ public class TableServiceClientBuilder {
         return this;
     }
 
-
     /**
      * gets the connection string
      *
      * @return the connection string
      */
-    public String getConnectionString() {
+    private String getConnectionString() {
         return this.connectionString;
     }
 

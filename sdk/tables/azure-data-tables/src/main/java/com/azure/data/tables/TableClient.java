@@ -9,9 +9,12 @@ import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.http.rest.Response;
 import com.azure.core.util.Context;
 import com.azure.data.tables.models.Entity;
+import com.azure.data.tables.models.QueryParams;
+import com.azure.data.tables.models.Table;
 import com.azure.data.tables.models.UpdateMode;
 import java.time.Duration;
 import java.util.Map;
+import reactor.core.publisher.Mono;
 
 /**
  * sync client for table operations
@@ -34,6 +37,40 @@ public class TableClient {
      */
     public String getTableName() {
         return this.tableName;
+    }
+
+    /**
+     * returns the account for this table
+     * @return
+     */
+    public String getAccountName(){ return null;}
+
+    /**
+     * returns Url of this service
+     * @return Url
+     */
+    public String getTableUrl(){ return null;}
+
+    /**
+     * returns the version
+     * @return the version
+     */
+    public TablesServiceVersion getApiVersion() { return null;}
+
+    /**
+     * creates new table with the name of this client
+     * @return a table
+     */
+    public Table create() {
+        return null;
+    }
+
+    /**
+     * creates a new table with the name of this client
+     * @return a table
+     */
+    public Response<Table> createWithResponse() {
+        return null;
     }
 
     /**
@@ -82,26 +119,6 @@ public class TableClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void upsertEntity(Entity entity) {
-    }
-
-    /**
-     * based on Mode it either inserts or merges if exists or inserts or merges if exists
-     *
-     * @param updateMode type of upsert
-     * @param entity entity to upsert
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void upsertEntity(Entity entity, UpdateMode updateMode) {
-    }
-
-    /**
-     * based on Mode it either inserts or merges if exists or inserts or merges if exists
-     *
-     * @param entity entity to upsert
-     * @param ifUnchanged if the eTag of the entity must match the entity in the service or not
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void upsertEntity(Entity entity, boolean ifUnchanged) {
     }
 
     /**
@@ -160,30 +177,6 @@ public class TableClient {
      *
      * @param updateMode which type of update to execute
      * @param entity the entity to update
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void updateEntity(Entity entity, UpdateMode updateMode) {
-
-    }
-
-    /**
-     * if UpdateMode is MERGE, merges or fails if the entity doesn't exist. If UpdateMode is REPLACE replaces or
-     * fails if the entity doesn't exist
-     *
-     * @param entity the entity to update
-     * @param ifUnchanged if the eTag of the entity must match the entity in the service or not
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void updateEntity(Entity entity, boolean ifUnchanged) {
-
-    }
-
-    /**
-     * if UpdateMode is MERGE, merges or fails if the entity doesn't exist. If UpdateMode is REPLACE replaces or
-     * fails if the entity doesn't exist
-     *
-     * @param updateMode which type of update to execute
-     * @param entity the entity to update
      * @param ifUnchanged if the eTag of the entity must match the entity in the service or not
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
@@ -203,7 +196,6 @@ public class TableClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void updateEntity(Entity entity, boolean ifUnchanged, UpdateMode updateMode, Duration timeout) {
     }
-
 
     /**
      * if UpdateMode is MERGE, merges or fails if the entity doesn't exist. If UpdateMode is REPLACE replaces or
@@ -318,6 +310,16 @@ public class TableClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Response<Void> deleteEntityWithResponse(String partitionKey, String rowKey, boolean ifUnchanged, String eTag, Duration timeout, Context context) {
         return client.deleteEntityWithResponse(partitionKey, rowKey, ifUnchanged, eTag, timeout, context).block();
+    }
+
+    /**
+     * Queries and returns entities in the given table using the odata QueryOptions
+     *
+     * @return a list of the tables that fit the query
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<Entity> listEntities() {
+        return null;
     }
 
     /**

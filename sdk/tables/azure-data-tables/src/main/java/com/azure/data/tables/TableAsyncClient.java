@@ -14,7 +14,10 @@ import com.azure.core.util.logging.ClientLogger;
 import com.azure.data.tables.implementation.TablesImpl;
 import com.azure.data.tables.implementation.models.ResponseFormat;
 import com.azure.data.tables.models.Entity;
+import com.azure.data.tables.models.QueryParams;
+import com.azure.data.tables.models.Table;
 import com.azure.data.tables.models.UpdateMode;
+import java.net.URL;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
@@ -46,6 +49,40 @@ public class TableAsyncClient {
      */
     public String getTableName() {
         return tableName;
+    }
+
+    /**
+     * returns the account for this table
+     * @return
+     */
+    public String getAccountName(){ return null;}
+
+    /**
+     * returns Url of this service
+     * @return Url
+     */
+    public String getTableUrl(){ return null;}
+
+    /**
+     * returns the version
+     * @return the version
+     */
+    public TablesServiceVersion getApiVersion() { return null;}
+
+    /**
+     * creates new table with the name of this client
+     * @return a table
+     */
+    public Mono<Table> create() {
+        return null;
+    }
+
+    /**
+     * creates a new table with the name of this client
+     * @return a table
+     */
+    public Mono<Response<Table>> createWithResponse() {
+        return null;
     }
 
     /**
@@ -93,30 +130,6 @@ public class TableAsyncClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> upsertEntity(Entity entity) {
         return upsertEntityWithResponse(entity, false, null).flatMap(response -> Mono.justOrEmpty(response.getValue()));
-    }
-
-    /**
-     * based on Mode it either inserts or merges if exists or inserts or merges if exists
-     *
-     * @param updateMode type of upsert
-     * @param entity entity to upsert
-     * @return void
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Void> upsertEntity(Entity entity, UpdateMode updateMode) {
-        return upsertEntityWithResponse(entity, false, updateMode).flatMap(response -> Mono.justOrEmpty(response.getValue()));
-    }
-
-    /**
-     * based on Mode it either inserts or merges if exists or inserts or merges if exists
-     *
-     * @param entity entity to upsert
-     * @param ifUnchanged true means update if the eTag matches, false means update only if they don't match
-     * @return void
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Void> upsertEntity(Entity entity, boolean ifUnchanged) {
-        return upsertEntityWithResponse(entity, ifUnchanged, null).flatMap(response -> Mono.justOrEmpty(response.getValue()));
     }
 
     /**
@@ -172,32 +185,6 @@ public class TableAsyncClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> updateEntity(Entity entity) {
         return updateEntityWithResponse(entity, false, null).flatMap(response -> Mono.justOrEmpty(response.getValue()));
-    }
-
-    /**
-     * if UpdateMode is MERGE, merges or fails if the entity doesn't exist. If UpdateMode is REPLACE replaces or
-     * fails if the entity doesn't exist
-     *
-     * @param updateMode which type of update to execute
-     * @param entity the entity to update
-     * @return void
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Void> updateEntity(Entity entity, UpdateMode updateMode) {
-        return updateEntityWithResponse(entity, false, updateMode).flatMap(response -> Mono.justOrEmpty(response.getValue()));
-    }
-
-    /**
-     * if UpdateMode is MERGE, merges or fails if the entity doesn't exist. If UpdateMode is REPLACE replaces or
-     * fails if the entity doesn't exist
-     *
-     * @param entity the entity to update
-     * @param ifUnchanged if the eTag of the entity must match the entity in the service or not
-     * @return void
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Void> updateEntity(Entity entity, boolean ifUnchanged) {
-        return updateEntityWithResponse(entity, ifUnchanged, null).flatMap(response -> Mono.justOrEmpty(response.getValue()));
     }
 
     /**
@@ -348,19 +335,6 @@ public class TableAsyncClient {
      *
      * @param partitionKey the partition key
      * @param rowKey the row key
-     * @param eTag the eTag for the entity, null if ifUnchanged is false
-     * @return void
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Void> deleteEntity(String partitionKey, String rowKey, String eTag) {
-        return deleteEntityWithResponse(partitionKey, rowKey, false, eTag).flatMap(response -> Mono.justOrEmpty(response.getValue()));
-    }
-
-    /**
-     * inserts the TableEntity if it doesn't exist or replace it if it does
-     *
-     * @param partitionKey the partition key
-     * @param rowKey the row key
      * @param ifUnchanged if the eTag of the entity must match the entity in the service or not
      * @param eTag the eTag for the entity, null if ifUnchanged is false
      * @return a response
@@ -376,6 +350,16 @@ public class TableAsyncClient {
             matchParam, (int) timeout.getSeconds(), null, null, context).map(response -> {
             return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(), null);
         });
+    }
+
+    /**
+     * Queries and returns entities in the given table using the odata query options
+     *
+     * @return a paged flux of all the entity which fit this criteria
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedFlux<Entity> listEntities() {
+        return null;
     }
 
     /**

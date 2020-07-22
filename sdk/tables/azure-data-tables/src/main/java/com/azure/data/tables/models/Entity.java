@@ -43,6 +43,14 @@ public class Entity {
     }
 
     /**
+     * add a property to an entity
+     * @param key the key of the value
+     * @param value the value to add
+     * @return the updated Entity
+     */
+    public Entity addProperties(String key, Object value) { return this;}
+
+    /**
      * gets the row key
      * @return the row key for the given entity
      */

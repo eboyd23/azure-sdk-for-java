@@ -7,6 +7,7 @@ import com.azure.core.http.policy.HttpLoggingPolicy;
 import com.azure.core.test.TestBase;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.data.tables.models.Entity;
+import com.azure.data.tables.models.QueryParams;
 import com.azure.storage.common.implementation.connectionstring.StorageConnectionString;
 import org.junit.jupiter.api.Test;
 import reactor.test.StepVerifier;

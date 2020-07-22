@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 package com.azure.data.tables;
 
+import com.azure.data.tables.models.QueryParams;
 import com.azure.data.tables.models.UpdateMode;
 import java.util.HashMap;
 import java.util.Map;
-import reactor.core.publisher.Mono;
 
 /**
  * async code snippets for the table service

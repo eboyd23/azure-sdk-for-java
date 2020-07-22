@@ -8,8 +8,8 @@ import com.azure.core.annotation.ServiceMethod;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.http.rest.Response;
 import com.azure.core.util.Context;
+import com.azure.data.tables.models.QueryParams;
 import com.azure.data.tables.models.Table;
-import java.time.Duration;
 
 /**
  * client for table service
@@ -86,28 +86,6 @@ public class TableServiceClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Response<Void> deleteTableWithResponse(String tableName, Context context) {
         return client.deleteTableWithResponse(tableName, context).block();
-    }
-
-    /**
-     * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
-     *
-     * @param table the table to be deleted
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public void deleteTable(Table table) {
-        client.deleteTable(table).block();
-    }
-
-    /**
-     * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
-     *
-     * @param table the table to be deleted
-     * @param context the context of the query
-     * @return response
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<Void> deleteTableWithResponse(Table table, Context context) {
-        return deleteTableWithResponse(table, context);
     }
 
     /**

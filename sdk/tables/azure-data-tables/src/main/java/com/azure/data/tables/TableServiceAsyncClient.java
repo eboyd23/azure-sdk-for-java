@@ -22,8 +22,8 @@ import com.azure.data.tables.implementation.models.OdataMetadataFormat;
 import com.azure.data.tables.implementation.models.QueryOptions;
 import com.azure.data.tables.implementation.models.ResponseFormat;
 import com.azure.data.tables.implementation.models.TableProperties;
+import com.azure.data.tables.models.QueryParams;
 import com.azure.data.tables.models.Table;
-import java.time.Duration;
 import reactor.core.publisher.Mono;
 
 import java.io.UnsupportedEncodingException;
@@ -154,34 +154,6 @@ public class TableServiceAsyncClient {
             return new SimpleResponse<>(response, null);
         });
     }
-
-    /**
-     * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
-     *
-     * @param table the table to delete
-     * @return mono void
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Void> deleteTable(Table table) {
-        return deleteTable(table.getName());
-    }
-
-    /**
-     * deletes the given table. Will error if the table doesn't exists or cannot be found with the given name.
-     *
-     * @param table the table to delete
-     * @return a response
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteTableWithResponse(Table table) {
-        return deleteTableWithResponse(table.getName());
-    }
-
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<Response<Void>> deleteTableWithResponse(Table table, Context context) {
-        return deleteTableWithResponse(table.getName(), context);
-    }
-
 
     /**
      * query all the tables under the storage account and returns the tables that fit the query params

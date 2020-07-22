@@ -20,17 +20,12 @@ public class Entity {
     /**
      * creates a new TableEntity
      *
-     * @param properties map of properties of the entity
+     * @param partitionKey the partition key
+     * @param rowKey the row key
      */
-    public Entity(Map<String, Object> properties) {
-        this.properties = properties;
-    }
-
-    /**
-     * creates a new TableEntity
-     *
-     */
-    public Entity() {
+    public Entity(Object partitionKey, Object rowKey) {
+        properties.put("PartitionKey", partitionKey);
+        properties.put("RowKey", rowKey);
     }
 
     /**

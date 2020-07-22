@@ -77,24 +77,24 @@ public class TableClient {
      * insert a TableEntity with the given properties and return that TableEntity. Property map must include
      * rowKey and partitionKey
      *
-     * @param tableEntityProperties a map of properties for the TableEntity
+     * @param tableEntity the entity to add
      * @return the created TableEntity
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Entity createEntity(Map<String, Object> tableEntityProperties) {
-        return createEntity(tableEntityProperties, (Duration) null);
+    public Entity createEntity(Entity tableEntity) {
+        return createEntity(tableEntity, (Duration) null);
     }
 
     /**
      * insert a TableEntity with the given properties and return that TableEntity. Property map must include
      * rowKey and partitionKey
      *
-     * @param tableEntityProperties a map of properties for the TableEntity
+     * @param tableEntity the entity to add
      * @param timeout max time for query to execute before erroring out
      * @return the created TableEntity
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Entity createEntity(Map<String, Object> tableEntityProperties, Duration timeout) {
+    public Entity createEntity(Entity tableEntity, Duration timeout) {
         return null;
     }
 
@@ -102,14 +102,14 @@ public class TableClient {
      * insert a TableEntity with the given properties and return that TableEntity. Property map must include
      * rowKey and partitionKey
      *
-     * @param tableEntityProperties a map of properties for the TableEntity
+     * @param tableEntity the entity to add
      * @param timeout max time for query to execute before erroring out
      * @param context the context of the query
      * @return the created TableEntity in a response
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<Entity> createEntityWithResponse(Map<String, Object> tableEntityProperties, Duration timeout, Context context) {
-        return client.createEntityWithResponse(tableEntityProperties, timeout, context).block();
+    public Response<Entity> createEntityWithResponse(Entity tableEntity, Duration timeout, Context context) {
+        return client.createEntityWithResponse(tableEntity, timeout, context).block();
     }
 
     /**
@@ -126,10 +126,9 @@ public class TableClient {
      *
      * @param updateMode type of upsert
      * @param entity entity to upsert
-     * @param ifUnchanged if the eTag of the entity must match the entity in the service or not
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void upsertEntity(Entity entity, boolean ifUnchanged, UpdateMode updateMode) {
+    public void upsertEntity(Entity entity, UpdateMode updateMode) {
     }
 
 
@@ -138,11 +137,10 @@ public class TableClient {
      *
      * @param updateMode type of upsert
      * @param entity entity to upsert
-     * @param ifUnchanged if the eTag of the entity must match the entity in the service or not
      * @param timeout max time for query to execute before erroring out
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void upsertEntity(Entity entity, boolean ifUnchanged, UpdateMode updateMode, Duration timeout) {
+    public void upsertEntity(Entity entity, UpdateMode updateMode, Duration timeout) {
     }
 
     /**
@@ -150,13 +148,12 @@ public class TableClient {
      *
      * @param updateMode type of upsert
      * @param entity entity to upsert
-     * @param ifUnchanged if the eTag of the entity must match the entity in the service or not
      * @param timeout max time for query to execute before erroring out
      * @param context the context of the query
      * @return a response
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<Void> upsertEntityWithResponse(Entity entity, boolean ifUnchanged, UpdateMode updateMode, Duration timeout, Context context) {
+    public Response<Void> upsertEntityWithResponse(Entity entity, UpdateMode updateMode, Duration timeout, Context context) {
         return client.upsertEntityWithResponse(entity, ifUnchanged, updateMode, timeout, context).block();
     }
 

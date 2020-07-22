@@ -108,35 +108,33 @@ public class TableAsyncClient {
      * insert a TableEntity with the given properties and return that TableEntity. Property map must include
      * rowKey and partitionKey
      *
-     * @param tableEntityProperties a map of properties for the TableEntity
+     * @param entity the entity
      * @return the created TableEntity
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Entity> createEntity(Map<String, Object> tableEntityProperties) {
-        return createEntityWithResponse(tableEntityProperties).flatMap(response -> Mono.justOrEmpty(response.getValue()));
+    public Mono<Entity> createEntity(Entity entity) {
+        return createEntityWithResponse(entity).flatMap(response -> Mono.justOrEmpty(response.getValue()));
     }
 
     /**
      * insert a TableEntity with the given properties and return that TableEntity. Property map must include
      * rowKey and partitionKey
      *
-     * @param tableEntityProperties a map of properties for the TableEntity
+     * @param entity the entity
      * @return a mono of the response with the TableEntity
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Entity>> createEntityWithResponse(Map<String, Object> tableEntityProperties) {
-        return withContext(context -> createEntityWithResponse(tableEntityProperties, null, context));
+    public Mono<Response<Entity>> createEntityWithResponse(Entity entity) {
+        return withContext(context -> createEntityWithResponse(entity, null, context));
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<Response<Entity>> createEntityWithResponse(Map<String, Object> tableEntityProperties, Duration timeout, Context context) {
+    Mono<Response<Entity>> createEntityWithResponse(Entity tableEntity, Duration timeout, Context context) {
         Integer timeoutInt = timeout != null ? (int) timeout.getSeconds() : null;
-        return tableImplementation.insertEntityWithResponseAsync(tableName, timeoutInt, null, ResponseFormat.RETURN_CONTENT, tableEntityProperties,
+        return tableImplementation.insertEntityWithResponseAsync(tableName, timeoutInt, null, ResponseFormat.RETURN_CONTENT, tableEntity.getProperties(),
             null, context).map(response -> {
-            Map<String, Object> properties = response.getValue();
             String eTag = response.getHeaders().get("eTag").getValue();//TODO: need to figure out how to add this to entity
-            Entity entity = new Entity(properties);
-            return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(), entity);
+            return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(), tableEntity);
         });
     }
 
@@ -148,7 +146,7 @@ public class TableAsyncClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> upsertEntity(Entity entity) {
-        return upsertEntityWithResponse(entity, false, null).flatMap(response -> Mono.justOrEmpty(response.getValue()));
+        return upsertEntityWithResponse(entity, null).flatMap(response -> Mono.justOrEmpty(response.getValue()));
     }
 
     /**
@@ -156,16 +154,15 @@ public class TableAsyncClient {
      *
      * @param updateMode type of upsert
      * @param entity entity to upsert
-     * @param ifUnchanged if the eTag of the entity must match the entity in the service or not
      * @return a response
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> upsertEntityWithResponse(Entity entity, boolean ifUnchanged, UpdateMode updateMode) {
-        return withContext(context -> upsertEntityWithResponse(entity, ifUnchanged, updateMode, null, context));
+    public Mono<Response<Void>> upsertEntityWithResponse(Entity entity, UpdateMode updateMode) {
+        return withContext(context -> upsertEntityWithResponse(entity, updateMode, null, context));
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<Response<Void>> upsertEntityWithResponse(Entity entity, boolean ifUnchanged, UpdateMode updateMode, Duration timeout, Context context) {
+    Mono<Response<Void>> upsertEntityWithResponse(Entity entity, UpdateMode updateMode, Duration timeout, Context context) {
         if (entity == null) {
             monoError(logger, new NullPointerException("TableEntity cannot be null"));
         }
@@ -173,7 +170,7 @@ public class TableAsyncClient {
             //merges if exists, inserts if not
             existsEntity(entity, timeout, context).map(exists -> {
                 if (exists) {
-                    return mergeEntityWithResponse(entity, ifUnchanged, timeout, context);
+                    return mergeEntityWithResponse(entity, timeout, context);
                 } else {
                     return createEntityWithResponse(entity.getProperties(), timeout, context).then();
                 }
@@ -184,7 +181,7 @@ public class TableAsyncClient {
             //updates if exists, inserts if not
             existsEntity(entity, timeout, context).map(exists -> {
                 if (exists) {
-                    deleteEntityWithResponse(entity, ifUnchanged, timeout, context);
+                    deleteEntityWithResponse(entity, timeout, context);
                     return createEntityWithResponse(entity.getProperties(), timeout, context).then();
                 } else {
                     return createEntityWithResponse(entity.getProperties(), timeout, context).then();

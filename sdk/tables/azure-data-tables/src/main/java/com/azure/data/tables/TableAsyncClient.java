@@ -13,6 +13,7 @@ import com.azure.core.util.Context;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.data.tables.implementation.TablesImpl;
 import com.azure.data.tables.implementation.models.ResponseFormat;
+import com.azure.data.tables.implementation.models.TableProperties;
 import com.azure.data.tables.models.Entity;
 import com.azure.data.tables.models.QueryParams;
 import com.azure.data.tables.models.Table;
@@ -36,10 +37,16 @@ public class TableAsyncClient {
     private final ClientLogger logger = new ClientLogger(TableAsyncClient.class);
     private final String tableName;
     private final TablesImpl tableImplementation;
+    private final String accountName;
+    private final String tableUrl;
+    private final TablesServiceVersion apiVersion;
 
     TableAsyncClient(TablesImpl tableImplementation, String tableName) {
         this.tableImplementation = tableImplementation;
         this.tableName = tableName;
+        this.accountName = null;
+        this.tableUrl = null;
+        this.apiVersion = null;
     }
 
     /**
@@ -55,26 +62,26 @@ public class TableAsyncClient {
      * returns the account for this table
      * @return
      */
-    public String getAccountName(){ return null;}
+    public String getAccountName(){ return this.accountName;}
 
     /**
      * returns Url of this service
      * @return Url
      */
-    public String getTableUrl(){ return null;}
+    public String getTableUrl(){ return this.tableUrl;}
 
     /**
      * returns the version
      * @return the version
      */
-    public TablesServiceVersion getApiVersion() { return null;}
+    public TablesServiceVersion getApiVersion() { return this.apiVersion;}
 
     /**
      * creates new table with the name of this client
      * @return a table
      */
     public Mono<Table> create() {
-        return null;
+        return createWithResponse().flatMap(response -> Mono.justOrEmpty(response.getValue()));
     }
 
     /**
@@ -82,7 +89,19 @@ public class TableAsyncClient {
      * @return a table
      */
     public Mono<Response<Table>> createWithResponse() {
-        return null;
+        return withContext(context -> createWithResponse(context));
+    }
+
+    /**
+     * creates a new table with the name of this client
+     * @return a table
+     */
+    public Mono<Response<Table>> createWithResponse(Context context) {
+        return tableImplementation.createWithResponseAsync(new TableProperties().setTableName(tableName), null,
+            ResponseFormat.RETURN_CONTENT, null, context).map(response -> {
+                Table table = response.getValue() == null ? null : new Table(response.getValue().getTableName());
+                return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(), table);
+        });
     }
 
     /**
@@ -115,7 +134,7 @@ public class TableAsyncClient {
         return tableImplementation.insertEntityWithResponseAsync(tableName, timeoutInt, null, ResponseFormat.RETURN_CONTENT, tableEntityProperties,
             null, context).map(response -> {
             Map<String, Object> properties = response.getValue();
-            String eTag = response.getHeaders().get("eTag").getValue();
+            String eTag = response.getHeaders().get("eTag").getValue();//TODO: need to figure out how to add this to entity
             Entity entity = new Entity(properties);
             return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(), entity);
         });

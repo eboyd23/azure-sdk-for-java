@@ -6,15 +6,12 @@ import com.azure.core.annotation.ReturnType;
 import com.azure.core.annotation.ServiceClient;
 import com.azure.core.annotation.ServiceMethod;
 import com.azure.core.http.HttpHeader;
-import com.azure.core.http.HttpHeaders;
 import com.azure.core.http.HttpPipeline;
-import com.azure.core.http.HttpRequest;
 import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedResponse;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.util.Context;
-import com.azure.core.util.IterableStream;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.data.tables.implementation.AzureTableImpl;
 import com.azure.data.tables.implementation.AzureTableImplBuilder;
@@ -24,18 +21,10 @@ import com.azure.data.tables.implementation.models.ResponseFormat;
 import com.azure.data.tables.implementation.models.TableProperties;
 import com.azure.data.tables.models.QueryParams;
 import com.azure.data.tables.models.Table;
-import reactor.core.publisher.Mono;
-
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
+import reactor.core.publisher.Mono;
 
 import static com.azure.core.util.FluxUtil.monoError;
 import static com.azure.core.util.FluxUtil.withContext;
@@ -70,7 +59,7 @@ public class TableServiceAsyncClient {
      * @return associated TableAsyncClient
      */
     public TableAsyncClient getTableAsyncClient(String tableName) {
-        return new TableAsyncClient(implementation.getTables(), tableName);
+        return null; //return new TableAsyncClient(implementation.getTables(), tableName);
     }
 
     /**
@@ -80,7 +69,7 @@ public class TableServiceAsyncClient {
      * @return associated azure table object
      */
     public Table getTable(String name) {
-        return null;
+        return null; //TODO: idk how to do this one
     }
 
     /**
@@ -107,6 +96,7 @@ public class TableServiceAsyncClient {
 
     @ServiceMethod(returns = ReturnType.SINGLE)
     Mono<Response<Table>> createTableWithResponse(String tableName, Context context) {
+        System.out.print("hi");
         context = context == null ? Context.NONE : context;
         final TableProperties properties = new TableProperties().setTableName(tableName);
 
@@ -115,6 +105,7 @@ public class TableServiceAsyncClient {
                 null,
                 ResponseFormat.RETURN_CONTENT, null, context)
                 .map(response -> {
+                    System.out.print("hi");
                     final Table table = new Table(response.getValue().getTableName());
 
                     return new SimpleResponse<>(response.getRequest(), response.getStatusCode(),
@@ -209,115 +200,12 @@ public class TableServiceAsyncClient {
                     Table table = new Table(e.getTableName());
                     return table;
                 }).collect(Collectors.toList());
-            try {
-                HttpHeader token = response.getHeaders().get("x-ms-continuation-NextTableName");
-                String continuationToken = token != null ? token.getValue() : null;
-                return Mono.just(extractPage(response, tables, response.getRequest().getUrl()));
-            } catch (UnsupportedEncodingException error) {
-                return Mono.error(new RuntimeException("Could not parse response into FeedPage<QueueDescription>",
-                    error));
-            }
+
+            HttpHeader token = response.getHeaders().get("x-ms-continuation-NextTableName");
+            String continuationToken = token != null ? token.getValue() : null;
+            return null; // Mono.just(extractPage(response, tables, response.getRequest().getUrl()));
+
         });
     } //1836
 
-    /**
-     * Creates a {@link FeedPage} given the elements and a set of response links to get the next link from.
-     *
-     * @param response the feed response
-     * @param entities Entities in the feed.
-     * @param currentUrl the url that was returned
-     * @param <TResult> Type of Service Bus entities in page.
-     * @return A {@link FeedPage} indicating whether this can be continued or not.
-     * @throws MalformedURLException if the "next" page link does not contain a well-formed URL.
-     */
-    private <TResult, TFeed> FeedPage<TResult> extractPage(Response<TFeed> response, List<TResult> entities,
-                                                           URL currentUrl) throws UnsupportedEncodingException {
-
-        if (response == null) {
-            return new FeedPage<>(response.getStatusCode(), response.getHeaders(), response.getRequest(), entities);
-        }
-
-        final String decode = URLDecoder.decode(currentUrl.getQuery(), StandardCharsets.UTF_8.name());
-        final Optional<String> nextTable = Arrays.stream(decode.split("\\?"))
-            .map(part -> part.split("="))
-            .filter(parts -> parts[1].equalsIgnoreCase("$NextTableName"))
-            .map(parts -> parts[1])
-            .findFirst();
-
-        if (nextTable.isPresent()) {
-            return new FeedPage<TResult>(response.getStatusCode(), response.getHeaders(), response.getRequest(), entities,
-                nextTable.get());
-        } else {
-            logger.warning("There should have been a skip parameter for the next page.");
-            return new FeedPage<>(response.getStatusCode(), response.getHeaders(), response.getRequest(), entities);
-        }
-    } //1790
-
-    /**
-     * A page of Service Bus entities.
-     *
-     * @param <T> The entity description from Service Bus.
-     */
-    private static final class FeedPage<T> implements PagedResponse<T> {
-        private final int statusCode;
-        private final HttpHeaders header;
-        private final HttpRequest request;
-        private final IterableStream<T> entries;
-        private final String continuationToken;
-
-        /**
-         * Creates a page that does not have any more pages.
-         *
-         * @param entries Items in the page.
-         */
-        private FeedPage(int statusCode, HttpHeaders header, HttpRequest request, List<T> entries) {
-            this.statusCode = statusCode;
-            this.header = header;
-            this.request = request;
-            this.entries = new IterableStream<>(entries);
-            this.continuationToken = null;
-        }
-
-        /**
-         * Creates an instance that has additional pages to fetch.
-         *
-         * @param entries Items in the page.
-         */
-        private FeedPage(int statusCode, HttpHeaders header, HttpRequest request, List<T> entries, String nextTableName) {
-            this.statusCode = statusCode;
-            this.header = header;
-            this.request = request;
-            this.entries = new IterableStream<>(entries);
-            this.continuationToken = nextTableName;
-        }
-
-        @Override
-        public IterableStream<T> getElements() {
-            return entries;
-        }
-
-        @Override
-        public String getContinuationToken() {
-            return continuationToken;
-        }
-
-        @Override
-        public int getStatusCode() {
-            return statusCode;
-        }
-
-        @Override
-        public HttpHeaders getHeaders() {
-            return header;
-        }
-
-        @Override
-        public HttpRequest getRequest() {
-            return request;
-        }
-
-        @Override
-        public void close() {
-        }
-    }
 }

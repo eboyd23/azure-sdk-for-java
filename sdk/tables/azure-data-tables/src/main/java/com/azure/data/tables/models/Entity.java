@@ -3,6 +3,7 @@
 package com.azure.data.tables.models;
 
 import com.azure.core.annotation.Fluent;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -10,8 +11,8 @@ import java.util.Map;
  */
 @Fluent
 public class Entity {
-    private String rowKey;
-    private String partitionKey;
+    private Object rowKey;
+    private Object partitionKey;
     private Map<String, Object> properties;
     private String etag;
     //tableName
@@ -24,8 +25,15 @@ public class Entity {
      * @param rowKey the row key
      */
     public Entity(Object partitionKey, Object rowKey) {
+        properties = new HashMap<>();
+        setPartitionKey(partitionKey);
+        setRowKey(rowKey);
         properties.put("PartitionKey", partitionKey);
         properties.put("RowKey", rowKey);
+    }
+
+    public Entity(Map<String, Object> properties) {
+        this.properties = properties;
     }
 
     /**
@@ -49,7 +57,7 @@ public class Entity {
      * gets the row key
      * @return the row key for the given entity
      */
-    public String getRowKey() {
+    public Object getRowKey() {
         return rowKey;
     }
 
@@ -57,7 +65,7 @@ public class Entity {
      * gets the partition key
      * @return the partition key for the given entity
      */
-    public String getPartitionKey() {
+    public Object getPartitionKey() {
         return partitionKey;
     }
 
@@ -69,7 +77,7 @@ public class Entity {
         return etag;
     }
 
-    private Entity setEtag(String etag) {
+    public Entity setEtag(String etag) {
         this.etag = etag;
         return this;
     }
@@ -79,7 +87,7 @@ public class Entity {
      * @param partitionKey the partition key value
      * @return the updated TableEntity
      */
-    public Entity setPartitionKey(String partitionKey) {
+    public Entity setPartitionKey(Object partitionKey) {
         this.partitionKey = partitionKey;
         return this;
     }
@@ -89,7 +97,7 @@ public class Entity {
      * @param rowKey value of row key
      * @return updated tableEntity object
      */
-    public Entity setRowKey(String rowKey) {
+    public Entity setRowKey(Object rowKey) {
         this.rowKey = rowKey;
         return this;
     }

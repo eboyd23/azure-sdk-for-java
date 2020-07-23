@@ -84,12 +84,10 @@ public class TableServiceClientCodeSnippets {
             .tableName("OfficeSupplies")
             .buildClient();
 
-        Map<String, Object> properties = new HashMap<>();
-        properties.put("PartitionKey", "markers");
-        properties.put("RowKey", "crayolaMarkers");
+        Entity entity = new Entity("markers", "crayolaMarkers");
 
         try {
-            Entity entity = tableClient.createEntity(properties);
+            entity = tableClient.createEntity(entity);
         } catch (TableStorageException e) {
             if (e.getErrorCode() == TableErrorCode.ENTITY_ALREADY_EXISTS) {
                 System.err.println("Create Entity Unsuccessful. Entity already exists.");
@@ -142,7 +140,7 @@ public class TableServiceClientCodeSnippets {
 
             //default is for UpdateMode is UpdateMode.MERGE, which means it merges if exists; fails if not
             //ifUnchanged being false means the eTags must not match
-            tableClient.updateEntity(entity, false);
+            tableClient.updateEntity(entity);
         } catch (TableStorageException e) {
             if (e.getErrorCode() == TableErrorCode.ENTITY_NOT_FOUND) {
                 System.err.println("Cannot find entity. Update unsuccessful");

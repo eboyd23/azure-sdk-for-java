@@ -26,6 +26,7 @@ import com.azure.storage.common.implementation.policy.SasTokenCredentialPolicy;
 import com.azure.storage.common.policy.RequestRetryOptions;
 import com.azure.storage.common.policy.RequestRetryPolicy;
 import com.azure.storage.common.policy.ScrubEtagPolicy;
+import com.ctc.wstx.shaded.msv_core.verifier.regexp.Token;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -107,8 +108,8 @@ public class TableServiceClientBuilder {
         }
         StorageAuthenticationSettings authSettings = storageConnectionString.getStorageAuthSettings();
         if (authSettings.getType() == StorageAuthenticationSettings.Type.ACCOUNT_NAME_KEY) {
-//            this.credential(new TablesSharedKeyCredential(authSettings.getAccount().getName(),
-//                authSettings.getAccount().getAccessKey()));
+            this.credential( (TokenCredential) new TablesSharedKeyCredential(authSettings.getAccount().getName(),
+                authSettings.getAccount().getAccessKey()));
         } else if (authSettings.getType() == StorageAuthenticationSettings.Type.SAS_TOKEN) {
             this.sasToken(authSettings.getSasToken());
         }
@@ -155,7 +156,6 @@ public class TableServiceClientBuilder {
     public TableServiceClientBuilder sasToken(String sasToken) {
         this.sasTokenCredential = new SasTokenCredential(Objects.requireNonNull(sasToken,
             "'sasToken' cannot be null."));
-        this.tokenCredential = null;
         this.tokenCredential = null;
         return this;
     }

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 package com.azure.data.tables;
 
+import com.azure.data.tables.models.Entity;
 import com.azure.data.tables.models.QueryParams;
 import com.azure.data.tables.models.UpdateMode;
 import java.util.HashMap;
@@ -66,11 +67,9 @@ public class TableServiceAsyncClientCodeSnippets {
             .buildAsyncClient();
 
         TableAsyncClient tableAsyncClient = tableServiceAsyncClient.getTableAsyncClient("OfficeSupplies");
-        Map<String, Object> properties = new HashMap<>();
-        properties.put("PartitionKey", "markers");
-        properties.put("RowKey", "crayolaMarkers");
+        Entity entity = new Entity("markers", "crayolaMarkers");
 
-        tableAsyncClient.createEntity(properties).subscribe(tableEntity -> {
+        tableAsyncClient.createEntity(entity).subscribe(tableEntity -> {
             System.out.println("Insert Entity Successful. Entity: " + tableEntity);
         }, error -> {
                 System.err.println("There was an error inserting the Entity. Error: " + error);
@@ -119,7 +118,7 @@ public class TableServiceAsyncClientCodeSnippets {
 
             //default is for UpdateMode is UpdateMode.MERGE, which means it merges if exists; inserts if not
             //ifUnchanged being true means the eTags must match to upsert
-            return tableAsyncClient.upsertEntity(tableEntity, true);
+            return tableAsyncClient.upsertEntity(tableEntity);
         }).subscribe(
             Void -> { },
             error -> System.err.println("There was an error upserting the Entity. Error: " + error),

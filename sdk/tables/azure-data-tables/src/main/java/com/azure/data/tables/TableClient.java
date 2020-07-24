@@ -95,7 +95,7 @@ public class TableClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Entity createEntity(Entity tableEntity, Duration timeout) {
-        return null;
+        return createEntityWithResponse(tableEntity, timeout, null).getValue();
     }
 
     /**
@@ -130,7 +130,7 @@ public class TableClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void upsertEntity(Entity entity, UpdateMode updateMode) {
-        client.upsertEntity(entity, updateMode);
+        client.upsertEntity(entity, updateMode).block();
     }
 
     /**
@@ -142,6 +142,7 @@ public class TableClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void upsertEntity(Entity entity, UpdateMode updateMode, Duration timeout) {
+        upsertEntityWithResponse(entity, updateMode, timeout, null).getValue();
     }
 
     /**
@@ -166,7 +167,7 @@ public class TableClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void updateEntity(Entity entity) {
-        client.upsertEntity(entity);
+        client.upsertEntity(entity).block();
     }
 
     /**
@@ -178,7 +179,7 @@ public class TableClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void updateEntity(Entity entity, UpdateMode updateMode) {
-        client.updateEntity(entity, updateMode);
+        client.updateEntity(entity, updateMode).block();
     }
 
     /**
@@ -191,7 +192,7 @@ public class TableClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void updateEntity(Entity entity, boolean ifUnchanged, UpdateMode updateMode) {
-        client.updateEntity(entity, ifUnchanged, updateMode);
+        client.updateEntity(entity, ifUnchanged, updateMode).block();
     }
 
     /**
@@ -205,6 +206,7 @@ public class TableClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void updateEntity(Entity entity, boolean ifUnchanged, UpdateMode updateMode, Duration timeout) {
+        updateEntityWithResponse(entity, ifUnchanged, updateMode, timeout, null).getValue();
     }
 
     /**
@@ -220,7 +222,7 @@ public class TableClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Response<Void> updateEntityWithResponse(Entity entity, boolean ifUnchanged, UpdateMode updateMode, Duration timeout, Context context) {
-        return updateEntityWithResponse(entity, ifUnchanged, updateMode, timeout, context);
+        return client.updateEntityWithResponse(entity, ifUnchanged, updateMode, timeout, context).block();
     }
 
     /**
@@ -230,7 +232,7 @@ public class TableClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void deleteEntity(Entity entity) {
-        client.deleteEntity(entity);
+        client.deleteEntity(entity).block();
     }
 
     /**
@@ -241,7 +243,7 @@ public class TableClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void deleteEntity(Entity entity, boolean ifUnchanged) {
-        client.deleteEntity(entity, ifUnchanged);
+        client.deleteEntity(entity, ifUnchanged).block();
     }
 
     /**
@@ -253,6 +255,7 @@ public class TableClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void deleteEntity(Entity entity, boolean ifUnchanged, Duration timeout) {
+        deleteEntityWithResponse(entity, ifUnchanged, timeout, null);
     }
 
     /**
@@ -276,7 +279,7 @@ public class TableClient {
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<Entity> listEntities() {
-        return null;
+        return new PagedIterable<>(client.listEntities());
     }
 
     /**
@@ -287,7 +290,7 @@ public class TableClient {
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<Entity> listEntities(QueryParams queryOptions) {
-        return null;
+        return new PagedIterable<>(client.listEntities(queryOptions));
     }
 
     /**

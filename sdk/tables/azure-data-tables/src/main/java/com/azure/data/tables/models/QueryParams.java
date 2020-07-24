@@ -76,12 +76,5 @@ public final class QueryParams {
         this.filter = filter;
         return this;
     }
-
-    public QueryOptions convertToQueryOptions() {
-        return new QueryOptions()
-            .setSelect(this.select)
-            .setTop(this.top)
-            .setFilter(this.filter);
-    }
 }
 

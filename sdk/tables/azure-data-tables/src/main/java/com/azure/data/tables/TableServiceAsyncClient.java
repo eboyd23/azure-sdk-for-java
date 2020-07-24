@@ -6,12 +6,16 @@ import com.azure.core.annotation.ReturnType;
 import com.azure.core.annotation.ServiceClient;
 import com.azure.core.annotation.ServiceMethod;
 import com.azure.core.http.HttpHeader;
+import com.azure.core.http.HttpHeaders;
 import com.azure.core.http.HttpPipeline;
+import com.azure.core.http.HttpRequest;
+import com.azure.core.http.HttpResponse;
 import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedResponse;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.util.Context;
+import com.azure.core.util.IterableStream;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.data.tables.implementation.AzureTableImpl;
 import com.azure.data.tables.implementation.AzureTableImplBuilder;
@@ -19,8 +23,12 @@ import com.azure.data.tables.implementation.models.OdataMetadataFormat;
 import com.azure.data.tables.implementation.models.QueryOptions;
 import com.azure.data.tables.implementation.models.ResponseFormat;
 import com.azure.data.tables.implementation.models.TableProperties;
+import com.azure.data.tables.implementation.models.TableQueryResponse;
+import com.azure.data.tables.implementation.models.TableResponseProperties;
+import com.azure.data.tables.implementation.models.TablesQueryResponse;
 import com.azure.data.tables.models.QueryParams;
 import com.azure.data.tables.models.Table;
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -149,6 +157,16 @@ public class TableServiceAsyncClient {
     /**
      * query all the tables under the storage account and returns the tables that fit the query params
      *
+     * @return a flux of the tables that met this criteria
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedFlux<Table> listTables() {
+        return listTables(new QueryParams());
+    }
+
+    /**
+     * query all the tables under the storage account and returns the tables that fit the query params
+     *
      * @param queryParams the odata query object
      * @return a flux of the tables that met this criteria
      */
@@ -184,28 +202,70 @@ public class TableServiceAsyncClient {
     } //1459
 
     private Mono<PagedResponse<Table>> listTables(String nextTableName, Context context, QueryParams queryParams) {
-        QueryOptions queryOptions = queryParams != null ? queryParams.convertToQueryOptions() : new QueryOptions();
-        queryOptions.setFormat(OdataMetadataFormat.APPLICATION_JSON_ODATA_MINIMALMETADATA);
+        QueryOptions queryOptions = new QueryOptions()
+            .setFilter(queryParams.getFilter())
+            .setTop(queryParams.getTop())
+            .setSelect(queryParams.getSelect())
+            .setFormat(OdataMetadataFormat.APPLICATION_JSON_ODATA_MINIMALMETADATA);
         return implementation.getTables().queryWithResponseAsync(null, nextTableName, queryOptions, context).flatMap(response -> {
-            System.out.println("RESPONSE:: ");
-            System.out.println(response.getValue().getValue());
-            if (response.getValue() == null) {
+            TableQueryResponse tableQueryResponse = response.getValue();
+            if (tableQueryResponse == null) {
                 return Mono.empty();
             }
-            if (response.getValue().getValue() == null) {
+            List<TableResponseProperties> tableResponsePropertiesList = tableQueryResponse.getValue();
+            if (tableResponsePropertiesList == null) {
                 return Mono.empty();
             }
-            final List<Table> tables = response.getValue().getValue().stream()
+            final List<Table> tables = tableResponsePropertiesList.stream()
                 .map(e -> {
                     Table table = new Table(e.getTableName());
                     return table;
                 }).collect(Collectors.toList());
 
-            HttpHeader token = response.getHeaders().get("x-ms-continuation-NextTableName");
-            String continuationToken = token != null ? token.getValue() : null;
-            return null; // Mono.just(extractPage(response, tables, response.getRequest().getUrl()));
+            return Mono.just(new TablePaged(response, tables, response.getDeserializedHeaders().getXMsContinuationNextTableName()));
 
         });
     } //1836
 
+
+    private static class TablePaged implements PagedResponse<Table> {
+        private final Response<TableQueryResponse> httpResponse;
+        private final IterableStream<Table> tableStream;
+        private final String continuationToken;
+
+        public TablePaged(Response<TableQueryResponse> httpResponse, List<Table> tableList, String continuationToken){
+            this.httpResponse = httpResponse;
+            this.tableStream = IterableStream.of(tableList);
+            this.continuationToken = continuationToken;
+        }
+
+        @Override
+        public int getStatusCode() {
+            return httpResponse.getStatusCode();
+        }
+
+        @Override
+        public HttpHeaders getHeaders() {
+            return httpResponse.getHeaders();
+        }
+
+        @Override
+        public HttpRequest getRequest() {
+            return httpResponse.getRequest();
+        }
+
+        @Override
+        public IterableStream<Table> getElements() {
+            return tableStream;
+        }
+
+        @Override
+        public String getContinuationToken() {
+            return continuationToken;
+        }
+
+        @Override
+        public void close() {
+        }
+    }
 }

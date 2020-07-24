@@ -51,7 +51,10 @@ public class Entity {
      * @param value the value to add
      * @return the updated Entity
      */
-    public Entity addProperties(String key, Object value) { return this;}
+    public Entity addProperties(String key, Object value) {
+        properties.put(key, value);
+        return this;
+    }
 
     /**
      * gets the row key

@@ -204,30 +204,6 @@ public class TablesAsyncClientTest extends TestBase {
     }
 
     /**
-     * expect to see both propertyA and propertyB since the UpdateMode is MERGE
-     */
-    @Test
-    void updateEntityWithResponseMergeUnconditional() {
-        // Arrange
-        String partitionKeyValue = testResourceNamer.randomName("ApartitionKey", 20);
-        String rowKeyValue = testResourceNamer.randomName("ArowKey", 20);
-        Entity tableEntity = new Entity(partitionKeyValue, rowKeyValue);
-        tableEntity.addProperties("propertyA", "valueA");
-        tableEntity = asyncClient.createEntity(tableEntity).block();
-        tableEntity.getProperties().remove("propertyA");
-        tableEntity.addProperties("propertyB", "valueB");
-        int expectedStatusCode = 204;
-
-        // Act & Assert
-        StepVerifier.create(asyncClient.updateEntityWithResponse(tableEntity, false, UpdateMode.MERGE))
-            .assertNext(response -> {
-                Assertions.assertEquals(expectedStatusCode, response.getStatusCode());
-            })
-            .expectComplete()
-            .verify();
-    }
-
-    /**
      * expect to see only propertyB since the UpdateMode is REPLACE
      */
     @Test
@@ -244,30 +220,6 @@ public class TablesAsyncClientTest extends TestBase {
 
         // Act & Assert
         StepVerifier.create(asyncClient.updateEntityWithResponse(tableEntity, true, UpdateMode.REPLACE))
-            .assertNext(response -> {
-                Assertions.assertEquals(expectedStatusCode, response.getStatusCode());
-            })
-            .expectComplete()
-            .verify();
-    }
-
-    /**
-     * expect to see only propertyB since the UpdateMode is REPLACE
-     */
-    @Test
-    void updateEntityWithResponseReplaceUnconditional() {
-        // Arrange
-        String partitionKeyValue = testResourceNamer.randomName("ApartitionKey", 20);
-        String rowKeyValue = testResourceNamer.randomName("ArowKey", 20);
-        Entity tableEntity = new Entity(partitionKeyValue, rowKeyValue);
-        tableEntity.addProperties("propertyA", "valueA");
-        tableEntity = asyncClient.createEntity(tableEntity).block();
-        tableEntity.getProperties().remove("propertyA");
-        tableEntity.addProperties("propertyB", "valueB");
-        int expectedStatusCode = 204;
-
-        // Act & Assert
-        StepVerifier.create(asyncClient.updateEntityWithResponse(tableEntity, false, UpdateMode.REPLACE))
             .assertNext(response -> {
                 Assertions.assertEquals(expectedStatusCode, response.getStatusCode());
             })
@@ -329,5 +281,4 @@ public class TablesAsyncClientTest extends TestBase {
         StepVerifier.create(asyncClient.listEntities(queryParams))
             .expectNextCount(2);
     }
-
 }

@@ -31,7 +31,7 @@ import java.util.Map;
 
 class BuilderHelper {
     private static final Map<String, String> PROPERTIES =
-        CoreUtils.getProperties("azure-storage-blob.properties");
+        CoreUtils.getProperties("azure-data-tables.properties");
     private static final String SDK_NAME = "name";
     private static final String SDK_VERSION = "version";
 

@@ -5,7 +5,7 @@
     "Headers" : {
       "x-ms-version" : "2019-02-02",
       "User-Agent" : "azsdk-java-UnknownName/UnknownVersion (11.0.7; Windows 10; 10.0)",
-      "x-ms-client-request-id" : "20978ece-c01d-4a74-b27d-7da9566ad765",
+      "x-ms-client-request-id" : "c2f42bc9-6ae4-4b71-9843-3669cfff6323",
       "Content-Type" : "application/json"
     },
     "Response" : {
@@ -15,23 +15,23 @@
       "X-Content-Type-Options" : "nosniff",
       "retry-after" : "0",
       "StatusCode" : "201",
-      "Date" : "Mon, 27 Jul 2020 18:01:06 GMT",
+      "Date" : "Mon, 27 Jul 2020 20:18:09 GMT",
       "Cache-Control" : "no-cache",
-      "x-ms-request-id" : "cb19c4cb-3002-0028-453f-643455000000",
-      "Body" : "{\"odata.metadata\":\"https://telboytrial.table.core.windows.net/$metadata#Tables/@Element\",\"odata.type\":\"telboytrial.Tables\",\"odata.id\":\"https://telboytrial.table.core.windows.net/Tables('tablename945327fb')\",\"odata.editLink\":\"Tables('tablename945327fb')\",\"TableName\":\"tablename945327fb\"}",
+      "x-ms-request-id" : "a67eb448-b002-00a0-3e53-64d15c000000",
+      "Body" : "{\"odata.metadata\":\"https://telboytrial.table.core.windows.net/$metadata#Tables/@Element\",\"odata.type\":\"telboytrial.Tables\",\"odata.id\":\"https://telboytrial.table.core.windows.net/Tables('tablename0380604e')\",\"odata.editLink\":\"Tables('tablename0380604e')\",\"TableName\":\"tablename0380604e\"}",
       "Preference-Applied" : "return-content",
-      "x-ms-client-request-id" : "20978ece-c01d-4a74-b27d-7da9566ad765",
+      "x-ms-client-request-id" : "c2f42bc9-6ae4-4b71-9843-3669cfff6323",
       "Content-Type" : "application/json;odata=fullmetadata;streaming=true;charset=utf-8",
-      "Location" : "https://telboytrial.table.core.windows.net/Tables('tablename945327fb')"
+      "Location" : "https://telboytrial.table.core.windows.net/Tables('tablename0380604e')"
     },
     "Exception" : null
   }, {
     "Method" : "POST",
-    "Uri" : "https://REDACTED.table.core.windows.net/tablename945327fb",
+    "Uri" : "https://REDACTED.table.core.windows.net/tablename0380604e",
     "Headers" : {
       "x-ms-version" : "2019-02-02",
       "User-Agent" : "azsdk-java-UnknownName/UnknownVersion (11.0.7; Windows 10; 10.0)",
-      "x-ms-client-request-id" : "963e76c7-f5dd-483b-b195-848d32c5e443",
+      "x-ms-client-request-id" : "0ecc81e0-279f-4ea0-90fe-aad2e64bda8a",
       "Content-Type" : "application/json"
     },
     "Response" : {
@@ -41,24 +41,24 @@
       "X-Content-Type-Options" : "nosniff",
       "retry-after" : "0",
       "StatusCode" : "201",
-      "Date" : "Mon, 27 Jul 2020 18:01:06 GMT",
+      "Date" : "Mon, 27 Jul 2020 20:18:09 GMT",
       "Cache-Control" : "no-cache",
-      "ETag" : "W/datetime'2020-07-27T18%3A01%3A07.6408928Z'",
-      "x-ms-request-id" : "cb19c4d0-3002-0028-483f-643455000000",
-      "Body" : "{\"odata.metadata\":\"https://telboytrial.table.core.windows.net/$metadata#tablename945327fb/@Element\",\"odata.type\":\"telboytrial.tablename945327fb\",\"odata.id\":\"https://telboytrial.table.core.windows.net/tablename945327fb(PartitionKey='partitionkey253002',RowKey='rowkey8599498b0')\",\"odata.etag\":\"W/\\\"datetime'2020-07-27T18%3A01%3A07.6408928Z'\\\"\",\"odata.editLink\":\"tablename945327fb(PartitionKey='partitionkey253002',RowKey='rowkey8599498b0')\",\"PartitionKey\":\"partitionkey253002\",\"RowKey\":\"rowkey8599498b0\",\"Timestamp@odata.type\":\"Edm.DateTime\",\"Timestamp\":\"2020-07-27T18:01:07.6408928Z\"}",
+      "ETag" : "W/datetime'2020-07-27T20%3A18%3A09.8242939Z'",
+      "x-ms-request-id" : "a67eb44b-b002-00a0-4053-64d15c000000",
+      "Body" : "{\"odata.metadata\":\"https://telboytrial.table.core.windows.net/$metadata#tablename0380604e/@Element\",\"odata.type\":\"telboytrial.tablename0380604e\",\"odata.id\":\"https://telboytrial.table.core.windows.net/tablename0380604e(PartitionKey='partitionkey606133',RowKey='rowkey72215c086')\",\"odata.etag\":\"W/\\\"datetime'2020-07-27T20%3A18%3A09.8242939Z'\\\"\",\"odata.editLink\":\"tablename0380604e(PartitionKey='partitionkey606133',RowKey='rowkey72215c086')\",\"PartitionKey\":\"partitionkey606133\",\"RowKey\":\"rowkey72215c086\",\"Timestamp@odata.type\":\"Edm.DateTime\",\"Timestamp\":\"2020-07-27T20:18:09.8242939Z\"}",
       "Preference-Applied" : "return-content",
-      "x-ms-client-request-id" : "963e76c7-f5dd-483b-b195-848d32c5e443",
+      "x-ms-client-request-id" : "0ecc81e0-279f-4ea0-90fe-aad2e64bda8a",
       "Content-Type" : "application/json;odata=fullmetadata;streaming=true;charset=utf-8",
-      "Location" : "https://telboytrial.table.core.windows.net/tablename945327fb(PartitionKey='partitionkey253002',RowKey='rowkey8599498b0')"
+      "Location" : "https://telboytrial.table.core.windows.net/tablename0380604e(PartitionKey='partitionkey606133',RowKey='rowkey72215c086')"
     },
     "Exception" : null
   }, {
     "Method" : "DELETE",
-    "Uri" : "https://REDACTED.table.core.windows.net/tablename945327fb(PartitionKey='partitionkey253002',RowKey='rowkey8599498b0')",
+    "Uri" : "https://REDACTED.table.core.windows.net/tablename0380604e(PartitionKey='partitionkey606133',RowKey='rowkey72215c086')",
     "Headers" : {
       "x-ms-version" : "2019-02-02",
       "User-Agent" : "azsdk-java-UnknownName/UnknownVersion (11.0.7; Windows 10; 10.0)",
-      "x-ms-client-request-id" : "29572bbe-6534-4b76-8ea2-14f8613c2ac0"
+      "x-ms-client-request-id" : "dafec72b-ea89-49be-b073-352dcd73cb65"
     },
     "Response" : {
       "x-ms-version" : "2019-02-02",
@@ -68,11 +68,11 @@
       "retry-after" : "0",
       "Content-Length" : "0",
       "StatusCode" : "204",
-      "x-ms-request-id" : "cb19c4d2-3002-0028-4a3f-643455000000",
-      "Date" : "Mon, 27 Jul 2020 18:01:06 GMT",
-      "x-ms-client-request-id" : "29572bbe-6534-4b76-8ea2-14f8613c2ac0"
+      "x-ms-request-id" : "a67eb44c-b002-00a0-4153-64d15c000000",
+      "Date" : "Mon, 27 Jul 2020 20:18:09 GMT",
+      "x-ms-client-request-id" : "dafec72b-ea89-49be-b073-352dcd73cb65"
     },
     "Exception" : null
   } ],
-  "variables" : [ "tablename945327fb", "partitionkey253002", "rowkey8599498b0" ]
+  "variables" : [ "tablename0380604e", "partitionkey606133", "rowkey72215c086" ]
 }

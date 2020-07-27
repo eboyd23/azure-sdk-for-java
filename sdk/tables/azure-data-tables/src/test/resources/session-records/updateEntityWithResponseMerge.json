@@ -5,7 +5,7 @@
     "Headers" : {
       "x-ms-version" : "2019-02-02",
       "User-Agent" : "azsdk-java-UnknownName/UnknownVersion (11.0.7; Windows 10; 10.0)",
-      "x-ms-client-request-id" : "8a765c3a-cee9-446a-ad3e-f8a3c72ecea8",
+      "x-ms-client-request-id" : "60335a6a-765d-4fa7-bdd0-ec04e6220209",
       "Content-Type" : "application/json"
     },
     "Response" : {
@@ -15,23 +15,23 @@
       "X-Content-Type-Options" : "nosniff",
       "retry-after" : "0",
       "StatusCode" : "201",
-      "Date" : "Mon, 27 Jul 2020 18:01:06 GMT",
+      "Date" : "Mon, 27 Jul 2020 20:18:08 GMT",
       "Cache-Control" : "no-cache",
-      "x-ms-request-id" : "cb19c4aa-3002-0028-2d3f-643455000000",
-      "Body" : "{\"odata.metadata\":\"https://telboytrial.table.core.windows.net/$metadata#Tables/@Element\",\"odata.type\":\"telboytrial.Tables\",\"odata.id\":\"https://telboytrial.table.core.windows.net/Tables('tablename72375890')\",\"odata.editLink\":\"Tables('tablename72375890')\",\"TableName\":\"tablename72375890\"}",
+      "x-ms-request-id" : "a67eb42d-b002-00a0-2b53-64d15c000000",
+      "Body" : "{\"odata.metadata\":\"https://telboytrial.table.core.windows.net/$metadata#Tables/@Element\",\"odata.type\":\"telboytrial.Tables\",\"odata.id\":\"https://telboytrial.table.core.windows.net/Tables('tablename59127575')\",\"odata.editLink\":\"Tables('tablename59127575')\",\"TableName\":\"tablename59127575\"}",
       "Preference-Applied" : "return-content",
-      "x-ms-client-request-id" : "8a765c3a-cee9-446a-ad3e-f8a3c72ecea8",
+      "x-ms-client-request-id" : "60335a6a-765d-4fa7-bdd0-ec04e6220209",
       "Content-Type" : "application/json;odata=fullmetadata;streaming=true;charset=utf-8",
-      "Location" : "https://telboytrial.table.core.windows.net/Tables('tablename72375890')"
+      "Location" : "https://telboytrial.table.core.windows.net/Tables('tablename59127575')"
     },
     "Exception" : null
   }, {
     "Method" : "POST",
-    "Uri" : "https://REDACTED.table.core.windows.net/tablename72375890",
+    "Uri" : "https://REDACTED.table.core.windows.net/tablename59127575",
     "Headers" : {
       "x-ms-version" : "2019-02-02",
       "User-Agent" : "azsdk-java-UnknownName/UnknownVersion (11.0.7; Windows 10; 10.0)",
-      "x-ms-client-request-id" : "da5da66f-1ec0-4323-85fe-ad4b89c1681a",
+      "x-ms-client-request-id" : "59fb3599-73c2-42c4-91c1-7f11e8d5621d",
       "Content-Type" : "application/json"
     },
     "Response" : {
@@ -41,40 +41,40 @@
       "X-Content-Type-Options" : "nosniff",
       "retry-after" : "0",
       "StatusCode" : "201",
-      "Date" : "Mon, 27 Jul 2020 18:01:06 GMT",
+      "Date" : "Mon, 27 Jul 2020 20:18:08 GMT",
       "Cache-Control" : "no-cache",
-      "ETag" : "W/datetime'2020-07-27T18%3A01%3A07.0894974Z'",
-      "x-ms-request-id" : "cb19c4b0-3002-0028-303f-643455000000",
-      "Body" : "{\"odata.metadata\":\"https://telboytrial.table.core.windows.net/$metadata#tablename72375890/@Element\",\"odata.type\":\"telboytrial.tablename72375890\",\"odata.id\":\"https://telboytrial.table.core.windows.net/tablename72375890(PartitionKey='apartitionkey323167',RowKey='arowkey749859095')\",\"odata.etag\":\"W/\\\"datetime'2020-07-27T18%3A01%3A07.0894974Z'\\\"\",\"odata.editLink\":\"tablename72375890(PartitionKey='apartitionkey323167',RowKey='arowkey749859095')\",\"PartitionKey\":\"apartitionkey323167\",\"RowKey\":\"arowkey749859095\",\"Timestamp@odata.type\":\"Edm.DateTime\",\"Timestamp\":\"2020-07-27T18:01:07.0894974Z\",\"propertyA\":\"valueA\"}",
+      "ETag" : "W/datetime'2020-07-27T20%3A18%3A09.3369623Z'",
+      "x-ms-request-id" : "a67eb430-b002-00a0-2c53-64d15c000000",
+      "Body" : "{\"odata.metadata\":\"https://telboytrial.table.core.windows.net/$metadata#tablename59127575/@Element\",\"odata.type\":\"telboytrial.tablename59127575\",\"odata.id\":\"https://telboytrial.table.core.windows.net/tablename59127575(PartitionKey='apartitionkey78396f',RowKey='arowkey433655b9a')\",\"odata.etag\":\"W/\\\"datetime'2020-07-27T20%3A18%3A09.3369623Z'\\\"\",\"odata.editLink\":\"tablename59127575(PartitionKey='apartitionkey78396f',RowKey='arowkey433655b9a')\",\"PartitionKey\":\"apartitionkey78396f\",\"RowKey\":\"arowkey433655b9a\",\"Timestamp@odata.type\":\"Edm.DateTime\",\"Timestamp\":\"2020-07-27T20:18:09.3369623Z\",\"propertyA\":\"valueA\"}",
       "Preference-Applied" : "return-content",
-      "x-ms-client-request-id" : "da5da66f-1ec0-4323-85fe-ad4b89c1681a",
+      "x-ms-client-request-id" : "59fb3599-73c2-42c4-91c1-7f11e8d5621d",
       "Content-Type" : "application/json;odata=fullmetadata;streaming=true;charset=utf-8",
-      "Location" : "https://telboytrial.table.core.windows.net/tablename72375890(PartitionKey='apartitionkey323167',RowKey='arowkey749859095')"
+      "Location" : "https://telboytrial.table.core.windows.net/tablename59127575(PartitionKey='apartitionkey78396f',RowKey='arowkey433655b9a')"
     },
     "Exception" : null
   }, {
     "Method" : "PATCH",
-    "Uri" : "https://REDACTED.table.core.windows.net/tablename72375890(PartitionKey='apartitionkey323167',RowKey='arowkey749859095')",
+    "Uri" : "https://REDACTED.table.core.windows.net/tablename59127575(PartitionKey='apartitionkey78396f',RowKey='arowkey433655b9a')",
     "Headers" : {
       "x-ms-version" : "2019-02-02",
       "User-Agent" : "azsdk-java-UnknownName/UnknownVersion (11.0.7; Windows 10; 10.0)",
-      "x-ms-client-request-id" : "c99a514b-4c1f-457a-a0ab-aa37b48d4d11",
+      "x-ms-client-request-id" : "cc0ffdf0-17d1-4f13-bd8e-37836745e4d7",
       "Content-Type" : "application/json"
     },
     "Response" : {
       "x-ms-version" : "2019-02-02",
       "Server" : "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
       "Cache-Control" : "no-cache",
-      "ETag" : "W/datetime'2020-07-27T18%3A01%3A07.1379137Z'",
+      "ETag" : "W/datetime'2020-07-27T20%3A18%3A09.3758039Z'",
       "X-Content-Type-Options" : "nosniff",
       "retry-after" : "0",
       "Content-Length" : "0",
       "StatusCode" : "204",
-      "x-ms-request-id" : "cb19c4b3-3002-0028-333f-643455000000",
-      "Date" : "Mon, 27 Jul 2020 18:01:06 GMT",
-      "x-ms-client-request-id" : "c99a514b-4c1f-457a-a0ab-aa37b48d4d11"
+      "x-ms-request-id" : "a67eb431-b002-00a0-2d53-64d15c000000",
+      "Date" : "Mon, 27 Jul 2020 20:18:08 GMT",
+      "x-ms-client-request-id" : "cc0ffdf0-17d1-4f13-bd8e-37836745e4d7"
     },
     "Exception" : null
   } ],
-  "variables" : [ "tablename72375890", "apartitionkey323167", "arowkey749859095" ]
+  "variables" : [ "tablename59127575", "apartitionkey78396f", "arowkey433655b9a" ]
 }

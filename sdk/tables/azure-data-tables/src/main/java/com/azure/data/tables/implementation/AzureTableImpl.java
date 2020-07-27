@@ -9,6 +9,8 @@ import com.azure.core.http.HttpPipelineBuilder;
 import com.azure.core.http.policy.CookiePolicy;
 import com.azure.core.http.policy.RetryPolicy;
 import com.azure.core.http.policy.UserAgentPolicy;
+import com.azure.core.util.serializer.JacksonAdapter;
+import com.azure.core.util.serializer.SerializerAdapter;
 
 /** Initializes a new instance of the AzureTable type. */
 public final class AzureTableImpl {
@@ -87,10 +89,19 @@ public final class AzureTableImpl {
      * @param httpPipeline The HTTP pipeline to send requests through.
      */
     AzureTableImpl(HttpPipeline httpPipeline, String url, String version) {
+        this(httpPipeline, url, version, JacksonAdapter.createDefaultSerializerAdapter());
+    }
+
+    /**
+     * Initializes an instance of AzureTable client.
+     *
+     * @param httpPipeline The HTTP pipeline to send requests through.
+     */
+    AzureTableImpl(HttpPipeline httpPipeline, String url, String version, SerializerAdapter serializerAdapter) {
         this.httpPipeline = httpPipeline;
         this.url = url;
         this.version = version;
-        this.tables = new TablesImpl(this);
-        this.services = new ServicesImpl(this);
+        this.tables = new TablesImpl(this, serializerAdapter);
+        this.services = new ServicesImpl(this, serializerAdapter);
     }
 }

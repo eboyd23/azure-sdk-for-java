@@ -108,7 +108,7 @@ public class TableServiceAsyncClientTest extends TestBase {
         // Arrange
         QueryParams queryParams = new QueryParams().setFilter("TableName eq SampleTable");
 
-        //Act & Assert
+        // Act & Assert
         StepVerifier.create(asyncClient.listTables(queryParams))
             .assertNext(table -> {
                 System.out.print(table);

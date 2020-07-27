@@ -28,7 +28,6 @@ import java.util.Objects;
  */
 @ServiceClientBuilder(serviceClients = {TableClient.class, TableAsyncClient.class})
 public class TableClientBuilder {
-    private String connectionString;
     private String tableName;
     private final List<HttpPipelinePolicy> policies;
     private Configuration configuration;
@@ -36,7 +35,6 @@ public class TableClientBuilder {
     private HttpClient httpClient;
     private String endpoint;
     private HttpLogOptions httpLogOptions;
-    private HttpPipeline pipeline;
     private TablesServiceVersion serviceVersion;
     private HttpPipeline httpPipeline;
     private SasTokenCredential sasTokenCredential;
@@ -140,10 +138,10 @@ public class TableClientBuilder {
      * @return The updated TableClientBuilder object.
      */
     public TableClientBuilder pipeline(HttpPipeline pipeline) {
-        if (this.httpPipeline != null && httpPipeline == null) {
+        if (this.httpPipeline != null && pipeline == null) {
             logger.info("HttpPipeline is being set to 'null' when it was previously configured.");
         }
-        this.pipeline = pipeline;
+        this.httpPipeline = pipeline;
         return this;
     }
 
@@ -159,25 +157,6 @@ public class TableClientBuilder {
             "'sasToken' cannot be null."));
         this.tokenCredential = null;
         return this;
-    }
-
-    /**
-     * gets the connection string
-     *
-     * @return the connection string
-     */
-    private String getConnectionString() {
-        return this.connectionString;
-    }
-
-    private String getEndpoint() {
-        if (endpoint != null) {
-            return endpoint;
-        } else if (tokenCredential != null) {
-            return null; // tablesSharedKeyCredential.getCanonicalizedResource();
-        } else {
-            return null;
-        }
     }
 
     /**
@@ -202,8 +181,7 @@ public class TableClientBuilder {
      * @throws NullPointerException If {@code credential} is {@code null}.
      */
     public TableClientBuilder credential(TokenCredential credential) {
-        this.tokenCredential = Objects.requireNonNull(credential, "credential cannot"
-            + "be null");
+        this.tokenCredential = Objects.requireNonNull(credential, "credential cannot be null.");
         return this;
     }
 

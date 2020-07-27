@@ -41,6 +41,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.azure.data.tables.implementation.TableConstants.PARTITION_KEY;
+import static com.azure.data.tables.implementation.TableConstants.ROW_KEY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -49,9 +51,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * This class tests the Autorest code for the Tables track 2 SDK
  */
 public class AzureTableImplTest extends TestBase {
-    private static final String PARTITION_KEY = "PartitionKey";
-    private static final String ROW_KEY = "RowKey";
     private static final int TIMEOUT = 5000;
+
+    private final QueryOptions defaultQueryOptions = new QueryOptions()
+        .setFormat(OdataMetadataFormat.APPLICATION_JSON_ODATA_FULLMETADATA);
 
     private final ClientLogger logger = new ClientLogger(AzureTableImplTest.class);
     private AzureTableImpl azureTable;
@@ -72,6 +75,10 @@ public class AzureTableImplTest extends TestBase {
         policies.add(new AddDatePolicy());
         policies.add(new TablesSharedKeyCredentialPolicy(sharedKeyCredential));
         policies.add(new HttpLoggingPolicy(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS)));
+
+        // Add Accept header so we don't get back XML.
+        // Can be removed when this is fixed. https://github.com/Azure/autorest.modelerfour/issues/324
+        policies.add(new AddHeadersPolicy(new HttpHeaders().put("Accept", "application/json")));
 
         HttpClient httpClientToUse;
         if (interceptorManager.isPlaybackMode()) {
@@ -151,7 +158,7 @@ public class AzureTableImplTest extends TestBase {
 
         // Act & Assert
         StepVerifier.create(azureTable.getTables().createWithResponseAsync(tableProperties,
-            requestId, ResponseFormat.RETURN_CONTENT, null, Context.NONE))
+            requestId, ResponseFormat.RETURN_CONTENT, defaultQueryOptions, Context.NONE))
             .expectErrorSatisfies(error -> {
                 assertTrue(error instanceof TableServiceErrorException);
 
@@ -253,7 +260,7 @@ public class AzureTableImplTest extends TestBase {
     }
 
     @Test
-    void insertNoEtag() {
+    void insertNoETag() {
         // Arrange
         String tableName = testResourceNamer.randomName("test", 20);
         createTable(tableName);

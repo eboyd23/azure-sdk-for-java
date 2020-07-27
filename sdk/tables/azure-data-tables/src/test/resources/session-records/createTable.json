@@ -1,4 +1,71 @@
 {
-  "networkCallRecords" : [ ],
-  "variables" : [ "test48482e087c" ]
+  "networkCallRecords" : [ {
+    "Method" : "POST",
+    "Uri" : "https://REDACTED.table.core.windows.net/Tables",
+    "Headers" : {
+      "x-ms-version" : "2019-02-02",
+      "x-ms-client-request-id" : "55489a97-7f68-4334-8132-47d99e78a2c6",
+      "Content-Type" : "application/json"
+    },
+    "Response" : {
+      "Transfer-Encoding" : "chunked",
+      "x-ms-version" : "2019-02-02",
+      "Server" : "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+      "X-Content-Type-Options" : "nosniff",
+      "retry-after" : "0",
+      "StatusCode" : "201",
+      "Date" : "Mon, 27 Jul 2020 22:35:08 GMT",
+      "Cache-Control" : "no-cache",
+      "x-ms-request-id" : "9faa7f21-5002-001c-3466-64f3e0000000",
+      "Body" : "<?xml version=\"1.0\" encoding=\"utf-8\"?><entry xml:base=\"https://connieystorage.table.core.windows.net/\" xmlns=\"http://www.w3.org/2005/Atom\" xmlns:d=\"http://schemas.microsoft.com/ado/2007/08/dataservices\" xmlns:m=\"http://schemas.microsoft.com/ado/2007/08/dataservices/metadata\" xmlns:georss=\"http://www.georss.org/georss\" xmlns:gml=\"http://www.opengis.net/gml\"><id>https://connieystorage.table.core.windows.net/Tables('test34730881cb')</id><category term=\"connieystorage.Tables\" scheme=\"http://schemas.microsoft.com/ado/2007/08/dataservices/scheme\" /><link rel=\"edit\" title=\"Tables\" href=\"Tables('test34730881cb')\" /><title /><updated>2020-07-27T22:35:09Z</updated><author><name /></author><content type=\"application/xml\"><m:properties><d:TableName>test34730881cb</d:TableName></m:properties></content></entry>",
+      "Preference-Applied" : "return-content",
+      "x-ms-client-request-id" : "55489a97-7f68-4334-8132-47d99e78a2c6",
+      "Content-Type" : "application/atom+xml;type=entry;charset=utf-8",
+      "Location" : "https://connieystorage.table.core.windows.net/Tables('test34730881cb')"
+    },
+    "Exception" : null
+  }, {
+    "Method" : "GET",
+    "Uri" : "https://REDACTED.table.core.windows.net/Tables?$format=application/json%3Bodata%3Dminimalmetadata",
+    "Headers" : {
+      "x-ms-version" : "2019-02-02",
+      "x-ms-client-request-id" : "884f1e50-c81b-4eff-9748-a8fe1ee1ccaa"
+    },
+    "Response" : {
+      "Transfer-Encoding" : "chunked",
+      "x-ms-version" : "2019-02-02",
+      "Server" : "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+      "Cache-Control" : "no-cache",
+      "X-Content-Type-Options" : "nosniff",
+      "retry-after" : "0",
+      "StatusCode" : "200",
+      "x-ms-request-id" : "e4c04fdd-6002-0007-7766-64cde3000000",
+      "Body" : "{\"odata.metadata\":\"https://connieystorage.table.core.windows.net/$metadata#Tables\",\"value\":[{\"TableName\":\"test34730881cb\"}]}",
+      "Date" : "Mon, 27 Jul 2020 22:35:09 GMT",
+      "x-ms-client-request-id" : "884f1e50-c81b-4eff-9748-a8fe1ee1ccaa",
+      "Content-Type" : "application/json;odata=minimalmetadata;streaming=true;charset=utf-8"
+    },
+    "Exception" : null
+  }, {
+    "Method" : "DELETE",
+    "Uri" : "https://REDACTED.table.core.windows.net/Tables('test34730881cb')",
+    "Headers" : {
+      "x-ms-version" : "2019-02-02",
+      "x-ms-client-request-id" : "9ef3f4fd-b49e-4dcd-b7ef-89efe3854236"
+    },
+    "Response" : {
+      "x-ms-version" : "2019-02-02",
+      "Server" : "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+      "Cache-Control" : "no-cache",
+      "X-Content-Type-Options" : "nosniff",
+      "retry-after" : "0",
+      "Content-Length" : "0",
+      "StatusCode" : "204",
+      "x-ms-request-id" : "9faa7f23-5002-001c-3566-64f3e0000000",
+      "Date" : "Mon, 27 Jul 2020 22:35:08 GMT",
+      "x-ms-client-request-id" : "9ef3f4fd-b49e-4dcd-b7ef-89efe3854236"
+    },
+    "Exception" : null
+  } ],
+  "variables" : [ "test34730881cb", "55489a97-7f68-4334-8132-47d99e78a2c6", "884f1e50-c81b-4eff-9748-a8fe1ee1ccaa", "9ef3f4fd-b49e-4dcd-b7ef-89efe3854236" ]
 }

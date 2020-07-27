@@ -10,6 +10,9 @@ import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.policy.HttpPipelinePolicy;
 import com.azure.core.util.Configuration;
 import com.azure.core.util.logging.ClientLogger;
+import com.azure.core.util.serializer.JacksonAdapter;
+import com.azure.core.util.serializer.SerializerAdapter;
+import com.azure.data.tables.implementation.TablesJacksonSerializer;
 import com.azure.storage.common.implementation.connectionstring.StorageAuthenticationSettings;
 import com.azure.storage.common.implementation.connectionstring.StorageConnectionString;
 import com.azure.storage.common.implementation.connectionstring.StorageEndpoint;
@@ -27,6 +30,7 @@ import java.util.Objects;
 @ServiceClientBuilder(serviceClients = {TableServiceClient.class, TableServiceAsyncClient.class})
 public class TableServiceClientBuilder {
     private final ClientLogger logger = new ClientLogger(TableServiceClientBuilder.class);
+    private final SerializerAdapter serializerAdapter = new TablesJacksonSerializer();
     private final List<HttpPipelinePolicy> policies;
     private String connectionString;
     private Configuration configuration;
@@ -37,7 +41,6 @@ public class TableServiceClientBuilder {
     private TokenCredential tokenCredential;
     private HttpPipeline httpPipeline;
     private SasTokenCredential sasTokenCredential;
-    private HttpPipeline pipeline;
     private String accountName;
     private RequestRetryOptions retryOptions = new RequestRetryOptions();
 
@@ -71,9 +74,8 @@ public class TableServiceClientBuilder {
             (TablesSharedKeyCredential) tokenCredential, tokenCredential, sasTokenCredential, endpoint, retryOptions,
             httpLogOptions, httpClient, policies, configuration, logger);
 
-        return new TableServiceAsyncClient(pipeline, endpoint, serviceVersion);
+        return new TableServiceAsyncClient(pipeline, endpoint, serviceVersion, serializerAdapter);
     }
-
 
     /**
      * Sets the connection string to help build the client
@@ -127,10 +129,11 @@ public class TableServiceClientBuilder {
      * @return The updated TableServiceClientBuilder object.
      */
     public TableServiceClientBuilder pipeline(HttpPipeline pipeline) {
-        if (this.httpPipeline != null && httpPipeline == null) {
+        if (this.httpPipeline != null && pipeline == null) {
             logger.info("HttpPipeline is being set to 'null' when it was previously configured.");
         }
-        this.pipeline = pipeline;
+
+        this.httpPipeline = pipeline;
         return this;
     }
 
@@ -186,8 +189,7 @@ public class TableServiceClientBuilder {
      * @throws NullPointerException If {@code credential} is {@code null}.
      */
     public TableServiceClientBuilder credential(TokenCredential credential) {
-        this.tokenCredential = Objects.requireNonNull(credential, "credential cannot"
-            + "be null");
+        this.tokenCredential = Objects.requireNonNull(credential, "'credential' cannot be null.");
         return this;
     }
 
@@ -258,5 +260,4 @@ public class TableServiceClientBuilder {
         this.retryOptions = Objects.requireNonNull(retryOptions, "'retryOptions' cannot be null.");
         return this;
     }
-
 }

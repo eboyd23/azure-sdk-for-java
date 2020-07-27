@@ -10,8 +10,11 @@ import com.azure.core.http.HttpPipelineBuilder;
 import com.azure.core.http.policy.CookiePolicy;
 import com.azure.core.http.policy.RetryPolicy;
 import com.azure.core.http.policy.UserAgentPolicy;
+import com.azure.core.util.serializer.SerializerAdapter;
 
-/** A builder for creating a new instance of the AzureTable type. */
+/**
+ * A builder for creating a new instance of the AzureTable type.
+ */
 @ServiceClientBuilder(serviceClients = {AzureTableImpl.class})
 public final class AzureTableImplBuilder {
     /*
@@ -24,6 +27,7 @@ public final class AzureTableImplBuilder {
      * Sets The URL of the service account or table that is the target of the desired operation.
      *
      * @param url the url value.
+     *
      * @return the AzureTableImplBuilder.
      */
     public AzureTableImplBuilder url(String url) {
@@ -40,6 +44,7 @@ public final class AzureTableImplBuilder {
      * Sets The HTTP pipeline to send requests through.
      *
      * @param pipeline the pipeline value.
+     *
      * @return the AzureTableImplBuilder.
      */
     public AzureTableImplBuilder pipeline(HttpPipeline pipeline) {
@@ -56,10 +61,24 @@ public final class AzureTableImplBuilder {
      * Sets the version for Tables service.
      *
      * @param version the service value.
+     *
      * @return the AzureTableImplBuilder.
      */
     public AzureTableImplBuilder version(String version) {
         this.version = version;
+        return this;
+    }
+
+    private SerializerAdapter serializerAdapter;
+
+    /**
+     * Sets the serializer adapter to use.
+     *
+     * @param serializerAdapter Adapter to serialize with.
+     * @return The updated object.
+     */
+    public AzureTableImplBuilder serializerAdapter(SerializerAdapter serializerAdapter) {
+        this.serializerAdapter = serializerAdapter;
         return this;
     }
 
@@ -71,11 +90,11 @@ public final class AzureTableImplBuilder {
     public AzureTableImpl buildClient() {
         if (pipeline == null) {
             this.pipeline =
-                    new HttpPipelineBuilder()
-                            .policies(new UserAgentPolicy(), new RetryPolicy(), new CookiePolicy())
-                            .build();
+                new HttpPipelineBuilder()
+                    .policies(new UserAgentPolicy(), new RetryPolicy(), new CookiePolicy())
+                    .build();
         }
-        AzureTableImpl client = new AzureTableImpl(pipeline, url, version);
-        return client;
+
+        return new AzureTableImpl(pipeline, url, version, serializerAdapter);
     }
 }

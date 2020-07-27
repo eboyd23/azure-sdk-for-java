@@ -5,9 +5,11 @@ package com.azure.data.tables;
 
 import com.azure.core.credential.TokenCredential;
 import com.azure.core.http.HttpClient;
+import com.azure.core.http.HttpHeaders;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.HttpPipelineBuilder;
 import com.azure.core.http.policy.AddDatePolicy;
+import com.azure.core.http.policy.AddHeadersPolicy;
 import com.azure.core.http.policy.BearerTokenAuthenticationPolicy;
 import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.policy.HttpLoggingPolicy;
@@ -45,6 +47,10 @@ class BuilderHelper {
         List<HttpPipelinePolicy> policies = new ArrayList<>();
         policies.add(getUserAgentPolicy(configuration));
         policies.add(new RequestIdPolicy());
+
+        // Add Accept header so we don't get back XML.
+        // Can be removed when this is fixed. https://github.com/Azure/autorest.modelerfour/issues/324
+        policies.add(new AddHeadersPolicy(new HttpHeaders().put("Accept", "application/json")));
 
         //2
         HttpPolicyProviders.addBeforeRetryPolicies(policies);

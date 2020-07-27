@@ -1,10 +1,10 @@
 {
   "networkCallRecords" : [ {
     "Method" : "DELETE",
-    "Uri" : "https://REDACTED.table.core.windows.net/Tables('test904572a9d6')",
+    "Uri" : "https://REDACTED.table.core.windows.net/Tables('test570244a12e')",
     "Headers" : {
       "x-ms-version" : "2019-02-02",
-      "x-ms-client-request-id" : "836dda1b-a61c-4f03-acb7-2cac7179993b"
+      "x-ms-client-request-id" : "4930e692-b8cc-4460-817c-0f0e187e836d"
     },
     "Response" : {
       "Transfer-Encoding" : "chunked",
@@ -14,11 +14,11 @@
       "X-Content-Type-Options" : "nosniff",
       "retry-after" : "0",
       "StatusCode" : "404",
-      "x-ms-request-id" : "72bfc011-8002-0070-7f53-64ec0a000000",
-      "Body" : "{\"odata.error\":{\"code\":\"ResourceNotFound\",\"message\":{\"lang\":\"en-US\",\"value\":\"The specified resource does not exist.\\nRequestId:72bfc011-8002-0070-7f53-64ec0a000000\\nTime:2020-07-27T20:17:56.5283169Z\"}}}",
-      "Date" : "Mon, 27 Jul 2020 20:17:55 GMT",
-      "x-ms-client-request-id" : "836dda1b-a61c-4f03-acb7-2cac7179993b",
-      "Content-Type" : "application/json;odata=minimalmetadata;streaming=true;charset=utf-8"
+      "x-ms-request-id" : "9faa7f42-5002-001c-4a66-64f3e0000000",
+      "Body" : "<?xml version=\"1.0\" encoding=\"utf-8\"?><error xmlns=\"http://schemas.microsoft.com/ado/2007/08/dataservices/metadata\"><code>ResourceNotFound</code><message xml:lang=\"en-US\">The specified resource does not exist.\nRequestId:9faa7f42-5002-001c-4a66-64f3e0000000\nTime:2020-07-27T22:35:10.5417968Z</message></error>",
+      "Date" : "Mon, 27 Jul 2020 22:35:09 GMT",
+      "x-ms-client-request-id" : "4930e692-b8cc-4460-817c-0f0e187e836d",
+      "Content-Type" : "application/xml;charset=utf-8"
     },
     "Exception" : null
   }, {
@@ -26,7 +26,7 @@
     "Uri" : "https://REDACTED.table.core.windows.net/Tables?$format=application/json%3Bodata%3Dminimalmetadata",
     "Headers" : {
       "x-ms-version" : "2019-02-02",
-      "x-ms-client-request-id" : "c5636cad-5f7a-4933-9944-87a79a4c7689"
+      "x-ms-client-request-id" : "03f7cbca-bdca-4bdb-adc2-472a8ce89c98"
     },
     "Response" : {
       "Transfer-Encoding" : "chunked",
@@ -36,13 +36,13 @@
       "X-Content-Type-Options" : "nosniff",
       "retry-after" : "0",
       "StatusCode" : "200",
-      "x-ms-request-id" : "34f4f9e6-e002-002b-3353-64d531000000",
-      "Body" : "{\"odata.metadata\":\"https://telboytrial.table.core.windows.net/$metadata#Tables\",\"value\":[]}",
-      "Date" : "Mon, 27 Jul 2020 20:17:56 GMT",
-      "x-ms-client-request-id" : "c5636cad-5f7a-4933-9944-87a79a4c7689",
+      "x-ms-request-id" : "e4c04fff-6002-0007-0f66-64cde3000000",
+      "Body" : "{\"odata.metadata\":\"https://connieystorage.table.core.windows.net/$metadata#Tables\",\"value\":[]}",
+      "Date" : "Mon, 27 Jul 2020 22:35:10 GMT",
+      "x-ms-client-request-id" : "03f7cbca-bdca-4bdb-adc2-472a8ce89c98",
       "Content-Type" : "application/json;odata=minimalmetadata;streaming=true;charset=utf-8"
     },
     "Exception" : null
   } ],
-  "variables" : [ "test904572a9d6", "836dda1b-a61c-4f03-acb7-2cac7179993b", "c5636cad-5f7a-4933-9944-87a79a4c7689" ]
+  "variables" : [ "test570244a12e", "4930e692-b8cc-4460-817c-0f0e187e836d", "03f7cbca-bdca-4bdb-adc2-472a8ce89c98" ]
 }

@@ -4,7 +4,7 @@
     "Uri" : "https://REDACTED.table.core.windows.net/Tables",
     "Headers" : {
       "x-ms-version" : "2019-02-02",
-      "x-ms-client-request-id" : "bf177239-c940-4f1c-905d-f62a56ac392f",
+      "x-ms-client-request-id" : "1e68693c-9fb5-4bcb-90f4-d90a3ba0f340",
       "Content-Type" : "application/json"
     },
     "Response" : {
@@ -14,22 +14,22 @@
       "X-Content-Type-Options" : "nosniff",
       "retry-after" : "0",
       "StatusCode" : "201",
-      "Date" : "Mon, 27 Jul 2020 20:17:54 GMT",
+      "Date" : "Mon, 27 Jul 2020 22:35:08 GMT",
       "Cache-Control" : "no-cache",
-      "x-ms-request-id" : "a2deeee1-2002-001b-1253-646bfe000000",
-      "Body" : "{\"odata.metadata\":\"https://telboytrial.table.core.windows.net/$metadata#Tables/@Element\",\"TableName\":\"test79594e0d9b\"}",
+      "x-ms-request-id" : "9faa7f15-5002-001c-2b66-64f3e0000000",
+      "Body" : "<?xml version=\"1.0\" encoding=\"utf-8\"?><entry xml:base=\"https://connieystorage.table.core.windows.net/\" xmlns=\"http://www.w3.org/2005/Atom\" xmlns:d=\"http://schemas.microsoft.com/ado/2007/08/dataservices\" xmlns:m=\"http://schemas.microsoft.com/ado/2007/08/dataservices/metadata\" xmlns:georss=\"http://www.georss.org/georss\" xmlns:gml=\"http://www.opengis.net/gml\"><id>https://connieystorage.table.core.windows.net/Tables('test541853bf02')</id><category term=\"connieystorage.Tables\" scheme=\"http://schemas.microsoft.com/ado/2007/08/dataservices/scheme\" /><link rel=\"edit\" title=\"Tables\" href=\"Tables('test541853bf02')\" /><title /><updated>2020-07-27T22:35:08Z</updated><author><name /></author><content type=\"application/xml\"><m:properties><d:TableName>test541853bf02</d:TableName></m:properties></content></entry>",
       "Preference-Applied" : "return-content",
-      "x-ms-client-request-id" : "bf177239-c940-4f1c-905d-f62a56ac392f",
-      "Content-Type" : "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
-      "Location" : "https://telboytrial.table.core.windows.net/Tables('test79594e0d9b')"
+      "x-ms-client-request-id" : "1e68693c-9fb5-4bcb-90f4-d90a3ba0f340",
+      "Content-Type" : "application/atom+xml;type=entry;charset=utf-8",
+      "Location" : "https://connieystorage.table.core.windows.net/Tables('test541853bf02')"
     },
     "Exception" : null
   }, {
     "Method" : "POST",
-    "Uri" : "https://REDACTED.table.core.windows.net/test79594e0d9b?timeout=5000",
+    "Uri" : "https://REDACTED.table.core.windows.net/test541853bf02?timeout=5000",
     "Headers" : {
       "x-ms-version" : "2019-02-02",
-      "x-ms-client-request-id" : "a9e524fb-1276-48ef-a64d-63e7faa90467",
+      "x-ms-client-request-id" : "e7b57358-a3b6-4064-8378-43b0652fd35e",
       "Content-Type" : "application/json"
     },
     "Response" : {
@@ -39,23 +39,23 @@
       "X-Content-Type-Options" : "nosniff",
       "retry-after" : "0",
       "StatusCode" : "201",
-      "Date" : "Mon, 27 Jul 2020 20:17:53 GMT",
+      "Date" : "Mon, 27 Jul 2020 22:35:08 GMT",
       "Cache-Control" : "no-cache",
-      "ETag" : "W/\"datetime'2020-07-27T20%3A17%3A54.8228566Z'\"",
-      "x-ms-request-id" : "c60ecf2f-4002-008b-1a53-645190000000",
-      "Body" : "{\"odata.metadata\":\"https://telboytrial.table.core.windows.net/$metadata#test79594e0d9b/@Element\",\"odata.etag\":\"W/\\\"datetime'2020-07-27T20%3A17%3A54.8228566Z'\\\"\",\"PartitionKey\":\"partitionkey092647\",\"RowKey\":\"rowkey584329447\",\"Timestamp\":\"2020-07-27T20:17:54.8228566Z\"}",
+      "ETag" : "W/\"datetime'2020-07-27T22%3A35%3A08.8422472Z'\"",
+      "x-ms-request-id" : "e4c04fbf-6002-0007-5e66-64cde3000000",
+      "Body" : "<?xml version=\"1.0\" encoding=\"utf-8\"?><entry xml:base=\"https://connieystorage.table.core.windows.net/\" xmlns=\"http://www.w3.org/2005/Atom\" xmlns:d=\"http://schemas.microsoft.com/ado/2007/08/dataservices\" xmlns:m=\"http://schemas.microsoft.com/ado/2007/08/dataservices/metadata\" xmlns:georss=\"http://www.georss.org/georss\" xmlns:gml=\"http://www.opengis.net/gml\" m:etag=\"W/&quot;datetime'2020-07-27T22%3A35%3A08.8422472Z'&quot;\"><id>https://connieystorage.table.core.windows.net/test541853bf02(PartitionKey='partitionkey81295e',RowKey='rowkey585825885')</id><category term=\"connieystorage.test541853bf02\" scheme=\"http://schemas.microsoft.com/ado/2007/08/dataservices/scheme\" /><link rel=\"edit\" title=\"test541853bf02\" href=\"test541853bf02(PartitionKey='partitionkey81295e',RowKey='rowkey585825885')\" /><title /><updated>2020-07-27T22:35:08Z</updated><author><name /></author><content type=\"application/xml\"><m:properties><d:PartitionKey>partitionkey81295e</d:PartitionKey><d:RowKey>rowkey585825885</d:RowKey><d:Timestamp m:type=\"Edm.DateTime\">2020-07-27T22:35:08.8422472Z</d:Timestamp></m:properties></content></entry>",
       "Preference-Applied" : "return-content",
-      "x-ms-client-request-id" : "a9e524fb-1276-48ef-a64d-63e7faa90467",
-      "Content-Type" : "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
-      "Location" : "https://telboytrial.table.core.windows.net/test79594e0d9b(PartitionKey='partitionkey092647',RowKey='rowkey584329447')"
+      "x-ms-client-request-id" : "e7b57358-a3b6-4064-8378-43b0652fd35e",
+      "Content-Type" : "application/atom+xml;type=entry;charset=utf-8",
+      "Location" : "https://connieystorage.table.core.windows.net/test541853bf02(PartitionKey='partitionkey81295e',RowKey='rowkey585825885')"
     },
     "Exception" : null
   }, {
     "Method" : "DELETE",
-    "Uri" : "https://REDACTED.table.core.windows.net/test79594e0d9b(PartitionKey='partitionkey092647',RowKey='rowkey584329447')?timeout=5000",
+    "Uri" : "https://REDACTED.table.core.windows.net/test541853bf02(PartitionKey='partitionkey81295e',RowKey='rowkey585825885')?timeout=5000",
     "Headers" : {
       "x-ms-version" : "2019-02-02",
-      "x-ms-client-request-id" : "40821d44-9225-4b90-b7e8-a4639afa02b0"
+      "x-ms-client-request-id" : "4ca0686c-563c-4f9f-bf86-c719ab743215"
     },
     "Response" : {
       "x-ms-version" : "2019-02-02",
@@ -65,9 +65,9 @@
       "retry-after" : "0",
       "Content-Length" : "0",
       "StatusCode" : "204",
-      "x-ms-request-id" : "d12aa5db-9002-006c-6b53-64be6a000000",
-      "Date" : "Mon, 27 Jul 2020 20:17:54 GMT",
-      "x-ms-client-request-id" : "40821d44-9225-4b90-b7e8-a4639afa02b0"
+      "x-ms-request-id" : "9faa7f19-5002-001c-2e66-64f3e0000000",
+      "Date" : "Mon, 27 Jul 2020 22:35:08 GMT",
+      "x-ms-client-request-id" : "4ca0686c-563c-4f9f-bf86-c719ab743215"
     },
     "Exception" : null
   }, {
@@ -75,7 +75,7 @@
     "Uri" : "https://REDACTED.table.core.windows.net/Tables?$format=application/json%3Bodata%3Dminimalmetadata",
     "Headers" : {
       "x-ms-version" : "2019-02-02",
-      "x-ms-client-request-id" : "3bcad796-4470-455d-905d-d09f8c0061c8"
+      "x-ms-client-request-id" : "312a4e37-0856-4efb-88fa-8f9a13468488"
     },
     "Response" : {
       "Transfer-Encoding" : "chunked",
@@ -85,19 +85,19 @@
       "X-Content-Type-Options" : "nosniff",
       "retry-after" : "0",
       "StatusCode" : "200",
-      "x-ms-request-id" : "1446816f-e002-0014-5a53-641d92000000",
-      "Body" : "{\"odata.metadata\":\"https://telboytrial.table.core.windows.net/$metadata#Tables\",\"value\":[{\"TableName\":\"test79594e0d9b\"}]}",
-      "Date" : "Mon, 27 Jul 2020 20:17:54 GMT",
-      "x-ms-client-request-id" : "3bcad796-4470-455d-905d-d09f8c0061c8",
+      "x-ms-request-id" : "e4c04fc2-6002-0007-6066-64cde3000000",
+      "Body" : "{\"odata.metadata\":\"https://connieystorage.table.core.windows.net/$metadata#Tables\",\"value\":[{\"TableName\":\"test541853bf02\"}]}",
+      "Date" : "Mon, 27 Jul 2020 22:35:08 GMT",
+      "x-ms-client-request-id" : "312a4e37-0856-4efb-88fa-8f9a13468488",
       "Content-Type" : "application/json;odata=minimalmetadata;streaming=true;charset=utf-8"
     },
     "Exception" : null
   }, {
     "Method" : "DELETE",
-    "Uri" : "https://REDACTED.table.core.windows.net/Tables('test79594e0d9b')",
+    "Uri" : "https://REDACTED.table.core.windows.net/Tables('test541853bf02')",
     "Headers" : {
       "x-ms-version" : "2019-02-02",
-      "x-ms-client-request-id" : "6d4c967c-7890-4d9c-a4c8-ef91ebba77ec"
+      "x-ms-client-request-id" : "84ddcc88-f558-4625-ae1f-0e4c9ce72791"
     },
     "Response" : {
       "x-ms-version" : "2019-02-02",
@@ -107,11 +107,11 @@
       "retry-after" : "0",
       "Content-Length" : "0",
       "StatusCode" : "204",
-      "x-ms-request-id" : "c87d5954-2002-0079-6253-64a9d9000000",
-      "Date" : "Mon, 27 Jul 2020 20:17:54 GMT",
-      "x-ms-client-request-id" : "6d4c967c-7890-4d9c-a4c8-ef91ebba77ec"
+      "x-ms-request-id" : "9faa7f1a-5002-001c-2f66-64f3e0000000",
+      "Date" : "Mon, 27 Jul 2020 22:35:08 GMT",
+      "x-ms-client-request-id" : "84ddcc88-f558-4625-ae1f-0e4c9ce72791"
     },
     "Exception" : null
   } ],
-  "variables" : [ "test79594e0d9b", "bf177239-c940-4f1c-905d-f62a56ac392f", "partitionkey092647", "rowkey584329447", "40821d44-9225-4b90-b7e8-a4639afa02b0", "a9e524fb-1276-48ef-a64d-63e7faa90467", "3bcad796-4470-455d-905d-d09f8c0061c8", "6d4c967c-7890-4d9c-a4c8-ef91ebba77ec" ]
+  "variables" : [ "test541853bf02", "1e68693c-9fb5-4bcb-90f4-d90a3ba0f340", "partitionkey81295e", "rowkey585825885", "4ca0686c-563c-4f9f-bf86-c719ab743215", "e7b57358-a3b6-4064-8378-43b0652fd35e", "312a4e37-0856-4efb-88fa-8f9a13468488", "84ddcc88-f558-4625-ae1f-0e4c9ce72791" ]
 }

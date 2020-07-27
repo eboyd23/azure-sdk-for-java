@@ -57,6 +57,8 @@ public class TableAsyncClient {
     private final String accountName;
     private final String tableUrl;
     private final TablesServiceVersion apiVersion;
+    private final QueryOptions defaultQueryOptions = new QueryOptions()
+        .setFormat(OdataMetadataFormat.APPLICATION_JSON_ODATA_FULLMETADATA);
 
     TableAsyncClient(String tableName, HttpPipeline pipeline, String url, TablesServiceVersion serviceVersion) {
         try {
@@ -557,19 +559,43 @@ public class TableAsyncClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Entity>> getEntityWithResponse(String partitionKey, String rowKey) {
-        return withContext(context -> getEntityWithResponse(partitionKey, rowKey, context));
+        return withContext(context -> getEntityWithResponse(partitionKey, rowKey, defaultQueryOptions, context));
     }
 
-    Mono<Response<Entity>> getEntityWithResponse(String partitionKey, String rowKey, Context context) {
-        QueryOptions queryOptions = new QueryOptions()
-            .setFormat(OdataMetadataFormat.APPLICATION_JSON_ODATA_FULLMETADATA);
+    Mono<Response<Entity>> getEntityWithResponse(String partitionKey, String rowKey, QueryOptions queryOptions,
+        Context context) {
+
         return tableImplementation.queryEntitiesWithPartitionAndRowKeyWithResponseAsync(tableName, partitionKey,
-            rowKey, null, null, queryOptions, context).handle((response, sink) -> {
-            sink.next(new SimpleResponse<>(response.getRequest(), response.getStatusCode(),
-                response.getHeaders(), new Entity("", "")));
-            sink.error(new NullPointerException("resource not found"));
-            //TODO (t-elboy) fix serialization to correct this
-        });
+            rowKey, null, null, queryOptions, context)
+            .handle((response, sink) -> {
+                final TableEntityQueryResponse entityQueryResponse = response.getValue();
+                if (entityQueryResponse == null) {
+                    logger.info("TableEntityQueryResponse is null. Table: {}, partition key: {}, row key: {}.",
+                        tableName, partitionKey, rowKey);
+
+                    sink.complete();
+                    return;
+                }
+                final List<Map<String, Object>> matchingEntities = entityQueryResponse.getValue();
+                if (matchingEntities == null || matchingEntities.isEmpty()) {
+                    logger.info("There was no matching entity. Table: {}, partition key: {}, row key: {}.",
+                        tableName, partitionKey, rowKey);
+
+                    sink.complete();
+                    return;
+                }
+
+                if (matchingEntities.size() > 1) {
+                    logger.warning("There were multiple matching entities. Table: {}, partition key: {}, row key: {}.",
+                        tableName, partitionKey, rowKey);
+                }
+
+                // Deserialize the first entity.
+                // TODO: Potentially update logic to deserialize them all.
+                final Entity entity = deserializeEntity(logger, matchingEntities.get(0));
+                sink.next(new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
+                    entity));
+            });
     }
 
     /**

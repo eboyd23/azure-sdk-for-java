@@ -13,8 +13,6 @@ import com.azure.data.tables.models.QueryParams;
 import com.azure.data.tables.models.UpdateMode;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
 import reactor.test.StepVerifier;
 
 import java.time.Duration;
@@ -178,9 +176,8 @@ public class TablesAsyncClientTest extends TestBase {
             .verify();
     }
 
-    @Disabled("Disable until getEntityWithResponse deserialization logic is fixed.")
     @Test
-    void getEntityWithResponseTHIS() {
+    void getEntityWithResponse() {
         // Arrange
         final String partitionKeyValue = testResourceNamer.randomName("partitionKey", 20);
         final String rowKeyValue = testResourceNamer.randomName("rowKey", 20);
@@ -209,13 +206,21 @@ public class TablesAsyncClientTest extends TestBase {
             .verify();
     }
 
+    @Test
+    void updateEntityWithResponseReplace() {
+        updateEntityWithResponse(UpdateMode.REPLACE);
+    }
+
+    @Test
+    void updateEntityWithResponseMerge() {
+        updateEntityWithResponse(UpdateMode.MERGE);
+    }
+
     /**
      * In the case of {@link UpdateMode#MERGE}, we expect both properties to exist.
      * In the case of {@link UpdateMode#REPLACE}, we only expect {@code newPropertyKey} to exist.
      */
-    @EnumSource(UpdateMode.class)
-    @ParameterizedTest
-    void updateEntityWithResponseMerge(UpdateMode mode) {
+    void updateEntityWithResponse(UpdateMode mode) {
         // Arrange
         final boolean expectOldProperty = mode == UpdateMode.MERGE;
         final String partitionKeyValue = testResourceNamer.randomName("APartitionKey", 20);

@@ -71,7 +71,6 @@ public class TablesJacksonSerializer extends JacksonAdapter {
                     new UnsupportedOperationException("Multiple return values not supported yet."));
             }
 
-            logger.info("key: {} is neither. Adding to root object.", entry.getKey());
             rootObject.put(entry.getKey(), entry.getValue().asText());
         }
 

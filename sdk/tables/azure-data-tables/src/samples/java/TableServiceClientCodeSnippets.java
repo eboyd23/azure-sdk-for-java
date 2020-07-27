@@ -4,14 +4,12 @@ package com.azure.data.tables;
 
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.util.logging.ClientLogger;
+import com.azure.data.tables.models.Entity;
 import com.azure.data.tables.models.QueryParams;
 import com.azure.data.tables.models.Table;
-import com.azure.data.tables.models.Entity;
 import com.azure.data.tables.models.TableErrorCode;
 import com.azure.data.tables.models.TableStorageException;
 import com.azure.data.tables.models.UpdateMode;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * sync code snippets for the table service

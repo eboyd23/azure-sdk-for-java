@@ -535,7 +535,8 @@ public class TableAsyncClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Entity> getEntity(String partitionKey, String rowKey) {
-        return getEntity(partitionKey, rowKey).flatMap(entity -> Mono.justOrEmpty(entity));
+        return getEntityWithResponse(partitionKey, rowKey).flatMap(response ->
+            Mono.justOrEmpty(response.getValue()));
     }
 
     /**

@@ -5,8 +5,6 @@ package com.azure.data.tables;
 import com.azure.data.tables.models.Entity;
 import com.azure.data.tables.models.QueryParams;
 import com.azure.data.tables.models.UpdateMode;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * async code snippets for the table service

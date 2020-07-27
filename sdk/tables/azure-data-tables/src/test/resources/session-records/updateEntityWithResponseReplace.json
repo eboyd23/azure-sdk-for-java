@@ -1,0 +1,80 @@
+{
+  "networkCallRecords" : [ {
+    "Method" : "POST",
+    "Uri" : "https://REDACTED.table.core.windows.net/Tables",
+    "Headers" : {
+      "x-ms-version" : "2019-02-02",
+      "User-Agent" : "azsdk-java-UnknownName/UnknownVersion (11.0.7; Windows 10; 10.0)",
+      "x-ms-client-request-id" : "dc024de6-dca8-4946-8250-acef405d8a19",
+      "Content-Type" : "application/json"
+    },
+    "Response" : {
+      "Transfer-Encoding" : "chunked",
+      "x-ms-version" : "2019-02-02",
+      "Server" : "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+      "X-Content-Type-Options" : "nosniff",
+      "retry-after" : "0",
+      "StatusCode" : "201",
+      "Date" : "Mon, 27 Jul 2020 18:01:05 GMT",
+      "Cache-Control" : "no-cache",
+      "x-ms-request-id" : "cb19c47e-3002-0028-083f-643455000000",
+      "Body" : "{\"odata.metadata\":\"https://telboytrial.table.core.windows.net/$metadata#Tables/@Element\",\"odata.type\":\"telboytrial.Tables\",\"odata.id\":\"https://telboytrial.table.core.windows.net/Tables('tablename57508650')\",\"odata.editLink\":\"Tables('tablename57508650')\",\"TableName\":\"tablename57508650\"}",
+      "Preference-Applied" : "return-content",
+      "x-ms-client-request-id" : "dc024de6-dca8-4946-8250-acef405d8a19",
+      "Content-Type" : "application/json;odata=fullmetadata;streaming=true;charset=utf-8",
+      "Location" : "https://telboytrial.table.core.windows.net/Tables('tablename57508650')"
+    },
+    "Exception" : null
+  }, {
+    "Method" : "POST",
+    "Uri" : "https://REDACTED.table.core.windows.net/tablename57508650",
+    "Headers" : {
+      "x-ms-version" : "2019-02-02",
+      "User-Agent" : "azsdk-java-UnknownName/UnknownVersion (11.0.7; Windows 10; 10.0)",
+      "x-ms-client-request-id" : "de6bf1b8-f4b1-48fe-9134-388f3311ce7f",
+      "Content-Type" : "application/json"
+    },
+    "Response" : {
+      "Transfer-Encoding" : "chunked",
+      "x-ms-version" : "2019-02-02",
+      "Server" : "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+      "X-Content-Type-Options" : "nosniff",
+      "retry-after" : "0",
+      "StatusCode" : "201",
+      "Date" : "Mon, 27 Jul 2020 18:01:05 GMT",
+      "Cache-Control" : "no-cache",
+      "ETag" : "W/datetime'2020-07-27T18%3A01%3A06.4390307Z'",
+      "x-ms-request-id" : "cb19c485-3002-0028-0d3f-643455000000",
+      "Body" : "{\"odata.metadata\":\"https://telboytrial.table.core.windows.net/$metadata#tablename57508650/@Element\",\"odata.type\":\"telboytrial.tablename57508650\",\"odata.id\":\"https://telboytrial.table.core.windows.net/tablename57508650(PartitionKey='apartitionkey60510e',RowKey='arowkey17238cc2e')\",\"odata.etag\":\"W/\\\"datetime'2020-07-27T18%3A01%3A06.4390307Z'\\\"\",\"odata.editLink\":\"tablename57508650(PartitionKey='apartitionkey60510e',RowKey='arowkey17238cc2e')\",\"PartitionKey\":\"apartitionkey60510e\",\"RowKey\":\"arowkey17238cc2e\",\"Timestamp@odata.type\":\"Edm.DateTime\",\"Timestamp\":\"2020-07-27T18:01:06.4390307Z\",\"propertyA\":\"valueA\"}",
+      "Preference-Applied" : "return-content",
+      "x-ms-client-request-id" : "de6bf1b8-f4b1-48fe-9134-388f3311ce7f",
+      "Content-Type" : "application/json;odata=fullmetadata;streaming=true;charset=utf-8",
+      "Location" : "https://telboytrial.table.core.windows.net/tablename57508650(PartitionKey='apartitionkey60510e',RowKey='arowkey17238cc2e')"
+    },
+    "Exception" : null
+  }, {
+    "Method" : "PUT",
+    "Uri" : "https://REDACTED.table.core.windows.net/tablename57508650(PartitionKey='apartitionkey60510e',RowKey='arowkey17238cc2e')",
+    "Headers" : {
+      "x-ms-version" : "2019-02-02",
+      "User-Agent" : "azsdk-java-UnknownName/UnknownVersion (11.0.7; Windows 10; 10.0)",
+      "x-ms-client-request-id" : "a732ddee-efb6-49c8-a83b-a1e343599706",
+      "Content-Type" : "application/json"
+    },
+    "Response" : {
+      "x-ms-version" : "2019-02-02",
+      "Server" : "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+      "Cache-Control" : "no-cache",
+      "ETag" : "W/datetime'2020-07-27T18%3A01%3A06.5074694Z'",
+      "X-Content-Type-Options" : "nosniff",
+      "retry-after" : "0",
+      "Content-Length" : "0",
+      "StatusCode" : "204",
+      "x-ms-request-id" : "cb19c48c-3002-0028-143f-643455000000",
+      "Date" : "Mon, 27 Jul 2020 18:01:05 GMT",
+      "x-ms-client-request-id" : "a732ddee-efb6-49c8-a83b-a1e343599706"
+    },
+    "Exception" : null
+  } ],
+  "variables" : [ "tablename57508650", "apartitionkey60510e", "arowkey17238cc2e" ]
+}

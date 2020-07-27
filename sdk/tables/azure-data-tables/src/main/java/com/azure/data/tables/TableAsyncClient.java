@@ -15,6 +15,7 @@ import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.util.Context;
 import com.azure.core.util.IterableStream;
 import com.azure.core.util.logging.ClientLogger;
+import com.azure.core.util.serializer.SerializerAdapter;
 import com.azure.data.tables.implementation.AzureTableImpl;
 import com.azure.data.tables.implementation.AzureTableImplBuilder;
 import com.azure.data.tables.implementation.EntityHelper;
@@ -60,7 +61,9 @@ public class TableAsyncClient {
     private final QueryOptions defaultQueryOptions = new QueryOptions()
         .setFormat(OdataMetadataFormat.APPLICATION_JSON_ODATA_FULLMETADATA);
 
-    TableAsyncClient(String tableName, HttpPipeline pipeline, String url, TablesServiceVersion serviceVersion) {
+    TableAsyncClient(String tableName, HttpPipeline pipeline, String url, TablesServiceVersion serviceVersion,
+        SerializerAdapter serializerAdapter) {
+
         try {
             final URI uri = URI.create(url);
             logger.verbose("Table Service URI: {}", uri);
@@ -70,6 +73,7 @@ public class TableAsyncClient {
 
         this.implementation = new AzureTableImplBuilder()
             .url(url)
+            .serializerAdapter(serializerAdapter)
             .pipeline(pipeline)
             .version(serviceVersion.getVersion())
             .buildClient();

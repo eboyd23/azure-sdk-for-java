@@ -12,6 +12,8 @@ import com.azure.core.http.policy.HttpPipelinePolicy;
 import com.azure.core.util.Configuration;
 
 import com.azure.core.util.logging.ClientLogger;
+import com.azure.core.util.serializer.SerializerAdapter;
+import com.azure.data.tables.implementation.TablesJacksonSerializer;
 import com.azure.storage.common.implementation.connectionstring.StorageAuthenticationSettings;
 import com.azure.storage.common.implementation.connectionstring.StorageConnectionString;
 import com.azure.storage.common.implementation.connectionstring.StorageEndpoint;
@@ -28,6 +30,9 @@ import java.util.Objects;
  */
 @ServiceClientBuilder(serviceClients = {TableClient.class, TableAsyncClient.class})
 public class TableClientBuilder {
+    private final ClientLogger logger = new ClientLogger(TableClientBuilder.class);
+    private final SerializerAdapter serializerAdapter = new TablesJacksonSerializer();
+
     private String tableName;
     private final List<HttpPipelinePolicy> policies;
     private Configuration configuration;
@@ -35,14 +40,12 @@ public class TableClientBuilder {
     private HttpClient httpClient;
     private String endpoint;
     private HttpLogOptions httpLogOptions;
-    private TablesServiceVersion serviceVersion;
     private HttpPipeline httpPipeline;
     private SasTokenCredential sasTokenCredential;
-    private TablesSharedKeyCredential tablesSharedKeyCredential;
     private TablesServiceVersion version;
     private String accountName;
     private RequestRetryOptions retryOptions = new RequestRetryOptions();
-    private final ClientLogger logger = new ClientLogger(TableClientBuilder.class);
+
 
     TableClientBuilder() {
         policies = new ArrayList<>();
@@ -110,7 +113,7 @@ public class TableClientBuilder {
             (TablesSharedKeyCredential) tokenCredential, tokenCredential, sasTokenCredential, endpoint, retryOptions,
             httpLogOptions, httpClient, policies, configuration, logger);
 
-        return new TableAsyncClient(tableName, pipeline, endpoint, serviceVersion);
+        return new TableAsyncClient(tableName, pipeline, endpoint, serviceVersion, serializerAdapter);
     }
 
     /**
@@ -231,7 +234,7 @@ public class TableClientBuilder {
      * @return The updated TableClientBuilder object.
      */
     public TableClientBuilder serviceVersion(TablesServiceVersion version) {
-        this.serviceVersion = version;
+        this.version = version;
         return this;
     }
 

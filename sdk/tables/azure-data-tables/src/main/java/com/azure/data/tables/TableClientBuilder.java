@@ -46,7 +46,7 @@ public class TableClientBuilder {
     private RequestRetryOptions retryOptions = new RequestRetryOptions();
     private final ClientLogger logger = new ClientLogger(TableClientBuilder.class);
 
-    public TableClientBuilder() {
+    TableClientBuilder() {
         policies = new ArrayList<>();
         httpLogOptions = new HttpLogOptions();
     }
@@ -72,7 +72,7 @@ public class TableClientBuilder {
         }
         StorageAuthenticationSettings authSettings = storageConnectionString.getStorageAuthSettings();
         if (authSettings.getType() == StorageAuthenticationSettings.Type.ACCOUNT_NAME_KEY) {
-            this.credential( (TokenCredential) new TablesSharedKeyCredential(authSettings.getAccount().getName(),
+            this.credential((TokenCredential) new TablesSharedKeyCredential(authSettings.getAccount().getName(),
                 authSettings.getAccount().getAccessKey()));
         } else if (authSettings.getType() == StorageAuthenticationSettings.Type.SAS_TOKEN) {
             this.sasToken(authSettings.getSasToken());
@@ -97,7 +97,7 @@ public class TableClientBuilder {
      * @return a sync tableClient
      */
     public TableClient buildClient() {
-         return new TableClient(tableName, buildAsyncClient());
+        return new TableClient(tableName, buildAsyncClient());
     }
 
     /**
@@ -109,8 +109,8 @@ public class TableClientBuilder {
         TablesServiceVersion serviceVersion = version != null ? version : TablesServiceVersion.getLatest();
 
         HttpPipeline pipeline = (httpPipeline != null) ? httpPipeline : BuilderHelper.buildPipeline(
-            (TablesSharedKeyCredential) tokenCredential, tokenCredential, sasTokenCredential, endpoint, retryOptions, httpLogOptions,
-            httpClient, policies, configuration, logger);
+            (TablesSharedKeyCredential) tokenCredential, tokenCredential, sasTokenCredential, endpoint, retryOptions,
+            httpLogOptions, httpClient, policies, configuration, logger);
 
         return new TableAsyncClient(tableName, pipeline, endpoint, serviceVersion);
     }
@@ -182,7 +182,7 @@ public class TableClientBuilder {
 
     /**
      * Sets the configuration store that is used during construction of the service client.
-     *
+     * <p>
      * The default configuration store is a clone of the {@link Configuration#getGlobalConfiguration() global
      * configuration store}, use {@link Configuration#NONE} to bypass using configuration settings during construction.
      *
@@ -248,7 +248,7 @@ public class TableClientBuilder {
 
     /**
      * Sets the {@link TablesServiceVersion} that is used when making API requests.
-
+     *
      * @param version {@link TablesServiceVersion} of the service to be used when making requests.
      * @return The updated TableClientBuilder object.
      */

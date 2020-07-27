@@ -6,27 +6,15 @@ import com.azure.core.annotation.ServiceClientBuilder;
 import com.azure.core.credential.TokenCredential;
 import com.azure.core.http.HttpClient;
 import com.azure.core.http.HttpPipeline;
-import com.azure.core.http.HttpPipelineBuilder;
-import com.azure.core.http.policy.AddDatePolicy;
-import com.azure.core.http.policy.BearerTokenAuthenticationPolicy;
 import com.azure.core.http.policy.HttpLogOptions;
-import com.azure.core.http.policy.HttpLoggingPolicy;
 import com.azure.core.http.policy.HttpPipelinePolicy;
-import com.azure.core.http.policy.HttpPolicyProviders;
-import com.azure.core.http.policy.RequestIdPolicy;
-import com.azure.core.http.policy.UserAgentPolicy;
 import com.azure.core.util.Configuration;
 import com.azure.core.util.logging.ClientLogger;
-import com.azure.storage.common.StorageSharedKeyCredential;
 import com.azure.storage.common.implementation.connectionstring.StorageAuthenticationSettings;
 import com.azure.storage.common.implementation.connectionstring.StorageConnectionString;
 import com.azure.storage.common.implementation.connectionstring.StorageEndpoint;
 import com.azure.storage.common.implementation.credentials.SasTokenCredential;
-import com.azure.storage.common.implementation.policy.SasTokenCredentialPolicy;
 import com.azure.storage.common.policy.RequestRetryOptions;
-import com.azure.storage.common.policy.RequestRetryPolicy;
-import com.azure.storage.common.policy.ScrubEtagPolicy;
-import com.ctc.wstx.shaded.msv_core.verifier.regexp.Token;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -80,8 +68,8 @@ public class TableServiceClientBuilder {
         TablesServiceVersion serviceVersion = version != null ? version : TablesServiceVersion.getLatest();
 
         HttpPipeline pipeline = (httpPipeline != null) ? httpPipeline : BuilderHelper.buildPipeline(
-            (TablesSharedKeyCredential) tokenCredential, tokenCredential, sasTokenCredential, endpoint, retryOptions, httpLogOptions,
-            httpClient, policies, configuration, logger);
+            (TablesSharedKeyCredential) tokenCredential, tokenCredential, sasTokenCredential, endpoint, retryOptions,
+            httpLogOptions, httpClient, policies, configuration, logger);
 
         return new TableServiceAsyncClient(pipeline, endpoint, serviceVersion);
     }
@@ -108,7 +96,7 @@ public class TableServiceClientBuilder {
         }
         StorageAuthenticationSettings authSettings = storageConnectionString.getStorageAuthSettings();
         if (authSettings.getType() == StorageAuthenticationSettings.Type.ACCOUNT_NAME_KEY) {
-            this.credential( (TokenCredential) new TablesSharedKeyCredential(authSettings.getAccount().getName(),
+            this.credential((TokenCredential) new TablesSharedKeyCredential(authSettings.getAccount().getName(),
                 authSettings.getAccount().getAccessKey()));
         } else if (authSettings.getType() == StorageAuthenticationSettings.Type.SAS_TOKEN) {
             this.sasToken(authSettings.getSasToken());

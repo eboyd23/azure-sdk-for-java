@@ -4,7 +4,6 @@
 package com.azure.data.tables.models;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.data.tables.implementation.models.QueryOptions;
 
 /**
  * helps construct a query

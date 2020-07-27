@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 package com.azure.data.tables;
 
 import com.azure.core.credential.TokenCredential;
@@ -33,10 +36,10 @@ class BuilderHelper {
     private static final String SDK_VERSION = "version";
 
     static HttpPipeline buildPipeline(TablesSharedKeyCredential tablesSharedKeyCredential,
-                                      TokenCredential tokenCredential, SasTokenCredential sasTokenCredential,
-                                      String endpoint, RequestRetryOptions retryOptions, HttpLogOptions logOptions,
-                                      HttpClient httpClient, List<HttpPipelinePolicy> additionalPolicies,
-                                      Configuration configuration, ClientLogger logger) {
+        TokenCredential tokenCredential, SasTokenCredential sasTokenCredential,
+        String endpoint, RequestRetryOptions retryOptions, HttpLogOptions logOptions,
+        HttpClient httpClient, List<HttpPipelinePolicy> additionalPolicies,
+        Configuration configuration, ClientLogger logger) {
 
         //1
         List<HttpPipelinePolicy> policies = new ArrayList<>();

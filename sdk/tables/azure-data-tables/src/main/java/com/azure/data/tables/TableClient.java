@@ -13,8 +13,6 @@ import com.azure.data.tables.models.QueryParams;
 import com.azure.data.tables.models.Table;
 import com.azure.data.tables.models.UpdateMode;
 import java.time.Duration;
-import java.util.Map;
-import reactor.core.publisher.Mono;
 
 /**
  * sync client for table operations
@@ -41,24 +39,34 @@ public class TableClient {
 
     /**
      * returns the account for this table
-     * @return
+     *
+     * @return a string of the account name
      */
-    public String getAccountName(){ return null;}
+    public String getAccountName() {
+        return null;
+    }
 
     /**
      * returns Url of this service
+     *
      * @return Url
      */
-    public String getTableUrl(){ return null;}
+    public String getTableUrl() {
+        return null;
+    }
 
     /**
      * returns the version
+     *
      * @return the version
      */
-    public TablesServiceVersion getApiVersion() { return null;}
+    public TablesServiceVersion getApiVersion() {
+        return null;
+    }
 
     /**
      * creates new table with the name of this client
+     *
      * @return a table
      */
     public Table create() {
@@ -67,6 +75,7 @@ public class TableClient {
 
     /**
      * creates a new table with the name of this client
+     *
      * @return a table
      */
     public Response<Table> createWithResponse() {
@@ -155,7 +164,8 @@ public class TableClient {
      * @return a response
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<Void> upsertEntityWithResponse(Entity entity, UpdateMode updateMode, Duration timeout, Context context) {
+    public Response<Void> upsertEntityWithResponse(Entity entity, UpdateMode updateMode, Duration timeout,
+        Context context) {
         return client.upsertEntityWithResponse(entity, updateMode, timeout, context).block();
     }
 
@@ -221,7 +231,8 @@ public class TableClient {
      * @return a response
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<Void> updateEntityWithResponse(Entity entity, boolean ifUnchanged, UpdateMode updateMode, Duration timeout, Context context) {
+    public Response<Void> updateEntityWithResponse(Entity entity, boolean ifUnchanged, UpdateMode updateMode,
+        Duration timeout, Context context) {
         return client.updateEntityWithResponse(entity, ifUnchanged, updateMode, timeout, context).block();
     }
 
@@ -268,7 +279,8 @@ public class TableClient {
      * @return a response
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<Void> deleteEntityWithResponse(Entity entity, boolean ifUnchanged, Duration timeout, Context context) {
+    public Response<Void> deleteEntityWithResponse(Entity entity, boolean ifUnchanged, Duration timeout,
+        Context context) {
         return client.deleteEntityWithResponse(entity, ifUnchanged, timeout, context).block();
     }
 
@@ -340,7 +352,8 @@ public class TableClient {
      * @return a mono of the response with the table entity
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Response<Entity> getEntityWithResponse(String partitionKey, String rowKey, Duration timeout, Context context) {
+    public Response<Entity> getEntityWithResponse(String partitionKey, String rowKey, Duration timeout,
+        Context context) {
         return getEntityWithResponse(partitionKey, rowKey, timeout, context);
     }
 

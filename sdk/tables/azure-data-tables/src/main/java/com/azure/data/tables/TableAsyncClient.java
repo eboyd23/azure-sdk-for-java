@@ -29,7 +29,6 @@ import com.azure.data.tables.models.Table;
 import com.azure.data.tables.models.UpdateMode;
 import java.net.URI;
 import java.time.Duration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -87,7 +86,7 @@ public class TableAsyncClient {
     /**
      * returns the account for this table
      *
-     * @return
+     * @return returns the account name
      */
     public String getAccountName() {
         return this.accountName;
@@ -132,14 +131,16 @@ public class TableAsyncClient {
     /**
      * creates a new table with the name of this client
      *
+     * @param context the context of the query
      * @return a table
      */
     public Mono<Response<Table>> createWithResponse(Context context) {
         return tableImplementation.createWithResponseAsync(new TableProperties().setTableName(tableName), null,
-            ResponseFormat.RETURN_CONTENT, null, context).map(response -> {
-            Table table = response.getValue() == null ? null : new Table(response.getValue().getTableName());
-            return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(), table);
-        });
+                ResponseFormat.RETURN_CONTENT, null, context).map(response -> {
+                    Table table = response.getValue() == null ? null : new Table(response.getValue().getTableName());
+                    return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
+                        table);
+                });
     }
 
     /**
@@ -166,16 +167,17 @@ public class TableAsyncClient {
         return withContext(context -> createEntityWithResponse(entity, null, context));
     }
 
-    @ServiceMethod(returns = ReturnType.SINGLE)
     Mono<Response<Entity>> createEntityWithResponse(Entity tableEntity, Duration timeout, Context context) {
         Integer timeoutInt = timeout != null ? (int) timeout.getSeconds() : null;
-        return tableImplementation.insertEntityWithResponseAsync(tableName, timeoutInt, null, ResponseFormat.RETURN_CONTENT, tableEntity.getProperties(),
-            null, context).map(response -> {
-            tableEntity.setEtag(response.getValue().get("odata.etag").toString());
-            tableEntity.setPartitionKey(response.getValue().get("PartitionKey"));
-            tableEntity.setRowKey(response.getValue().get("RowKey"));
-            return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(), tableEntity);
-        });
+        return tableImplementation.insertEntityWithResponseAsync(tableName, timeoutInt, null,
+                ResponseFormat.RETURN_CONTENT, tableEntity.getProperties(),
+                null, context).map(response -> {
+                    tableEntity.setEtag(response.getValue().get("odata.etag").toString());
+                    tableEntity.setPartitionKey(response.getValue().get("PartitionKey"));
+                    tableEntity.setRowKey(response.getValue().get("RowKey"));
+                    return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
+                tableEntity);
+                });
     }
 
     /**
@@ -213,25 +215,25 @@ public class TableAsyncClient {
         return withContext(context -> upsertEntityWithResponse(entity, updateMode, null, context));
     }
 
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<Response<Void>> upsertEntityWithResponse(Entity entity, UpdateMode updateMode, Duration timeout, Context context) {
+    Mono<Response<Void>> upsertEntityWithResponse(Entity entity, UpdateMode updateMode, Duration timeout,
+        Context context) {
         if (entity == null) {
             monoError(logger, new NullPointerException("TableEntity cannot be null"));
         }
         if (updateMode == UpdateMode.REPLACE) {
-            return tableImplementation.updateEntityWithResponseAsync(tableName, entity.getPartitionKey().toString(), entity.getRowKey().toString(),
-                (int) timeout.getSeconds(), null, "*", entity.getProperties(), null,
-                context).map(response -> {
-                return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
+            return tableImplementation.updateEntityWithResponseAsync(tableName, entity.getPartitionKey().toString(),
+                entity.getRowKey().toString(), (int) timeout.getSeconds(), null, "*",
+                entity.getProperties(), null, context).map(response -> {
+                    return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
                     null);
-            });
+                });
         } else {
-            return tableImplementation.mergeEntityWithResponseAsync(tableName, entity.getPartitionKey().toString(), entity.getRowKey().toString(),
-                (int) timeout.getSeconds(), null, "*", entity.getProperties(), null,
-                context).map(response -> {
-                return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
-                    null);
-            });
+            return tableImplementation.mergeEntityWithResponseAsync(tableName, entity.getPartitionKey().toString(),
+                entity.getRowKey().toString(), (int) timeout.getSeconds(), null, "*",
+                entity.getProperties(), null, context).map(response -> {
+                    return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
+                       null);
+                });
         }
     }
 
@@ -248,6 +250,12 @@ public class TableAsyncClient {
         return Mono.empty();
     }
 
+    /**
+     * updates the entity
+     * @param entity the entity to update
+     * @param updateMode which type of mode to execute
+     * @return void
+     */
     public Mono<Void> updateEntity(Entity entity, UpdateMode updateMode) {
         return updateEntity(entity, false, updateMode);
     }
@@ -263,7 +271,8 @@ public class TableAsyncClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> updateEntity(Entity entity, boolean ifUnchanged, UpdateMode updateMode) {
-        return updateEntityWithResponse(entity, ifUnchanged, updateMode).flatMap(response -> Mono.justOrEmpty(response.getValue()));
+        return updateEntityWithResponse(entity, ifUnchanged, updateMode).flatMap(response ->
+            Mono.justOrEmpty(response.getValue()));
     }
 
     /**
@@ -280,44 +289,47 @@ public class TableAsyncClient {
         return withContext(context -> updateEntityWithResponse(entity, ifUnchanged, updateMode, null, context));
     }
 
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<Response<Void>> updateEntityWithResponse(Entity entity, boolean ifUnchanged, UpdateMode updateMode, Duration timeout, Context context) {
+    Mono<Response<Void>> updateEntityWithResponse(Entity entity, boolean ifUnchanged, UpdateMode updateMode,
+        Duration timeout, Context context) {
         Integer timeoutInt = timeout == null ? null : (int) timeout.getSeconds();
         if (updateMode == null || updateMode == UpdateMode.MERGE) {
             if (ifUnchanged) {
-                return tableImplementation.mergeEntityWithResponseAsync(tableName, entity.getPartitionKey().toString(), entity.getRowKey().toString(),
-                    timeoutInt, null, entity.getETag(), entity.getProperties(), null,
+                return tableImplementation.mergeEntityWithResponseAsync(tableName, entity.getPartitionKey().toString(),
+                    entity.getRowKey().toString(), timeoutInt, null, entity.getETag(), entity.getProperties(), null,
                     context).map(response -> {
-                    return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
-                        null);
-                });
+                        return new SimpleResponse<>(response.getRequest(), response.getStatusCode(),
+                            response.getHeaders(), null);
+                    });
             } else {
-                return getEntity(entity.getPartitionKey().toString(), entity.getRowKey().toString()).flatMap(entityReturned -> {
-                    return tableImplementation.mergeEntityWithResponseAsync(tableName, entity.getPartitionKey().toString(), entity.getRowKey().toString(),
-                        timeoutInt, null, "*", entity.getProperties(), null,
-                        context);
-                }).map(response -> {
-                    return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
-                        null);
-                });
+                return getEntity(entity.getPartitionKey().toString(), entity.getRowKey().toString())
+                    .flatMap(entityReturned -> {
+                        return tableImplementation.mergeEntityWithResponseAsync(tableName,
+                        entity.getPartitionKey().toString(), entity.getRowKey().toString(), timeoutInt, null,
+                        "*", entity.getProperties(), null, context);
+                    }).map(response -> {
+                        return new SimpleResponse<>(response.getRequest(), response.getStatusCode(),
+                            response.getHeaders(), null);
+                    });
             }
         } else {
             if (ifUnchanged) {
-                return tableImplementation.updateEntityWithResponseAsync(tableName, entity.getPartitionKey().toString(), entity.getRowKey().toString(),
-                    timeoutInt, null, entity.getETag(), entity.getProperties(), null,
-                    context).map(response -> {
-                    return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
-                        null);
-                });
+                return tableImplementation.updateEntityWithResponseAsync(tableName, entity.getPartitionKey().toString(),
+                    entity.getRowKey().toString(), timeoutInt, null, entity.getETag(), entity.getProperties(),
+                    null, context).map(response -> {
+                        return new SimpleResponse<>(response.getRequest(), response.getStatusCode(),
+                            response.getHeaders(), null);
+                    });
             } else {
-                return getEntity(entity.getPartitionKey().toString(), entity.getRowKey().toString()).flatMap(entityReturned -> {
-                    return tableImplementation.updateEntityWithResponseAsync(tableName, entity.getPartitionKey().toString(), entity.getRowKey().toString(),
+                return getEntity(entity.getPartitionKey().toString(), entity.getRowKey().toString())
+                    .flatMap(entityReturned -> {
+                        return tableImplementation.updateEntityWithResponseAsync(tableName,
+                        entity.getPartitionKey().toString(), entity.getRowKey().toString(),
                         timeoutInt, null, "*", entity.getProperties(), null,
                         context);
-                }).map(response -> {
-                    return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
-                        null);
-                });
+                    }).map(response -> {
+                        return new SimpleResponse<>(response.getRequest(), response.getStatusCode(),
+                            response.getHeaders(), null);
+                    });
             }
         }
     }
@@ -357,15 +369,17 @@ public class TableAsyncClient {
         return withContext(context -> deleteEntityWithResponse(entity, ifUnchanged, null, context));
     }
 
-    Mono<Response<Void>> deleteEntityWithResponse(Entity entity, boolean ifUnchanged, Duration timeout, Context context) {
+    Mono<Response<Void>> deleteEntityWithResponse(Entity entity, boolean ifUnchanged, Duration timeout,
+        Context context) {
         String matchParam = ifUnchanged ? entity.getETag() : "*";
         Integer timeoutInt = timeout == null ? null : (int) timeout.getSeconds();
         context = context == null ? Context.NONE : context;
-        return tableImplementation.deleteEntityWithResponseAsync(tableName, entity.getPartitionKey().toString(), entity.getRowKey().toString(),
+        return tableImplementation.deleteEntityWithResponseAsync(tableName, entity.getPartitionKey().toString(),
+            entity.getRowKey().toString(),
             matchParam, timeoutInt, null, null, context).map(response -> {
-            return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
+                return new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
                 null);
-        });
+            });
     }
 
     /**
@@ -413,7 +427,8 @@ public class TableAsyncClient {
         try {
             String[] split = token.split(DELIMITER_CONTINUATION_TOKEN, 2);
             if (split.length != 2) {
-                return monoError(logger, new RuntimeException("Split done incorrectly, must have partition and row key: " + token));
+                return monoError(logger, new RuntimeException(
+                    "Split done incorrectly, must have partition and row key: " + token));
             }
             String nextPartitionKey = split[0];
             String nextRowKey = split[1];
@@ -423,40 +438,45 @@ public class TableAsyncClient {
         }
     } //1459
 
-    private Mono<PagedResponse<Entity>> listTables(String nextPartitionKey, String nextRowKey, Context context, QueryParams queryParams) {
+    private Mono<PagedResponse<Entity>> listTables(String nextPartitionKey, String nextRowKey, Context context,
+        QueryParams queryParams) {
         QueryOptions queryOptions = new QueryOptions()
             .setFilter(queryParams.getFilter())
             .setTop(queryParams.getTop())
             .setSelect(queryParams.getSelect())
             .setFormat(OdataMetadataFormat.APPLICATION_JSON_ODATA_FULLMETADATA);
-        return implementation.getTables().queryEntitiesWithResponseAsync(tableName, null, null, nextPartitionKey, nextRowKey, queryOptions, context).flatMap(response -> {
-            TableEntityQueryResponse tablesQueryEntityResponse = response.getValue();
-            if (tablesQueryEntityResponse == null) {
-                return Mono.empty();
-            }
-            List<Map<String, Object>> entityResponseValue = tablesQueryEntityResponse.getValue();
-            if (entityResponseValue == null) {
-                return Mono.empty();
-            }
-            final List<Entity> entities = entityResponseValue.stream()
-                .map(valueMap -> {
-                    Object value = valueMap.remove("odata.etag");
-                    String etag = value != null ? String.valueOf(value) : null;
-                    String[] split = valueMap.get("odata.editLink").toString().split("'");
-                    Object partitionKey = valueMap.containsKey("PartitionKey") ? valueMap.remove("PartitionKey") : split[1];
-                    Object rowKey = valueMap.containsKey("RowKey") ? valueMap.remove("RowKey") : split[3];
-                    Entity entity = new Entity(partitionKey, rowKey).setEtag(etag);
-                    for (Map.Entry<String,Object> v : valueMap.entrySet()) {
-                        if (!v.getKey().contains("odata")) {
-                            entity.addProperties(v.getKey(), v.getValue());
+        return implementation.getTables().queryEntitiesWithResponseAsync(tableName, null, null,
+            nextPartitionKey, nextRowKey, queryOptions, context).flatMap(response -> {
+                TableEntityQueryResponse tablesQueryEntityResponse = response.getValue();
+                if (tablesQueryEntityResponse == null) {
+                    return Mono.empty();
+                }
+                List<Map<String, Object>> entityResponseValue = tablesQueryEntityResponse.getValue();
+                if (entityResponseValue == null) {
+                    return Mono.empty();
+                }
+                final List<Entity> entities = entityResponseValue.stream()
+                    .map(valueMap -> {
+                        Object value = valueMap.remove("odata.etag");
+                        String etag = value != null ? String.valueOf(value) : null;
+                        String[] split = valueMap.get("odata.editLink").toString().split("'");
+                        Object partitionKey = valueMap.containsKey("PartitionKey") ? valueMap.remove("PartitionKey")
+                            : split[1];
+                        Object rowKey = valueMap.containsKey("RowKey") ? valueMap.remove("RowKey") : split[3];
+                        Entity entity = new Entity(partitionKey, rowKey).setEtag(etag);
+                        for (Map.Entry<String, Object> v : valueMap.entrySet()) {
+                            if (!v.getKey().contains("odata")) {
+                                entity.addProperties(v.getKey(), v.getValue());
+                            }
                         }
-                    }
-                    return entity;
-                }).collect(Collectors.toList());
+                        return entity;
+                    }).collect(Collectors.toList());
 
-            return Mono.just(new EntityPaged(response, entities, response.getDeserializedHeaders().getXMsContinuationNextPartitionKey(), response.getDeserializedHeaders().getXMsContinuationNextRowKey()));
+                return Mono.just(new EntityPaged(response, entities,
+                response.getDeserializedHeaders().getXMsContinuationNextPartitionKey(),
+                response.getDeserializedHeaders().getXMsContinuationNextRowKey()));
 
-        });
+            });
     } //1836
 
 
@@ -465,7 +485,8 @@ public class TableAsyncClient {
         private final IterableStream<Entity> entityStream;
         private final String continuationToken;
 
-        public EntityPaged(Response<TableEntityQueryResponse> httpResponse, List<Entity> entityList, String nextPartitionKey, String nextRowKey) {
+        EntityPaged(Response<TableEntityQueryResponse> httpResponse, List<Entity> entityList, String nextPartitionKey,
+            String nextRowKey) {
             if (nextPartitionKey == null || nextRowKey == null) {
                 this.continuationToken = null;
             } else {
@@ -473,7 +494,6 @@ public class TableAsyncClient {
             }
             this.httpResponse = httpResponse;
             this.entityStream = IterableStream.of(entityList);
-
         }
 
         @Override
@@ -531,21 +551,17 @@ public class TableAsyncClient {
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    Mono<Response<Entity>> getEntityWithResponse(String partitionKey, String rowKey, Duration timeout, Context context) {
+    Mono<Response<Entity>> getEntityWithResponse(String partitionKey, String rowKey, Duration timeout,
+        Context context) {
         QueryOptions queryOptions = new QueryOptions()
             .setFormat(OdataMetadataFormat.APPLICATION_JSON_ODATA_FULLMETADATA);
         Integer timeoutInt = timeout == null ? null : (int) timeout.getSeconds();
-        return tableImplementation.queryEntitiesWithPartitionAndRowKeyWithResponseAsync(tableName, partitionKey, rowKey, timeoutInt,
-            null, queryOptions, context).handle((response, sink) -> {
-            sink.next(new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
-                new Entity("","")));
-//            for (Map<String, Object> m : response.getValue().getValue()) {
-//                if (m.get("PartitionKey").equals(partitionKey) && m.get("RowKey").equals(rowKey)) {
-//                    sink.next(new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(),
-//                        new Entity(m)));
-//                }
-//            }
-            sink.error(new NullPointerException("resource not found")); //TODO fix this
-        });
+        return tableImplementation.queryEntitiesWithPartitionAndRowKeyWithResponseAsync(tableName, partitionKey,
+                rowKey, timeoutInt, null, queryOptions, context).handle((response, sink) -> {
+                    sink.next(new SimpleResponse<>(response.getRequest(), response.getStatusCode(),
+                        response.getHeaders(), new Entity("", "")));
+                    sink.error(new NullPointerException("resource not found"));
+                    //TODO (t-elboy) fix serialization to correct this
+                });
     }
 }

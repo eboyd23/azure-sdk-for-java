@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 package com.azure.data.tables;
 
 import com.azure.core.http.HttpHeaders;
@@ -8,7 +11,6 @@ import com.azure.core.http.policy.HttpLoggingPolicy;
 import com.azure.core.test.TestBase;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.data.tables.implementation.models.OdataMetadataFormat;
-import com.azure.data.tables.implementation.models.QueryOptions;
 import com.azure.data.tables.models.QueryParams;
 import com.azure.storage.common.implementation.connectionstring.StorageConnectionString;
 import org.junit.jupiter.api.Assertions;
@@ -17,7 +19,7 @@ import reactor.test.StepVerifier;
 
 
 public class TableServiceAsyncClientTest extends TestBase {
-    private String connectionString= System.getenv("AZURE_TABLES_CONNECTION_STRING");
+    private String connectionString = System.getenv("AZURE_TABLES_CONNECTION_STRING");
     private final ClientLogger logger = new ClientLogger(TableServiceAsyncClientTest.class);
 
     private TableServiceClient client;

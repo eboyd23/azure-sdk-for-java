@@ -40,6 +40,11 @@ public class TableErrorCode extends ExpandableStringEnum<TableErrorCode> {
      */
     public static final TableErrorCode INVALID_PK_OR_RK_NAME = fromString("InvalidPkOrRkName");
 
+    /**
+     * returns an error code from a string
+     * @param name the name of the error
+     * @return the associated tableErrorCode
+     */
     public static TableErrorCode fromString(String name) {
         return fromString(name, TableErrorCode.class);
     }

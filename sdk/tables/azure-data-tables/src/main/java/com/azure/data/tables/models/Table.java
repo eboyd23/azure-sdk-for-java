@@ -11,6 +11,10 @@ public class Table {
     private final String name;
     private TableClient tableClient;
 
+    /**
+     * crete a table
+     * @param name the name of the table
+     */
     public Table(String name) {
         this.name = name;
     }

@@ -5,11 +5,9 @@ package com.azure.data.tables;
 import com.azure.core.annotation.ReturnType;
 import com.azure.core.annotation.ServiceClient;
 import com.azure.core.annotation.ServiceMethod;
-import com.azure.core.http.HttpHeader;
 import com.azure.core.http.HttpHeaders;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.HttpRequest;
-import com.azure.core.http.HttpResponse;
 import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedResponse;
 import com.azure.core.http.rest.Response;
@@ -25,10 +23,8 @@ import com.azure.data.tables.implementation.models.ResponseFormat;
 import com.azure.data.tables.implementation.models.TableProperties;
 import com.azure.data.tables.implementation.models.TableQueryResponse;
 import com.azure.data.tables.implementation.models.TableResponseProperties;
-import com.azure.data.tables.implementation.models.TablesQueryResponse;
 import com.azure.data.tables.models.QueryParams;
 import com.azure.data.tables.models.Table;
-import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -102,9 +98,7 @@ public class TableServiceAsyncClient {
         return withContext(context -> createTableWithResponse(tableName, context));
     }
 
-    @ServiceMethod(returns = ReturnType.SINGLE)
     Mono<Response<Table>> createTableWithResponse(String tableName, Context context) {
-        System.out.print("hi");
         context = context == null ? Context.NONE : context;
         final TableProperties properties = new TableProperties().setTableName(tableName);
 
@@ -113,9 +107,7 @@ public class TableServiceAsyncClient {
                 null,
                 ResponseFormat.RETURN_CONTENT, null, context)
                 .map(response -> {
-                    System.out.print("hi");
                     final Table table = new Table(response.getValue().getTableName());
-
                     return new SimpleResponse<>(response.getRequest(), response.getStatusCode(),
                         response.getHeaders(), table);
                 });
@@ -146,7 +138,6 @@ public class TableServiceAsyncClient {
         return withContext(context -> deleteTableWithResponse(tableName, context));
     }
 
-    @ServiceMethod(returns = ReturnType.SINGLE)
     Mono<Response<Void>> deleteTableWithResponse(String tableName, Context context) {
         context = context == null ? Context.NONE : context;
         return implementation.getTables().deleteWithResponseAsync(tableName, null, context).map(response -> {
@@ -178,11 +169,11 @@ public class TableServiceAsyncClient {
             token -> withContext(context -> listTablesNextPage(token, context, queryParams)));
     } //802
 
-    PagedFlux<Table> listTables(QueryParams QueryParams, Context context) {
+    PagedFlux<Table> listTables(QueryParams queryParams, Context context) {
 
         return new PagedFlux<>(
-            () -> listTablesFirstPage(context, QueryParams),
-            token -> listTablesNextPage(token, context, QueryParams));
+            () -> listTablesFirstPage(context, queryParams),
+            token -> listTablesNextPage(token, context, queryParams));
     } //802
 
     private Mono<PagedResponse<Table>> listTablesFirstPage(Context context, QueryParams queryParams) {
@@ -207,24 +198,26 @@ public class TableServiceAsyncClient {
             .setTop(queryParams.getTop())
             .setSelect(queryParams.getSelect())
             .setFormat(OdataMetadataFormat.APPLICATION_JSON_ODATA_MINIMALMETADATA);
-        return implementation.getTables().queryWithResponseAsync(null, nextTableName, queryOptions, context).flatMap(response -> {
-            TableQueryResponse tableQueryResponse = response.getValue();
-            if (tableQueryResponse == null) {
-                return Mono.empty();
-            }
-            List<TableResponseProperties> tableResponsePropertiesList = tableQueryResponse.getValue();
-            if (tableResponsePropertiesList == null) {
-                return Mono.empty();
-            }
-            final List<Table> tables = tableResponsePropertiesList.stream()
-                .map(e -> {
-                    Table table = new Table(e.getTableName());
-                    return table;
-                }).collect(Collectors.toList());
+        return implementation.getTables().queryWithResponseAsync(null, nextTableName, queryOptions, context)
+            .flatMap(response -> {
+                TableQueryResponse tableQueryResponse = response.getValue();
+                if (tableQueryResponse == null) {
+                    return Mono.empty();
+                }
+                List<TableResponseProperties> tableResponsePropertiesList = tableQueryResponse.getValue();
+                if (tableResponsePropertiesList == null) {
+                    return Mono.empty();
+                }
+                final List<Table> tables = tableResponsePropertiesList.stream()
+                    .map(e -> {
+                        Table table = new Table(e.getTableName());
+                        return table;
+                    }).collect(Collectors.toList());
 
-            return Mono.just(new TablePaged(response, tables, response.getDeserializedHeaders().getXMsContinuationNextTableName()));
+                return Mono.just(new TablePaged(response, tables,
+                    response.getDeserializedHeaders().getXMsContinuationNextTableName()));
 
-        });
+            });
     } //1836
 
 
@@ -233,7 +226,7 @@ public class TableServiceAsyncClient {
         private final IterableStream<Table> tableStream;
         private final String continuationToken;
 
-        public TablePaged(Response<TableQueryResponse> httpResponse, List<Table> tableList, String continuationToken){
+        TablePaged(Response<TableQueryResponse> httpResponse, List<Table> tableList, String continuationToken) {
             this.httpResponse = httpResponse;
             this.tableStream = IterableStream.of(tableList);
             this.continuationToken = continuationToken;

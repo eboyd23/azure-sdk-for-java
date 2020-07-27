@@ -4,17 +4,13 @@
 package com.azure.data.tables;
 
 import com.azure.core.http.HttpClient;
-import com.azure.core.http.HttpHeaders;
-import com.azure.core.http.policy.AddHeadersPolicy;
 import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
-import com.azure.core.http.policy.HttpLoggingPolicy;
 import com.azure.core.http.policy.RetryPolicy;
 import com.azure.core.test.TestBase;
-import com.azure.core.util.logging.ClientLogger;
-import com.azure.data.tables.implementation.models.OdataMetadataFormat;
 import com.azure.data.tables.models.Table;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TableServiceClientTest extends TestBase {
@@ -47,7 +43,7 @@ public class TableServiceClientTest extends TestBase {
         Table table = client.createTable(tableName);
 
         // Assert
-        assertEquals(table.getName(), tableName);
+        assertEquals(tableName, table.getName());
     }
 
     @Test

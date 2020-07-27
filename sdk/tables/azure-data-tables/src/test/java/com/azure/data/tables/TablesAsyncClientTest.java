@@ -6,6 +6,7 @@ package com.azure.data.tables;
 import com.azure.core.http.HttpClient;
 import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.http.policy.HttpPipelinePolicy;
 import com.azure.core.http.policy.RetryPolicy;
 import com.azure.core.test.TestBase;
 import com.azure.data.tables.models.Entity;
@@ -29,6 +30,8 @@ public class TablesAsyncClientTest extends TestBase {
     private static final Duration TIMEOUT = Duration.ofSeconds(30);
 
     private TableAsyncClient asyncClient;
+    private HttpPipelinePolicy recordPolicy;
+    private HttpClient playbackClient;
 
     @Override
     protected void beforeTest() {
@@ -40,10 +43,12 @@ public class TablesAsyncClientTest extends TestBase {
             .tableName(tableName);
 
         if (interceptorManager.isPlaybackMode()) {
-            builder.httpClient(interceptorManager.getPlaybackClient());
+            playbackClient = interceptorManager.getPlaybackClient();
+            builder.httpClient(playbackClient);
         } else {
+            recordPolicy = interceptorManager.getRecordPolicy();
             builder.httpClient(HttpClient.createDefault())
-                .addPolicy(interceptorManager.getRecordPolicy())
+                .addPolicy(recordPolicy)
                 .addPolicy(new RetryPolicy());
         }
 
@@ -63,10 +68,10 @@ public class TablesAsyncClientTest extends TestBase {
             .tableName(tableName2);
 
         if (interceptorManager.isPlaybackMode()) {
-            builder.httpClient(interceptorManager.getPlaybackClient());
+            builder.httpClient(playbackClient);
         } else {
             builder.httpClient(HttpClient.createDefault())
-                .addPolicy(interceptorManager.getRecordPolicy())
+                .addPolicy(recordPolicy)
                 .addPolicy(new RetryPolicy());
         }
 

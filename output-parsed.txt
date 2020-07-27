@@ -1,0 +1,30 @@
+---- POWERSHELL ----
+
+$env:AZURE_CLIENT_ID="f850650c-1fcf-4489-b46f-71af2e30d360";
+$env:AZURE_CLIENT_SECRET="7wPH3xmXcSX.p]0QlH0vAvr?CvI.UMTT";
+$env:AZURE_LOG_LEVEL="2";
+$env:AZURE_SERVICEBUS_FULLY_QUALIFIED_DOMAIN_NAME="sb-java-conniey-1.servicebus.windows.net";
+$env:AZURE_SERVICEBUS_NAMESPACE_CONNECTION_STRING="Endpoint=sb://sb-java-conniey-1.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=ACOq4eFBx6hbl+6WHcDxCp1wsKV5DpBJdIFAryDhAlQ=";
+$env:AZURE_SERVICEBUS_QUEUE_NAME="queue";
+$env:AZURE_SERVICEBUS_SESSION_QUEUE_NAME="queue-session";
+$env:AZURE_SERVICEBUS_SESSION_SUBSCRIPTION_NAME="subscription-session";
+$env:AZURE_SERVICEBUS_SUBSCRIPTION_NAME="subscription";
+$env:AZURE_SERVICEBUS_TOPIC_NAME="topic";
+$env:AZURE_TENANT_ID="72f988bf-86f1-41af-91ab-2d7cd011db47";
+$env:AZURE_TEST_MODE="Record";
+
+
+---- SHELL ----
+
+AZURE_CLIENT_ID=f850650c-1fcf-4489-b46f-71af2e30d360
+AZURE_CLIENT_SECRET=7wPH3xmXcSX.p]0QlH0vAvr?CvI.UMTT
+AZURE_LOG_LEVEL=2
+AZURE_SERVICEBUS_FULLY_QUALIFIED_DOMAIN_NAME=sb-java-conniey-1.servicebus.windows.net
+AZURE_SERVICEBUS_NAMESPACE_CONNECTION_STRING=Endpoint=sb://sb-java-conniey-1.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=ACOq4eFBx6hbl+6WHcDxCp1wsKV5DpBJdIFAryDhAlQ=
+AZURE_SERVICEBUS_QUEUE_NAME=queue
+AZURE_SERVICEBUS_SESSION_QUEUE_NAME=queue-session
+AZURE_SERVICEBUS_SESSION_SUBSCRIPTION_NAME=subscription-session
+AZURE_SERVICEBUS_SUBSCRIPTION_NAME=subscription
+AZURE_SERVICEBUS_TOPIC_NAME=topic
+AZURE_TENANT_ID=72f988bf-86f1-41af-91ab-2d7cd011db47
+AZURE_TEST_MODE=Record

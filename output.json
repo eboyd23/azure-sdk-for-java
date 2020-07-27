@@ -1,0 +1,1600 @@
+{
+  "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.Resources/deployments/TestDeployment",
+  "location": null,
+  "name": "TestDeployment",
+  "properties": {
+    "correlationId": "7f395dc1-594a-4ac4-af7a-e5bbf0f4d717",
+    "debugSetting": null,
+    "dependencies": [
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/AuthorizationRules/RootManageSharedAccessKey",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/RootManageSharedAccessKey",
+        "resourceType": "Microsoft.ServiceBus/namespaces/AuthorizationRules"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.Authorization/roleAssignments/5efc9518-35c4-585e-9fa0-075b1b83ae1e",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "5efc9518-35c4-585e-9fa0-075b1b83ae1e",
+        "resourceType": "Microsoft.Authorization/roleAssignments"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.Authorization/roleAssignments/954a4749-8128-554e-80e4-2b217b82e197",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "954a4749-8128-554e-80e4-2b217b82e197",
+        "resourceType": "Microsoft.Authorization/roleAssignments"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.Authorization/roleAssignments/4667ff53-aa4a-51a5-8310-00230c20cc50",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "4667ff53-aa4a-51a5-8310-00230c20cc50",
+        "resourceType": "Microsoft.Authorization/roleAssignments"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-0",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-0",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-1",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-1",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-2",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-2",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-3",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-3",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-4",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-4",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-5",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-5",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-6",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-6",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-7",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-7",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-8",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-8",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-9",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-9",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-10",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-10",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-11",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-11",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-12",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-12",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-13",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-13",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-14",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-14",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-0",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-0",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-1",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-1",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-2",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-2",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-3",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-3",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-4",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-4",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-5",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-5",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-6",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-6",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-7",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-7",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-8",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-8",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-9",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-9",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-10",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-10",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-11",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-11",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-12",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-12",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-13",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-13",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-14",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-14",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-0",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-session-0",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-1",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-session-1",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-2",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-session-2",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-3",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-session-3",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-4",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-session-4",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-5",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-session-5",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-6",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-session-6",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-7",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-session-7",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-8",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-session-8",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-9",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-session-9",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-10",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-session-10",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-11",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-session-11",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-12",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-session-12",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-13",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-session-13",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-14",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/queue-session-14",
+        "resourceType": "Microsoft.ServiceBus/namespaces/queues"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-0",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-0",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-0/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-0/subscription",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-1/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-1/subscription",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-2",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-2",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-2/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-2/subscription",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-3",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-3",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-3/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-3/subscription",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-4",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-4",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-4/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-4/subscription",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-5",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-5",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-5/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-5/subscription",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-6",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-6",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-6/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-6/subscription",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-7",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-7",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-7/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-7/subscription",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-8",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-8",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-8/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-8/subscription",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-9",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-9",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-9/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-9/subscription",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-10",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-10",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-10/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-10/subscription",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-11",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-11",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-11/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-11/subscription",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-12",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-12",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-12/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-12/subscription",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-13",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-13",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-13/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-13/subscription",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-14",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-14",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-14/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-14/subscription",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-0",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-0",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-0/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-0/subscription-session",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-1",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-1",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-1/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-1/subscription-session",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-2",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-2",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-2/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-2/subscription-session",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-3",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-3",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-3/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-3/subscription-session",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-4",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-4",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-4/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-4/subscription-session",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-5",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-5",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-5/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-5/subscription-session",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-6",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-6",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-6/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-6/subscription-session",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-7",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-7",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-7/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-7/subscription-session",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-8",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-8",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-8/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-8/subscription-session",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-9",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-9",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-9/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-9/subscription-session",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-10",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-10",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-10/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-10/subscription-session",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-11",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-11",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-11/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-11/subscription-session",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-12",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-12",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-12/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-12/subscription-session",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-13",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-13",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-13/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-13/subscription-session",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-14",
+            "resourceGroup": "conniey-1-sb",
+            "resourceName": "sb-java-conniey-1/topic-14",
+            "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+          }
+        ],
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-14/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb",
+        "resourceName": "sb-java-conniey-1/topic-14/subscription-session",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics/subscriptions"
+      }
+    ],
+    "duration": "PT1M18.4127084S",
+    "mode": "Incremental",
+    "onErrorDeployment": null,
+    "outputResources": [
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.Authorization/roleAssignments/4667ff53-aa4a-51a5-8310-00230c20cc50",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.Authorization/roleAssignments/5efc9518-35c4-585e-9fa0-075b1b83ae1e",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.Authorization/roleAssignments/954a4749-8128-554e-80e4-2b217b82e197",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/AuthorizationRules/RootManageSharedAccessKey",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-0",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-1",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-10",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-11",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-12",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-13",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-14",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-2",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-3",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-4",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-5",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-6",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-7",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-8",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-9",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-0",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-1",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-10",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-11",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-12",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-13",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-14",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-2",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-3",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-4",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-5",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-6",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-7",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-8",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/queues/queue-session-9",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-0",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-0/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-0/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-1",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-1/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-1/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-10",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-10/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-10/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-11",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-11/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-11/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-12",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-12/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-12/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-13",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-13/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-13/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-14",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-14/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-14/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-2",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-2/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-2/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-3",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-3/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-3/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-4",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-4/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-4/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-5",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-5/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-5/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-6",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-6/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-6/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-7",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-7/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-7/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-8",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-8/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-8/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-9",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-9/subscriptions/subscription",
+        "resourceGroup": "conniey-1-sb"
+      },
+      {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/conniey-1-sb/providers/Microsoft.ServiceBus/namespaces/sb-java-conniey-1/topics/topic-9/subscriptions/subscription-session",
+        "resourceGroup": "conniey-1-sb"
+      }
+    ],
+    "outputs": {
+      "azurE_CLIENT_ID": {
+        "type": "String",
+        "value": "f850650c-1fcf-4489-b46f-71af2e30d360"
+      },
+      "azurE_CLIENT_SECRET": {
+        "type": "String",
+        "value": "7wPH3xmXcSX.p]0QlH0vAvr?CvI.UMTT"
+      },
+      "azurE_SERVICEBUS_FULLY_QUALIFIED_DOMAIN_NAME": {
+        "type": "String",
+        "value": "sb-java-conniey-1.servicebus.windows.net"
+      },
+      "azurE_SERVICEBUS_NAMESPACE_CONNECTION_STRING": {
+        "type": "String",
+        "value": "Endpoint=sb://sb-java-conniey-1.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=ACOq4eFBx6hbl+6WHcDxCp1wsKV5DpBJdIFAryDhAlQ="
+      },
+      "azurE_SERVICEBUS_QUEUE_NAME": {
+        "type": "String",
+        "value": "queue"
+      },
+      "azurE_SERVICEBUS_SESSION_QUEUE_NAME": {
+        "type": "String",
+        "value": "queue-session"
+      },
+      "azurE_SERVICEBUS_SESSION_SUBSCRIPTION_NAME": {
+        "type": "String",
+        "value": "subscription-session"
+      },
+      "azurE_SERVICEBUS_SUBSCRIPTION_NAME": {
+        "type": "String",
+        "value": "subscription"
+      },
+      "azurE_SERVICEBUS_TOPIC_NAME": {
+        "type": "String",
+        "value": "topic"
+      },
+      "azurE_TENANT_ID": {
+        "type": "String",
+        "value": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+      }
+    },
+    "parameters": {
+      "baseName": {
+        "type": "String",
+        "value": "conniey-1"
+      },
+      "location": {
+        "type": "String",
+        "value": "centralus"
+      },
+      "subscriptionId": {
+        "type": "String",
+        "value": "faa080af-c1d8-40ad-9cce-e1a450ca5b57"
+      },
+      "tenantId": {
+        "type": "String",
+        "value": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+      },
+      "testApplicationId": {
+        "type": "String",
+        "value": "f850650c-1fcf-4489-b46f-71af2e30d360"
+      },
+      "testApplicationOid": {
+        "type": "String",
+        "value": "30511c9d-ba1a-4c7b-b422-5b543da11b3f"
+      },
+      "testApplicationSecret": {
+        "type": "String",
+        "value": "7wPH3xmXcSX.p]0QlH0vAvr?CvI.UMTT"
+      }
+    },
+    "parametersLink": null,
+    "providers": [
+      {
+        "id": null,
+        "namespace": "Microsoft.ServiceBus",
+        "registrationPolicy": null,
+        "registrationState": null,
+        "resourceTypes": [
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              "centralus"
+            ],
+            "properties": null,
+            "resourceType": "namespaces"
+          },
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              null
+            ],
+            "properties": null,
+            "resourceType": "namespaces/AuthorizationRules"
+          },
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              null
+            ],
+            "properties": null,
+            "resourceType": "namespaces/topics"
+          },
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              null
+            ],
+            "properties": null,
+            "resourceType": "namespaces/queues"
+          },
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              null
+            ],
+            "properties": null,
+            "resourceType": "namespaces/topics/subscriptions"
+          }
+        ]
+      },
+      {
+        "id": null,
+        "namespace": "Microsoft.Authorization",
+        "registrationPolicy": null,
+        "registrationState": null,
+        "resourceTypes": [
+          {
+            "aliases": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "locations": [
+              null
+            ],
+            "properties": null,
+            "resourceType": "roleAssignments"
+          }
+        ]
+      }
+    ],
+    "provisioningState": "Succeeded",
+    "template": null,
+    "templateHash": "14324480024738745755",
+    "templateLink": null,
+    "timestamp": "2020-07-02T21:41:11.147546+00:00"
+  },
+  "resourceGroup": "conniey-1-sb",
+  "type": "Microsoft.Resources/deployments"
+}

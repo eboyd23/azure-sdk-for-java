@@ -6,24 +6,34 @@ package com.azure.data.tables;
 import com.azure.core.http.HttpClient;
 import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
-import com.azure.core.http.policy.HttpLoggingPolicy;
-import com.azure.core.http.policy.HttpPipelinePolicy;
 import com.azure.core.http.policy.RetryPolicy;
 import com.azure.core.test.TestBase;
 import com.azure.data.tables.models.QueryParams;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import reactor.test.StepVerifier;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.Duration;
 
 /**
  * Tests methods for {@link TableServiceAsyncClient}.
  */
 public class TableServiceAsyncClientTest extends TestBase {
+    private static final Duration TIMEOUT = Duration.ofSeconds(30);
     private TableServiceAsyncClient asyncClient;
+
+    @BeforeAll
+    static void beforeAll() {
+        StepVerifier.setDefaultTimeout(TIMEOUT);
+    }
+
+    @AfterAll
+    static void afterAll() {
+        StepVerifier.resetDefaultTimeout();
+    }
 
     @Override
     protected void beforeTest() {
@@ -44,7 +54,7 @@ public class TableServiceAsyncClientTest extends TestBase {
     }
 
     @Test
-    void createTableAsync() {
+    void serviceCreateTableAsync() {
         // Arrange
         String tableName = testResourceNamer.randomName("test", 20);
 
@@ -75,10 +85,10 @@ public class TableServiceAsyncClientTest extends TestBase {
     }
 
     @Test
-    void deleteTableAsync() {
+    void serviceDeleteAsync() {
         // Arrange
-        String tableName = testResourceNamer.randomName("test", 20);
-        asyncClient.createTable(tableName).block();
+        final String tableName = testResourceNamer.randomName("test", 20);
+        asyncClient.createTable(tableName).block(TIMEOUT);
 
         //Act & Assert
         StepVerifier.create(asyncClient.deleteTable(tableName))
@@ -87,7 +97,7 @@ public class TableServiceAsyncClientTest extends TestBase {
     }
 
     @Test
-    void deleteTableWithResponseAsync() {
+    void serviceDeleteTableWithResponseAsync() {
         // Arrange
         String tableName = testResourceNamer.randomName("test", 20);
         int expectedStatusCode = 204;

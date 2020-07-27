@@ -140,7 +140,7 @@ public class TableAsyncClient {
      *
      * @return a table
      */
-    public Mono<Response<Table>> createWithResponse(Context context) {
+    Mono<Response<Table>> createWithResponse(Context context) {
         return tableImplementation.createWithResponseAsync(new TableProperties().setTableName(tableName), null,
             ResponseFormat.RETURN_CONTENT, null, context).map(response -> {
             Table table = response.getValue() == null ? null : new Table(response.getValue().getTableName());

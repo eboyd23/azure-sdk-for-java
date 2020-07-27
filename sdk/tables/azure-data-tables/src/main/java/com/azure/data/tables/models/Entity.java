@@ -4,6 +4,7 @@
 package com.azure.data.tables.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.util.logging.ClientLogger;
 import com.azure.data.tables.implementation.EntityHelper;
 import com.azure.data.tables.implementation.TableConstants;
 
@@ -12,11 +13,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.azure.data.tables.implementation.TableConstants.PARTITION_KEY;
+import static com.azure.data.tables.implementation.TableConstants.ROW_KEY;
+
 /**
  * table entity class
  */
 @Fluent
 public class Entity {
+    private final ClientLogger logger = new ClientLogger(Entity.class);
     private final String partitionKey;
     private final String rowKey;
     private final Map<String, Object> properties = new HashMap<>();
@@ -43,18 +48,42 @@ public class Entity {
         this.partitionKey = Objects.requireNonNull(partitionKey, "'partitionKey' cannot be null.");
         Objects.requireNonNull(properties, "'properties' cannot be null.");
 
-        properties.put(TableConstants.PARTITION_KEY, partitionKey);
+        properties.put(PARTITION_KEY, partitionKey);
         properties.put(TableConstants.ROW_KEY, rowKey);
         this.properties.putAll(properties);
     }
 
     /**
-     * returns a map of properties
+     * Gets the map of properties
      *
-     * @return map of properties of thsi entity
+     * @return map of properties representing this entity
      */
     public Map<String, Object> getProperties() {
         return properties;
+    }
+
+    /**
+     * Adds a property to the entity.
+     *
+     * @param key Key to for the property.
+     * @param value Value of the property.
+     *
+     * @return The updated {@link Entity} object.
+     * @throws NullPointerException if {@code key} is null.
+     */
+    public Entity addProperty(String key, Object value) {
+        Objects.requireNonNull(key, "'key' cannot be null.");
+
+        if (PARTITION_KEY.equals(key)) {
+            throw logger.logExceptionAsError(
+                new IllegalArgumentException(PARTITION_KEY + " cannot be set after object creation."));
+        } else if (ROW_KEY.equals(key)) {
+            throw logger.logExceptionAsError(
+                new IllegalArgumentException(ROW_KEY + " cannot be set after object creation."));
+        }
+
+        properties.put(key, value);
+        return this;
     }
 
     /**

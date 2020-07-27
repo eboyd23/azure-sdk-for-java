@@ -74,12 +74,24 @@ public class TableClient {
     }
 
     /**
-     * creates a new table with the name of this client
+     * creates new table with the name of this client
      *
+     * @param timeout Duration to wait for operation to complete.
      * @return a table
      */
-    public Response<Table> createWithResponse() {
-        return client.createWithResponse().block();
+    public Table create(Duration timeout) {
+        return client.create().block(timeout);
+    }
+
+    /**
+     * creates a new table with the name of this client
+     *
+     * @param timeout Duration to wait for operation to complete.
+     * @param context Additional context that is passed through the HTTP pipeline during the service call.
+     * @return HTTP response containing the created table.
+     */
+    public Response<Table> createWithResponse(Duration timeout, Context context) {
+        return client.createWithResponse(context).block(timeout);
     }
 
     /**
@@ -118,7 +130,7 @@ public class TableClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Response<Entity> createEntityWithResponse(Entity tableEntity, Duration timeout, Context context) {
-        return client.createEntityWithResponse(tableEntity, timeout, context).block();
+        return client.createEntityWithResponse(tableEntity, context).block(timeout);
     }
 
     /**

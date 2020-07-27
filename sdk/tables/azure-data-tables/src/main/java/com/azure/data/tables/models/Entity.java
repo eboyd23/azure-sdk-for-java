@@ -4,20 +4,29 @@
 package com.azure.data.tables.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.data.tables.implementation.EntityHelper;
+import com.azure.data.tables.implementation.TableConstants;
+
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * table entity class
  */
 @Fluent
 public class Entity {
-    private Object rowKey;
-    private Object partitionKey;
-    private final Map<String, Object> properties;
-    private String etag;
-    //tableName
-    //etag
+    private final String partitionKey;
+    private final String rowKey;
+    private final Map<String, Object> properties = new HashMap<>();
+
+    private String eTag;
+
+    static {
+        // This is used by classes in different packages to get access to private and package-private methods.
+        EntityHelper.setEntityAccessor((entity, name) -> entity.setETag(name));
+    }
 
     /**
      * creates a new TableEntity
@@ -25,16 +34,18 @@ public class Entity {
      * @param partitionKey the partition key
      * @param rowKey the row key
      */
-    public Entity(Object partitionKey, Object rowKey) {
-        properties = new HashMap<>();
-        setPartitionKey(partitionKey);
-        setRowKey(rowKey);
-        properties.put("PartitionKey", partitionKey);
-        properties.put("RowKey", rowKey);
+    public Entity(String partitionKey, String rowKey) {
+        this(partitionKey, rowKey, Collections.emptyMap());
     }
 
-    private Entity(Map<String, Object> properties) {
-        this.properties = properties;
+    private Entity(String partitionKey, String rowKey, Map<String, Object> properties) {
+        this.rowKey = Objects.requireNonNull(rowKey, "'rowKey' cannot be null.");
+        this.partitionKey = Objects.requireNonNull(partitionKey, "'partitionKey' cannot be null.");
+        Objects.requireNonNull(properties, "'properties' cannot be null.");
+
+        properties.put(TableConstants.PARTITION_KEY, partitionKey);
+        properties.put(TableConstants.ROW_KEY, rowKey);
+        this.properties.putAll(properties);
     }
 
     /**
@@ -47,23 +58,11 @@ public class Entity {
     }
 
     /**
-     * add a property to an entity
-     *
-     * @param key the key of the value
-     * @param value the value to add
-     * @return the updated Entity
-     */
-    public Entity addProperties(String key, Object value) {
-        properties.put(key, value);
-        return this;
-    }
-
-    /**
      * gets the row key
      *
      * @return the row key for the given entity
      */
-    public Object getRowKey() {
+    public String getRowKey() {
         return rowKey;
     }
 
@@ -72,7 +71,7 @@ public class Entity {
      *
      * @return the partition key for the given entity
      */
-    public Object getPartitionKey() {
+    public String getPartitionKey() {
         return partitionKey;
     }
 
@@ -82,33 +81,15 @@ public class Entity {
      * @return the etag for the entity
      */
     public String getETag() {
-        return etag;
-    }
-
-    public Entity setEtag(String etag) {
-        this.etag = etag;
-        return this;
+        return eTag;
     }
 
     /**
-     * sets the partition key parameter
+     * Sets the ETag on the Entity.
      *
-     * @param partitionKey the partition key value
-     * @return the updated TableEntity
+     * @param eTag ETag to set.
      */
-    public Entity setPartitionKey(Object partitionKey) {
-        this.partitionKey = partitionKey;
-        return this;
-    }
-
-    /**
-     * sets the row key
-     *
-     * @param rowKey value of row key
-     * @return updated tableEntity object
-     */
-    public Entity setRowKey(Object rowKey) {
-        this.rowKey = rowKey;
-        return this;
+    void setETag(String eTag) {
+        this.eTag = eTag;
     }
 }

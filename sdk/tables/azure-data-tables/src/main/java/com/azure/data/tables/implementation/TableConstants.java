@@ -22,6 +22,11 @@ public class TableConstants {
     public static final String ETAG_KEY = "odata.etag";
 
     /**
+     * Name in the map for key of metadata related to object.
+     */
+    public static final String ODATA_METADATA_KEY = "odata.metadata";
+
+    /**
      * Name in the map for the entity's URL.
      */
     public static final String EDIT_LINK_KEY = "odata.editLink";

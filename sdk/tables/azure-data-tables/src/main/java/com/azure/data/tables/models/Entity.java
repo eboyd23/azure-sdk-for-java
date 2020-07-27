@@ -34,23 +34,18 @@ public class Entity {
     }
 
     /**
-     * creates a new TableEntity
+     * Create a new instance.
      *
      * @param partitionKey the partition key
      * @param rowKey the row key
      */
     public Entity(String partitionKey, String rowKey) {
-        this(partitionKey, rowKey, Collections.emptyMap());
-    }
-
-    private Entity(String partitionKey, String rowKey, Map<String, Object> properties) {
         this.rowKey = Objects.requireNonNull(rowKey, "'rowKey' cannot be null.");
         this.partitionKey = Objects.requireNonNull(partitionKey, "'partitionKey' cannot be null.");
         Objects.requireNonNull(properties, "'properties' cannot be null.");
 
         properties.put(PARTITION_KEY, partitionKey);
         properties.put(TableConstants.ROW_KEY, rowKey);
-        this.properties.putAll(properties);
     }
 
     /**

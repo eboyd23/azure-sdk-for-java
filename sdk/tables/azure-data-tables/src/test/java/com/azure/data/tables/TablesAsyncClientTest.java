@@ -3,11 +3,14 @@
 
 package com.azure.data.tables;
 
+import com.azure.core.http.HttpClient;
 import com.azure.core.http.HttpHeaders;
 import com.azure.core.http.policy.AddHeadersPolicy;
 import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.policy.HttpLoggingPolicy;
+import com.azure.core.http.policy.HttpPipelinePolicy;
+import com.azure.core.http.policy.RetryPolicy;
 import com.azure.core.test.TestBase;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.data.tables.implementation.models.OdataMetadataFormat;
@@ -16,57 +19,64 @@ import com.azure.data.tables.models.QueryParams;
 import com.azure.data.tables.models.UpdateMode;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import reactor.test.StepVerifier;
 
-public class TablesAsyncClientTest extends TestBase {
-    private String connectionString = System.getenv("AZURE_TABLES_CONNECTION_STRING");
-    private final ClientLogger logger = new ClientLogger(TableServiceAsyncClientTest.class);
-    private final String sas = System.getenv("AZURE_TABLES_SAS");
-    private String tableName = null;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+/**
+ * Tests {@link TableAsyncClient}.
+ */
+public class TablesAsyncClientTest extends TestBase {
+    private static final Duration TIMEOUT = Duration.ofSeconds(30);
 
     private TableAsyncClient asyncClient;
 
-
-    private static final String PARTITION_KEY = "PartitionKey";
-    private static final String ROW_KEY = "RowKey";
-
-
     @Override
     protected void beforeTest() {
-        tableName = testResourceNamer.randomName("tableName", 20);
-        asyncClient = new TableClientBuilder()
+        final String tableName = testResourceNamer.randomName("tableName", 20);
+        final String connectionString = TestUtils.getConnectionString(interceptorManager.isPlaybackMode());
+        final TableClientBuilder builder = new TableClientBuilder()
             .connectionString(connectionString)
-            .addPolicy(new AddHeadersPolicy(new HttpHeaders().put("Accept",
-                OdataMetadataFormat.APPLICATION_JSON_ODATA_FULLMETADATA.toString())))
-            .addPolicy(new HttpLoggingPolicy(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS)))
-            .addPolicy(interceptorManager.getRecordPolicy())
-            .tableName(tableName)
-            .buildAsyncClient();
+            .httpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
+            .tableName(tableName);
 
-        asyncClient.create().block();
+        if (interceptorManager.isPlaybackMode()) {
+            builder.httpClient(interceptorManager.getPlaybackClient());
+        } else {
+            builder.httpClient(HttpClient.createDefault())
+                .addPolicy(interceptorManager.getRecordPolicy())
+                .addPolicy(new RetryPolicy());
+        }
 
+        asyncClient = builder.buildAsyncClient();
     }
 
     @Test
     void createTableAsync() {
         //Arrange
-        String tableName2 = testResourceNamer.randomName("tableName", 20);
+        final String tableName2 = testResourceNamer.randomName("tableName", 20);
+        final String connectionString = TestUtils.getConnectionString(interceptorManager.isPlaybackMode());
         TableAsyncClient asyncClient2 = new TableClientBuilder()
             .connectionString(connectionString)
-            .addPolicy(new AddHeadersPolicy(new HttpHeaders().put("Accept",
-                OdataMetadataFormat.APPLICATION_JSON_ODATA_FULLMETADATA.toString())))
-            .addPolicy(new HttpLoggingPolicy(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS)))
+            .httpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
             .addPolicy(interceptorManager.getRecordPolicy())
             .tableName(tableName2)
             .buildAsyncClient();
 
         //Act & Assert
         StepVerifier.create(asyncClient2.create())
-            .assertNext(response -> {
-                Assertions.assertEquals(tableName2, response.getName());
-
-            })
+            .assertNext(response -> assertEquals(tableName2, response.getName()))
             .expectComplete()
             .verify();
     }
@@ -74,15 +84,15 @@ public class TablesAsyncClientTest extends TestBase {
     @Test
     void createEntityAsync() {
         //Arrange
-        String partitionKeyValue = testResourceNamer.randomName("partitionKey", 20);
-        String rowKeyValue = testResourceNamer.randomName("rowKey", 20);
-        Entity tableEntity = new Entity(partitionKeyValue, rowKeyValue);
+        final String partitionKeyValue = testResourceNamer.randomName("partitionKey", 20);
+        final String rowKeyValue = testResourceNamer.randomName("rowKey", 20);
+        final Entity tableEntity = new Entity(partitionKeyValue, rowKeyValue);
         //Act & Assert
         StepVerifier.create(asyncClient.createEntity(tableEntity))
             .assertNext(response -> {
-                Assertions.assertEquals(response.getPartitionKey(), partitionKeyValue);
-                Assertions.assertEquals(response.getRowKey(), rowKeyValue);
-                Assertions.assertNotNull(response.getETag());
+                assertEquals(response.getPartitionKey(), partitionKeyValue);
+                assertEquals(response.getRowKey(), rowKeyValue);
+                assertNotNull(response.getETag());
 
             })
             .expectComplete()
@@ -92,18 +102,18 @@ public class TablesAsyncClientTest extends TestBase {
     @Test
     void createEntityWithResponse() {
         // Arrange
-        String partitionKeyValue = testResourceNamer.randomName("partitionKey", 20);
-        String rowKeyValue = testResourceNamer.randomName("rowKey", 20);
-        Entity entity = new Entity(partitionKeyValue, rowKeyValue);
-        int expectedStatusCode = 201;
+        final String partitionKeyValue = testResourceNamer.randomName("partitionKey", 20);
+        final String rowKeyValue = testResourceNamer.randomName("rowKey", 20);
+        final Entity entity = new Entity(partitionKeyValue, rowKeyValue);
+        final int expectedStatusCode = 201;
 
         // Act & Assert
         StepVerifier.create(asyncClient.createEntityWithResponse(entity))
             .assertNext(response -> {
-                Assertions.assertEquals(response.getValue().getPartitionKey(), partitionKeyValue);
-                Assertions.assertEquals(response.getValue().getRowKey(), rowKeyValue);
-                Assertions.assertNotNull(response.getValue().getETag());
-                Assertions.assertEquals(expectedStatusCode, response.getStatusCode());
+                assertEquals(response.getValue().getPartitionKey(), partitionKeyValue);
+                assertEquals(response.getValue().getRowKey(), rowKeyValue);
+                assertNotNull(response.getValue().getETag());
+                assertEquals(expectedStatusCode, response.getStatusCode());
             })
             .expectComplete()
             .verify();
@@ -112,13 +122,16 @@ public class TablesAsyncClientTest extends TestBase {
     @Test
     void deleteEntityAsync() {
         //Arrange
-        String partitionKeyValue = testResourceNamer.randomName("partitionKey", 20);
-        String rowKeyValue = testResourceNamer.randomName("rowKey", 20);
-        Entity tableEntity = new Entity(partitionKeyValue, rowKeyValue);
-        asyncClient.createEntity(tableEntity).block();
+        final String partitionKeyValue = testResourceNamer.randomName("partitionKey", 20);
+        final String rowKeyValue = testResourceNamer.randomName("rowKey", 20);
+        final Entity tableEntity = new Entity(partitionKeyValue, rowKeyValue);
+
+        final Entity createdEntity = asyncClient.createEntity(tableEntity).block(TIMEOUT);
+        assertNotNull(createdEntity, "'createdEntity' should not be null.");
+        assertNotNull(createdEntity.getETag(), "'eTag' should not be null.");
 
         //Act & Assert
-        StepVerifier.create(asyncClient.deleteEntity(tableEntity))
+        StepVerifier.create(asyncClient.deleteEntity(createdEntity))
             .expectComplete()
             .verify();
     }
@@ -126,34 +139,40 @@ public class TablesAsyncClientTest extends TestBase {
     @Test
     void deleteEntityWithResponse() {
         // Arrange
-        String partitionKeyValue = testResourceNamer.randomName("partitionKey", 20);
-        String rowKeyValue = testResourceNamer.randomName("rowKey", 20);
-        Entity tableEntity = new Entity(partitionKeyValue, rowKeyValue);
-        asyncClient.createEntity(tableEntity).block();
-        int expectedStatusCode = 204;
+        final String partitionKeyValue = testResourceNamer.randomName("partitionKey", 20);
+        final String rowKeyValue = testResourceNamer.randomName("rowKey", 20);
+        final Entity tableEntity = new Entity(partitionKeyValue, rowKeyValue);
+        final int expectedStatusCode = 204;
+
+        final Entity createdEntity = asyncClient.createEntity(tableEntity).block(TIMEOUT);
+        assertNotNull(createdEntity, "'createdEntity' should not be null.");
+        assertNotNull(createdEntity.getETag(), "'eTag' should not be null.");
 
         // Act & Assert
-        StepVerifier.create(asyncClient.deleteEntityWithResponse(tableEntity, false))
+        StepVerifier.create(asyncClient.deleteEntityWithResponse(createdEntity, false))
             .assertNext(response -> {
-                Assertions.assertEquals(expectedStatusCode, response.getStatusCode());
+                assertEquals(expectedStatusCode, response.getStatusCode());
             })
             .expectComplete()
             .verify();
     }
 
     @Test
-    void deleteEntityWithResponseMatchEtag() {
+    void deleteEntityWithResponseMatchETag() {
         // Arrange
-        String partitionKeyValue = testResourceNamer.randomName("partitionKey", 20);
-        String rowKeyValue = testResourceNamer.randomName("rowKey", 20);
-        Entity tableEntity = new Entity(partitionKeyValue, rowKeyValue);
-        tableEntity = asyncClient.createEntity(tableEntity).block();
-        int expectedStatusCode = 204;
+        final String partitionKeyValue = testResourceNamer.randomName("partitionKey", 20);
+        final String rowKeyValue = testResourceNamer.randomName("rowKey", 20);
+        final Entity tableEntity = new Entity(partitionKeyValue, rowKeyValue);
+        final int expectedStatusCode = 204;
+
+        final Entity createdEntity = asyncClient.createEntity(tableEntity).block(TIMEOUT);
+        assertNotNull(createdEntity, "'createdEntity' should not be null.");
+        assertNotNull(createdEntity.getETag(), "'eTag' should not be null.");
 
         // Act & Assert
         StepVerifier.create(asyncClient.deleteEntityWithResponse(tableEntity, true))
             .assertNext(response -> {
-                Assertions.assertEquals(expectedStatusCode, response.getStatusCode());
+                assertEquals(expectedStatusCode, response.getStatusCode());
             })
             .expectComplete()
             .verify();
@@ -162,85 +181,87 @@ public class TablesAsyncClientTest extends TestBase {
     @Test
     void getEntityWithResponseTHIS() {
         // Arrange
-        String partitionKeyValue = testResourceNamer.randomName("partitionKey", 20);
-        String rowKeyValue = testResourceNamer.randomName("rowKey", 20);
-        Entity tableEntity = new Entity(partitionKeyValue, rowKeyValue);
-        tableEntity = asyncClient.createEntity(tableEntity).block();
-        int expectedStatusCode = 200;
-        System.out.println("HERE " + tableEntity.getETag());
+        final String partitionKeyValue = testResourceNamer.randomName("partitionKey", 20);
+        final String rowKeyValue = testResourceNamer.randomName("rowKey", 20);
+        final Entity tableEntity = new Entity(partitionKeyValue, rowKeyValue);
+        final int expectedStatusCode = 200;
+
+        final Entity createdEntity = asyncClient.createEntity(tableEntity).block(TIMEOUT);
+        assertNotNull(createdEntity, "'createdEntity' should not be null.");
+        assertNotNull(createdEntity.getETag(), "'eTag' should not be null.");
 
         // Act & Assert
-        StepVerifier.create(asyncClient.getEntityWithResponse(tableEntity.getPartitionKey().toString(), tableEntity.getRowKey().toString()))
+        StepVerifier.create(asyncClient.getEntityWithResponse(createdEntity.getPartitionKey(), createdEntity.getRowKey()))
             .assertNext(response -> {
-                Assertions.assertEquals(expectedStatusCode, response.getStatusCode());
-                System.out.println("ODATA " + response.getHeaders().get("etag"));
+                final Entity entity = response.getValue();
+                assertEquals(expectedStatusCode, response.getStatusCode());
+
+                assertNotNull(entity);
+                assertEquals(tableEntity.getPartitionKey(), entity.getPartitionKey());
+                assertEquals(tableEntity.getRowKey(), entity.getRowKey());
+
+                assertEquals(createdEntity.getETag(), entity.getETag());
+
+                assertNotNull(entity.getProperties());
             })
             .expectComplete()
             .verify();
     }
 
     /**
-     * expect to see both propertyA and propertyB since the UpdateMode is MERGE
+     * In the case of {@link UpdateMode#MERGE}, we expect both properties to exist.
+     * In the case of {@link UpdateMode#REPLACE}, we only expect {@code newPropertyKey} to exist.
      */
-    @Test
-    void updateEntityWithResponseMerge() {
+    @EnumSource(UpdateMode.class)
+    @ParameterizedTest
+    void updateEntityWithResponseMerge(UpdateMode mode) {
         // Arrange
-        String partitionKeyValue = testResourceNamer.randomName("ApartitionKey", 20);
-        String rowKeyValue = testResourceNamer.randomName("ArowKey", 20);
-        Entity tableEntity = new Entity(partitionKeyValue, rowKeyValue);
-        tableEntity.addProperties("propertyA", "valueA");
-        tableEntity = asyncClient.createEntity(tableEntity).block();
-        tableEntity.getProperties().remove("propertyA");
-        tableEntity.addProperties("propertyB", "valueB");
-        int expectedStatusCode = 204;
+        final boolean expectOldProperty = mode == UpdateMode.MERGE;
+        final String partitionKeyValue = testResourceNamer.randomName("APartitionKey", 20);
+        final String rowKeyValue = testResourceNamer.randomName("ARowKey", 20);
+        final int expectedStatusCode = 204;
+        final String oldPropertyKey = "propertyA";
+        final String newPropertyKey = "propertyB";
+        final Entity tableEntity = new Entity(partitionKeyValue, rowKeyValue)
+            .addProperty(oldPropertyKey, "valueA");
 
-        // Act & Assert
-        StepVerifier.create(asyncClient.updateEntityWithResponse(tableEntity, true, UpdateMode.MERGE))
-            .assertNext(response -> {
-                Assertions.assertEquals(expectedStatusCode, response.getStatusCode());
-            })
+        final Entity createdEntity = asyncClient.createEntity(tableEntity).block(TIMEOUT);
+        assertNotNull(createdEntity, "'createdEntity' should not be null.");
+        assertNotNull(createdEntity.getETag(), "'eTag' should not be null.");
+
+        createdEntity.getProperties().remove(oldPropertyKey);
+        createdEntity.addProperty(newPropertyKey, "valueB");
+
+        // Act
+        StepVerifier.create(asyncClient.updateEntityWithResponse(createdEntity, true, mode))
+            .assertNext(response -> assertEquals(expectedStatusCode, response.getStatusCode()))
             .expectComplete()
             .verify();
-    }
 
-    /**
-     * expect to see only propertyB since the UpdateMode is REPLACE
-     */
-    @Test
-    void updateEntityWithResponseReplace() {
-        // Arrange
-        String partitionKeyValue = testResourceNamer.randomName("ApartitionKey", 20);
-        String rowKeyValue = testResourceNamer.randomName("ArowKey", 20);
-        Entity tableEntity = new Entity(partitionKeyValue, rowKeyValue);
-        tableEntity.addProperties("propertyA", "valueA");
-        tableEntity = asyncClient.createEntity(tableEntity).block();
-        tableEntity.getProperties().remove("propertyA");
-        tableEntity.addProperties("propertyB", "valueB");
-        int expectedStatusCode = 204;
-
-        // Act & Assert
-        StepVerifier.create(asyncClient.updateEntityWithResponse(tableEntity, true, UpdateMode.REPLACE))
-            .assertNext(response -> {
-                Assertions.assertEquals(expectedStatusCode, response.getStatusCode());
+        // Assert and verify that the new properties are in there.
+        StepVerifier.create(asyncClient.getEntity(partitionKeyValue, rowKeyValue))
+            .assertNext(entity -> {
+                final Map<String, Object> properties = entity.getProperties();
+                assertTrue(properties.containsKey(newPropertyKey));
+                assertEquals(expectOldProperty, properties.containsKey(oldPropertyKey));
             })
-            .expectComplete()
-            .verify();
+            .verifyComplete();
     }
 
     @Test
     void listEntityWithFilter() {
         // Arrange
-        String partitionKeyValue = testResourceNamer.randomName("partitionKey", 20);
-        String rowKeyValue = testResourceNamer.randomName("rowKey", 20);
-        Entity entity = new Entity(partitionKeyValue, rowKeyValue);
+        final String partitionKeyValue = testResourceNamer.randomName("partitionKey", 20);
+        final String rowKeyValue = testResourceNamer.randomName("rowKey", 20);
+        final Entity entity = new Entity(partitionKeyValue, rowKeyValue);
         QueryParams queryParams1 = new QueryParams().setFilter("PartitionKey eq '" + entity.getPartitionKey() + "'");
-        asyncClient.createEntity(entity).block();
+        asyncClient.createEntity(entity).block(TIMEOUT);
 
         // Act & Assert
         StepVerifier.create(asyncClient.listEntities(queryParams1))
             .assertNext(returnEntity -> {
-                Assertions.assertEquals(partitionKeyValue, returnEntity.getPartitionKey());
-                Assertions.assertEquals(entity.getRowKey(), returnEntity.getRowKey());
+                assertEquals(partitionKeyValue, returnEntity.getPartitionKey());
+                assertEquals(entity.getRowKey(), returnEntity.getRowKey());
             })
             .expectComplete()
             .verify();
@@ -249,23 +270,23 @@ public class TablesAsyncClientTest extends TestBase {
     @Test
     void listEntityWithSelect() {
         // Arrange
-        String partitionKeyValue = testResourceNamer.randomName("partitionKey", 20);
-        String rowKeyValue = testResourceNamer.randomName("rowKey", 20);
-        Entity entity = new Entity(partitionKeyValue, rowKeyValue)
-            .addProperties("propertyC", "valueC")
-            .addProperties("propertyD", "valueD");
+        final String partitionKeyValue = testResourceNamer.randomName("partitionKey", 20);
+        final String rowKeyValue = testResourceNamer.randomName("rowKey", 20);
+        final Entity entity = new Entity(partitionKeyValue, rowKeyValue)
+            .addProperty("propertyC", "valueC")
+            .addProperty("propertyD", "valueD");
         QueryParams queryParams = new QueryParams()
             .setFilter("PartitionKey eq '" + entity.getPartitionKey() + "'")
             .setSelect("propertyC");
-        asyncClient.createEntity(entity).block();
+        asyncClient.createEntity(entity).block(TIMEOUT);
 
         // Act & Assert
         StepVerifier.create(asyncClient.listEntities(queryParams))
             .assertNext(returnEntity -> {
-                Assertions.assertEquals(entity.getRowKey(), returnEntity.getRowKey());
-                Assertions.assertEquals(entity.getPartitionKey(), returnEntity.getPartitionKey());
-                Assertions.assertEquals("valueC", returnEntity.getProperties().get("propertyC"));
-                Assertions.assertEquals(3, returnEntity.getProperties().size());
+                assertEquals(entity.getRowKey(), returnEntity.getRowKey());
+                assertEquals(entity.getPartitionKey(), returnEntity.getPartitionKey());
+                assertEquals("valueC", returnEntity.getProperties().get("propertyC"));
+                assertEquals(3, returnEntity.getProperties().size());
             })
             .expectComplete()
             .verify();

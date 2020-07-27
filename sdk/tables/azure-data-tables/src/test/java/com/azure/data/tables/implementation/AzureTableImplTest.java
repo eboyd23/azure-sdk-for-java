@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.azure.data.tables;
+package com.azure.data.tables.implementation;
 
 import com.azure.core.http.HttpClient;
 import com.azure.core.http.HttpHeaders;
@@ -17,8 +17,10 @@ import com.azure.core.http.policy.RetryPolicy;
 import com.azure.core.test.TestBase;
 import com.azure.core.util.Context;
 import com.azure.core.util.logging.ClientLogger;
-import com.azure.data.tables.implementation.AzureTableImpl;
-import com.azure.data.tables.implementation.AzureTableImplBuilder;
+import com.azure.data.tables.TablesServiceVersion;
+import com.azure.data.tables.TablesSharedKeyCredential;
+import com.azure.data.tables.TablesSharedKeyCredentialPolicy;
+import com.azure.data.tables.TestUtils;
 import com.azure.data.tables.implementation.models.OdataMetadataFormat;
 import com.azure.data.tables.implementation.models.QueryOptions;
 import com.azure.data.tables.implementation.models.ResponseFormat;
@@ -50,15 +52,15 @@ public class AzureTableImplTest extends TestBase {
     private static final String PARTITION_KEY = "PartitionKey";
     private static final String ROW_KEY = "RowKey";
     private static final int TIMEOUT = 5000;
+
+    private final ClientLogger logger = new ClientLogger(AzureTableImplTest.class);
     private AzureTableImpl azureTable;
 
     @Override
     protected void beforeTest() {
-        String connectionString = interceptorManager.isPlaybackMode()
-            ? "DefaultEndpointsProtocol=https;AccountName=dummyAccount;AccountKey=xyzDummy;EndpointSuffix=core.windows.net"
-            : System.getenv("AZURE_TABLES_CONNECTION_STRING");
-        StorageConnectionString storageConnectionString
-            = StorageConnectionString.create(connectionString, new ClientLogger(AzureTableImplTest.class));
+        final String connectionString = TestUtils.getConnectionString(interceptorManager.isPlaybackMode());
+        final StorageConnectionString storageConnectionString
+            = StorageConnectionString.create(connectionString, logger);
 
         Assertions.assertNotNull(connectionString, "Cannot continue test if connectionString is not set.");
 
@@ -68,8 +70,6 @@ public class AzureTableImplTest extends TestBase {
 
         List<HttpPipelinePolicy> policies = new ArrayList<>();
         policies.add(new AddDatePolicy());
-        policies.add(new AddHeadersPolicy(new HttpHeaders().put("Accept",
-            OdataMetadataFormat.APPLICATION_JSON_ODATA_MINIMALMETADATA.toString())));
         policies.add(new TablesSharedKeyCredentialPolicy(sharedKeyCredential));
         policies.add(new HttpLoggingPolicy(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS)));
 
@@ -81,6 +81,7 @@ public class AzureTableImplTest extends TestBase {
             policies.add(interceptorManager.getRecordPolicy());
             policies.add(new RetryPolicy());
         }
+
         HttpPipeline pipeline = new HttpPipelineBuilder()
             .httpClient(httpClientToUse)
             .policies(policies.toArray(new HttpPipelinePolicy[0]))
